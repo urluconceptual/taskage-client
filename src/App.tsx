@@ -1,15 +1,15 @@
-import { ConfigProvider } from 'antd';
-import React from 'react';
+import { ConfigProvider } from "antd";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { ADMIN_LINK, LOGIN_LINK, STYLESHEET_LIGHT } from './models/consts';
-import RootLayout from './pages/Root';
-import { Login } from './pages/Login';
-import './App.css';
+import { ADMIN_LINK, LOGIN_LINK, STYLESHEET_LIGHT } from "./models/consts";
+import RootLayout from "./pages/Root";
+import { Login } from "./pages/Login";
+import "./App.css";
 
 function App() {
   return (
@@ -19,14 +19,15 @@ function App() {
           Layout: {
             headerBg: STYLESHEET_LIGHT.headerBg,
             fontFamily: STYLESHEET_LIGHT.logoFontFamily,
-          }
+          },
         },
         token: {
           colorPrimary: STYLESHEET_LIGHT.colorPrimary,
           colorError: STYLESHEET_LIGHT.colorErrorText,
-          fontFamily: STYLESHEET_LIGHT.fontFamily
-        }
-      }}>
+          fontFamily: STYLESHEET_LIGHT.fontFamily,
+        },
+      }}
+    >
       <Router>
         <Routes>
           <Route path="/" element={<RootLayout />}>

@@ -24,14 +24,9 @@ export const Login = () => {
       >
         <Form.Item<UserObj>
           name="username"
-          rules={[
-            { required: true, message: "Missing username." }
-          ]}
+          rules={[{ required: true, message: "Missing username." }]}
         >
-          <Input
-            style={{ width: 300 }}
-            placeholder="Username"
-          />
+          <Input style={{ width: 300 }} placeholder="Username" />
         </Form.Item>
         <Form.Item<UserObj>
           name="password"
