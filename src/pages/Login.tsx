@@ -1,9 +1,7 @@
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Divider, Form, Input } from "antd";
 import React from "react";
 import {
-  IdcardOutlined,
   UserOutlined,
-  KeyOutlined,
   EyeOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
@@ -27,24 +25,21 @@ export const Login = () => {
         <Form.Item<UserObj>
           name="username"
           rules={[
-            { required: true, message: "Please input your email." },
-            { type: "email", message: "Please provide a valid email address." },
+            { required: true, message: "Missing username." }
           ]}
         >
           <Input
             style={{ width: 300 }}
             placeholder="Username"
-            prefix={<UserOutlined />}
           />
         </Form.Item>
         <Form.Item<UserObj>
           name="password"
-          rules={[{ required: true, message: "Please input your password." }]}
+          rules={[{ required: true, message: "Missing password." }]}
         >
           <Input.Password
             style={{ width: 300 }}
             placeholder="Password"
-            prefix={<KeyOutlined />}
             iconRender={(visible) =>
               visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
             }
@@ -70,28 +65,65 @@ export const Login = () => {
     >
       <Card
         style={{
-          width: 400,
-          height: 450,
+          width: 900,
+          height: 500,
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          flexWrap: "nowrap",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <div
           style={{
-            width: 400,
-            height: 300,
+            width: 900,
+            height: 500,
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "space-around",
+            fontSize: 16,
           }}
         >
-          <IdcardOutlined style={{ fontSize: 40 }} />
-          <h2>Welcome Back!</h2>
-          <p>Please enter yout credentials to log in.</p>
-          {renderLoginForm()}
+          <div
+            style={{
+              width: 300,
+              height: 500,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p>
+              <UserOutlined style={{ fontSize: 40 }} />
+            </p>
+            <h3 style={{ margin: 0 }}>Welcome back!</h3>
+            <p>Please enter yout credentials to log in.</p>
+            {renderLoginForm()}
+            <Divider
+              style={{
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            />
+            <p
+              style={{
+                fontSize: 14,
+                textAlign: "center",
+              }}
+            >
+              Don't have an account? <br />
+              Ask your admin to create one.
+            </p>
+          </div>
+          <div>
+            <img
+              src="./welcome-illustration.svg"
+              alt="Welcome illustration"
+              style={{ width: 300 }}
+            />
+          </div>
         </div>
       </Card>
     </div>
