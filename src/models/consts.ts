@@ -9,3 +9,6 @@ export const STYLESHEET_LIGHT = {
   colorErrorText: "#E53E3E",
   fontFamily: "DM Sans",
 };
+
+export const CORE_BASE_URL = "http://localhost:8080";
+export const USERS_API_URL = `${CORE_BASE_URL}/users`;

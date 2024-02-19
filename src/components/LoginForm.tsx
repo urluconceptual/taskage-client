@@ -1,0 +1,88 @@
+import { Button, Divider, Form, Input } from "antd";
+import React from "react";
+import {
+  UserOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+} from "@ant-design/icons";
+import { LogInRequestObj, userStore } from "../stores/UsersStore";
+import { observer } from "mobx-react";
+
+export const LoginForm = observer(() => {
+  const handleFinishForm = (logInRequestObj: LogInRequestObj) => {
+    userStore.logIn(logInRequestObj);
+  };
+
+  const renderLoginForm = () => {
+    return (
+      <Form
+        name="loginForm"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        onFinish={handleFinishForm}
+        layout="vertical"
+        autoComplete="off"
+      >
+        <Form.Item<LogInRequestObj>
+          name="username"
+          rules={[{ required: true, message: "Missing username." }]}
+        >
+          <Input style={{ width: 300 }} placeholder="Username" />
+        </Form.Item>
+        <Form.Item<LogInRequestObj>
+          name="password"
+          rules={[{ required: true, message: "Missing password." }]}
+        >
+          <Input.Password
+            style={{ width: 300 }}
+            placeholder="Password"
+            iconRender={(visible) =>
+              visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
+            }
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" style={{ width: 300 }} htmlType="submit">
+            Log in
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  };
+
+  return (
+    <div
+      style={{
+        width: 300,
+        height: 500,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <p>
+        <UserOutlined style={{ fontSize: 40 }} />
+      </p>
+      <h3 style={{ margin: 0 }}>Welcome back!</h3>
+      <p>Please enter your credentials to log in.</p>
+      {renderLoginForm()}
+      <Divider
+        style={{
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      />
+      <p
+        style={{
+          fontSize: 14,
+          textAlign: "center",
+        }}
+      >
+        Don't have an account? <br />
+        Ask your admin to create one.
+      </p>
+    </div>
+  );
+});
