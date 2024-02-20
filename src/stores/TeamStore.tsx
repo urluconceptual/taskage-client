@@ -1,45 +1,42 @@
 import {
   makeObservable,
   observable,
-  action,
-  runInAction,
-  computed,
+  action
 } from "mobx";
 import axios from "axios";
-import { USERS_API_URL } from "../models/consts";
+import { TEAMS_API_URL } from "../models/consts";
 import { message } from "antd";
 
-export interface LogInRequestObj {
-  username?: string;
-  password?: string;
+export interface Team {
+  id: number;
+  name: string;
+  teamLeadId: number;
 }
 
-class UsersStore {
-  token: string = "";
+class TeamStore {
+  allTeams: Team[] = [];
 
   constructor() {
     makeObservable(this, {
-      token: observable,
-      logIn: action,
+      allTeams: observable,
+      getAll: action,
     });
   }
 
-  logIn = (logInRequestObj: LogInRequestObj) => {
+  getAll = () => {
     axios
-      .post(`${USERS_API_URL}/login`, logInRequestObj)
+      .get(`${TEAMS_API_URL}/getAll`)
       .then((res) => {
         switch (res.status) {
           case 200:
-            console.log(res.data["token"]);
-            this.token = res.data["token"];
-            message.success("Logged in successfully.");
+            console.log(res.data["teams"]);
+            this.allTeams = res.data["teams"];
             break;
           case 400:
             message.error("Bad request. Contact your admin.");
             break;
           case 401:
-          case 404:
-            message.error("Incorrect username or password.");
+            message.error("Unauthorized. Log in to access.");
             break;
           case 403:
             message.error("General core error. Contact your admin.");
@@ -52,4 +49,4 @@ class UsersStore {
   };
 }
 
-export const userStore = new UsersStore();
+export const teamStore = new TeamStore();

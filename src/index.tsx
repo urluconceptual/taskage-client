@@ -3,6 +3,17 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import axios from 'axios';
+
+const token = localStorage.getItem('access_token');
+
+if (token) {
+  console.log("setting token")
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+} else {
+  delete axios.defaults.headers.common['Authorization'];
+}
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,

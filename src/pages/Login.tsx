@@ -31,7 +31,7 @@ export const Login = () => {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            fontSize: 16,
+            fontSize: 15,
           }}
         >
           <LoginForm />

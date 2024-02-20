@@ -1,5 +1,9 @@
 import React from "react";
 
 export const AdminDashboard = () => {
-  return <div>Admin Dashboard</div>;
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+    </div>
+  );
 };

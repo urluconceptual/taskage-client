@@ -5,12 +5,19 @@ import {
   EyeOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
-import { LogInRequestObj, userStore } from "../stores/UsersStore";
+import { LogInRequestObj, userStore } from "../stores/UserStore";
 import { observer } from "mobx-react";
+import { useNavigate } from "react-router";
+import { USER_VIEW_ADMIN_LINK } from "../models/consts";
 
 export const LoginForm = observer(() => {
-  const handleFinishForm = (logInRequestObj: LogInRequestObj) => {
-    userStore.logIn(logInRequestObj);
+  const navigate = useNavigate();
+
+  const handleFinishForm = async (logInRequestObj: LogInRequestObj) => {
+    await userStore.logIn(logInRequestObj);
+    if (userStore.currentUser.token) {
+      navigate(USER_VIEW_ADMIN_LINK);
+    }
   };
 
   const renderLoginForm = () => {
