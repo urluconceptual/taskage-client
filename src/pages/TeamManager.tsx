@@ -1,95 +1,80 @@
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect } from "react";
-import { userStore, User, JobTitle, Team } from "../stores/UserStore";
-import { Card, Input, Select, Space } from "antd";
+import { JobTitle, Team, userStore } from "../stores/UserStore";
+import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { teamStore } from "../stores/TeamStore";
-
-//dummy data:
-// Define the JobTitle objects
-let jobTitle1: JobTitle = { id: 1, name: "Software Engineer" };
-let jobTitle2: JobTitle = { id: 2, name: "Product Manager" };
+import {
+  TeamDrawerButton,
+  TeamDrawerMode,
+  teamStore,
+} from "../stores/TeamStore";
+import { observer } from "mobx-react";
+import { TeamDrawer } from "../components/TeamDrawer";
 
 // Define the Team objects
 let team1: Team = { id: 1, name: "Engineering", teamLeadId: 1 };
 let team2: Team = { id: 2, name: "Product", teamLeadId: 2 };
 
-// Define the User objects
-let user1: User = {
-  id: 1,
-  username: "jdoe",
-  firstName: "John",
-  lastName: "Doe",
-  authRole: "admin",
-  jobTitle: jobTitle1,
-  team: team1,
-};
-
-let user2: User = {
-  id: 2,
-  username: "asmith",
-  firstName: "Alice",
-  lastName: "Smith",
-  authRole: "user",
-  jobTitle: jobTitle2,
-  team: team2,
-};
-
-// Create a list of User objects
-let users: User[] = [user1, user2];
-
-export const TeamManager = () => {
+export const TeamManager = observer(() => {
   const dataSource: Team[] = teamStore.allTeams;
 
   useEffect(() => {
+    userStore.getAll();
     teamStore.getAll();
   }, []);
 
+  const collapseProps: CollapseProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <Button>
+            Advanced Search <SearchOutlined />
+          </Button>
+        </div>
+      ),
+      showArrow: false,
+      children: (
+        <Space>
+          <Space.Compact>
+            <Input placeholder="Username" />
+            <Input placeholder="Job Title" />
+            <Input placeholder="Team" />
+            <Button type="primary">Filter</Button>
+          </Space.Compact>
+        </Space>
+      ),
+    },
+  ];
+
   const columns: ColumnsType<Team> = [
     {
-      title: "Username",
-      dataIndex: "username",
-      key: "username",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "First Name",
-      dataIndex: "firstName",
-      key: "firstName",
-    },
-    {
-      title: "Last Name",
-      dataIndex: "lastName",
-      key: "lastName",
-    },
-    {
-      title: "Authorization",
-      dataIndex: "authRole",
-      key: "authRole",
-      render: (authRole) => {
-        return (
-          <Select
-            defaultValue={authRole}
-            style={{ width: 120 }}
-            options={[
-              { value: 1, label: "ROLE_EMPLOYEE" },
-              { value: 2, label: "ROLE_ADMIN" },
-              { value: 3, label: "ROLE_MANAGER" },
-            ]}
-          />
-        );
+      title: "Team Lead",
+      dataIndex: "teamLeadId",
+      key: "teamLeadId",
+      render: (teamLeadId) => {
+        console.log(teamLeadId, userStore.userDictionary[teamLeadId]);
+        return userStore.userDictionary[teamLeadId];
       },
     },
     {
-      title: "Job Title",
-      dataIndex: "jobTitle",
-      key: "jobTitle.name",
-      render: (jobTitle: JobTitle) => jobTitle.name,
-    },
-    {
-      title: "Team",
-      dataIndex: "team",
-      key: "team.name",
-      render: (team: Team) => team.name,
+      title: "View",
+      key: "action",
+      render: (text, record) => {
+        return (
+          <TeamDrawer
+            team={record}
+            button={TeamDrawerButton.VIEW}
+            mode={TeamDrawerMode.VIEW}
+          />
+        );
+      },
     },
   ];
 
@@ -97,20 +82,17 @@ export const TeamManager = () => {
     return (
       <div
         style={{
-          width: "100%",
           display: "flex",
-          flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <h1>Team Manager</h1>
-        <Space>
-          <Space.Compact>
-            <Input placeholder="Username" />
-            <Input placeholder="Job Title" />
-            <Input addonAfter={<SearchOutlined />} placeholder="Team" />
-          </Space.Compact>
-        </Space>
+        <h2>Team Manager</h2>
+        <TeamDrawer
+          team={null}
+          button={TeamDrawerButton.ADD}
+          mode={TeamDrawerMode.ADD}
+        />
       </div>
     );
   };
@@ -126,17 +108,37 @@ export const TeamManager = () => {
         rowGap: 10,
       }}
     >
-      <Card title={renderTitle()} style={{ width: "100%" }}>
-        <Table
-          bordered={true}
-          dataSource={users}
-          pagination={{
-            pageSize: 10,
-          }}
-          rowKey={(record) => record.id.toString()}
-          style={{ width: "100%" }}
-        />
-      </Card>
+      <div
+        style={{
+          width: 1200,
+          marginTop: 20,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Card title={renderTitle()} style={{ width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 20,
+            }}
+          >
+            <Collapse ghost items={collapseProps} />
+          </div>
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            pagination={{
+              pageSize: 10,
+            }}
+            size="middle"
+            rowKey={(record) => record.id.toString()}
+            style={{ width: "100%" }}
+          />
+        </Card>
+      </div>
     </div>
   );
-};
+});

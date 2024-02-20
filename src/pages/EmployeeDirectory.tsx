@@ -8,39 +8,6 @@ import { AddEmployeeForm } from "../components/AddEmployeeForm";
 import { EmployeeDrawer } from "../components/EmployeeDrawer";
 import { observer } from "mobx-react";
 
-//dummy data:
-// Define the JobTitle objects
-let jobTitle1: JobTitle = { id: 1, name: "Software Engineer" };
-let jobTitle2: JobTitle = { id: 2, name: "Product Manager" };
-
-// Define the Team objects
-let team1: Team = { id: 1, name: "Engineering", teamLeadId: 1 };
-let team2: Team = { id: 2, name: "Product", teamLeadId: 2 };
-
-// Define the User objects
-let user1: User = {
-  id: 1,
-  username: "jdoe",
-  firstName: "John",
-  lastName: "Doe",
-  authRole: "admin",
-  jobTitle: jobTitle1,
-  team: team1,
-};
-
-let user2: User = {
-  id: 2,
-  username: "asmith",
-  firstName: "Alice",
-  lastName: "Smith",
-  authRole: "user",
-  jobTitle: jobTitle2,
-  team: team2,
-};
-
-// Create a list of User objects
-let users: User[] = [user1, user2];
-
 export const EmployeeDirectory = observer(() => {
   const dataSource: User[] = userStore.allUsers;
 
@@ -95,9 +62,9 @@ export const EmployeeDirectory = observer(() => {
             defaultValue={authRole}
             style={{ width: 120 }}
             options={[
-              { value: "ROLE_EMPLOYEE", label: "ROLE_EMPLOYEE" },
-              { value: "ROLE_ADMIN", label: "ROLE_ADMIN" },
-              { value: "ROLE_MANAGER", label: "ROLE_MANAGER" },
+              { value: "ROLE_BASIC", label: "BASIC" },
+              { value: "ROLE_MANAGER", label: "MANAGER" },
+              { value: "ROLE_ADMIN", label: "ADMIN" },
             ]}
           />
         );

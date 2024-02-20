@@ -2,11 +2,23 @@ import { makeObservable, observable, action } from "mobx";
 import axios from "axios";
 import { TEAMS_API_URL } from "../models/consts";
 import { message } from "antd";
+import { userStore } from "./UserStore";
 
 export interface Team {
   id: number;
   name: string;
   teamLeadId: number;
+}
+
+export enum TeamDrawerMode {
+  VIEW = "view",
+  EDIT = "edit",
+  ADD = "add",
+}
+
+export enum TeamDrawerButton {
+  VIEW = "view",
+  ADD = "add",
 }
 
 class TeamStore {
@@ -16,6 +28,7 @@ class TeamStore {
     makeObservable(this, {
       allTeams: observable,
       getAll: action,
+      getTeamMembersForTeam: action,
     });
   }
 
@@ -25,8 +38,7 @@ class TeamStore {
       .then((res) => {
         switch (res.status) {
           case 200:
-            console.log(res.data["teams"]);
-            this.allTeams = res.data["teams"];
+            this.allTeams = res.data;
             break;
           case 400:
             message.error("Bad request. Contact your admin.");
@@ -42,6 +54,10 @@ class TeamStore {
       .catch((err) => {
         message.error("General client error. Contact your admin.");
       });
+  };
+
+  getTeamMembersForTeam = (teamId: number) => {
+    return userStore.allUsers.filter((user) => user.team.id === teamId);
   };
 }
 

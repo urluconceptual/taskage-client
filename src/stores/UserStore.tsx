@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 import axios from "axios";
 import { USERS_API_URL } from "../models/consts";
 import { message } from "antd";
@@ -44,6 +44,7 @@ class UserStore {
   constructor() {
     makeObservable(this, {
       currentUser: observable,
+      userDictionary: computed,
       allUsers: observable,
       logIn: action,
       getAll: action,
@@ -104,6 +105,14 @@ class UserStore {
         message.error("General client error. Contact your admin.");
       });
   };
+
+  get userDictionary() {
+    const userDictionary: { [key: number]: string } = {};
+    this.allUsers.forEach((user) => {
+      userDictionary[user.id] = `${user.firstName} ${user.lastName}`;
+    });
+    return userDictionary;
+  }
 }
 
 export const userStore = new UserStore();
