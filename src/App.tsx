@@ -6,7 +6,13 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { ADMIN_LINK, LOGIN_LINK, STYLESHEET_LIGHT, TEAM_VIEW_ADMIN_LINK, USER_VIEW_ADMIN_LINK } from "./models/consts";
+import {
+  ADMIN_LINK,
+  LOGIN_LINK,
+  STYLESHEET_LIGHT,
+  TEAM_VIEW_ADMIN_LINK,
+  USER_VIEW_ADMIN_LINK,
+} from "./models/consts";
 import RootLayout from "./pages/Root";
 import { Login } from "./pages/Login";
 import "./App.css";
@@ -37,7 +43,7 @@ function App() {
           Input: {
             colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
             hoverBorderColor: STYLESHEET_LIGHT.colorText,
-            activeBorderColor: STYLESHEET_LIGHT.colorText
+            activeBorderColor: STYLESHEET_LIGHT.colorText,
           },
         },
         token: {
@@ -56,7 +62,10 @@ function App() {
             <Route path={LOGIN_LINK} element={<Login />} />
             <Route path={ADMIN_LINK} element={<AdminDashboard />} />
             <Route path={TEAM_VIEW_ADMIN_LINK} element={<TeamManager />} />
-            <Route path={USER_VIEW_ADMIN_LINK} element={<EmployeeDirectory />} />
+            <Route
+              path={USER_VIEW_ADMIN_LINK}
+              element={<EmployeeDirectory />}
+            />
           </Route>
         </Routes>
       </Router>

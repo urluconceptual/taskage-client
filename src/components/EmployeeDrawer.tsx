@@ -9,14 +9,14 @@ export const EmployeeDrawer = observer(({ user }: { user: User }) => {
 
   return (
     <>
-      <span
-        onClick={() => setDrawerIsOpen(true)}
-        style={{ cursor: "pointer" }}
-      >
+      <span onClick={() => setDrawerIsOpen(true)} style={{ cursor: "pointer" }}>
         <EyeOutlined />
       </span>
       <Drawer
+        title={`${user.firstName} ${user.lastName}`}
         open={drawerIsOpen}
+        closable={false}
+        width={"35%"}
         onClose={() => setDrawerIsOpen(false)}
         placement="right"
       >

@@ -1,8 +1,4 @@
-import {
-  makeObservable,
-  observable,
-  action
-} from "mobx";
+import { makeObservable, observable, action } from "mobx";
 import axios from "axios";
 import { TEAMS_API_URL } from "../models/consts";
 import { message } from "antd";

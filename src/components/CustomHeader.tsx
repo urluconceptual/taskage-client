@@ -17,7 +17,7 @@ const CustomHeader = () => {
     return () => {
       localStorage.removeItem("token");
     };
-  }
+  };
 
   return (
     <Header

@@ -17,8 +17,7 @@ export const AddEmployeeForm = observer(() => {
         open={formIsOpen}
         onCancel={() => setFormIsOpen(false)}
         footer={null}
-      >
-      </Modal>
+      ></Modal>
     </>
   );
 });

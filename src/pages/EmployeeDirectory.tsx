@@ -113,7 +113,7 @@ export const EmployeeDirectory = observer(() => {
       title: "Team",
       dataIndex: "team",
       key: "team.name",
-      render: (team: Team) => team? team.name : "-",
+      render: (team: Team) => (team ? team.name : "-"),
     },
     {
       title: "View",
@@ -121,7 +121,7 @@ export const EmployeeDirectory = observer(() => {
       render: (text, record) => {
         return <EmployeeDrawer user={record} />;
       },
-    }
+    },
   ];
 
   const renderTitle = () => {
@@ -133,7 +133,7 @@ export const EmployeeDirectory = observer(() => {
           alignItems: "center",
         }}
       >
-        <h1>Employee Directory</h1>
+        <h2>Employee Directory</h2>
         <AddEmployeeForm />
       </div>
     );
@@ -165,6 +165,7 @@ export const EmployeeDirectory = observer(() => {
           pagination={{
             pageSize: 10,
           }}
+          size="middle"
           rowKey={(record) => record.id.toString()}
           style={{ width: "100%" }}
         />
