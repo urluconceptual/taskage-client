@@ -2,7 +2,7 @@ import { Button, Drawer } from "antd";
 import React, { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
-import { Team, User } from "../stores/UserStore";
+import { Team } from "../stores/UserStore";
 import { TeamDrawerButton, TeamDrawerMode } from "../stores/TeamStore";
 
 export const TeamDrawer = observer(
@@ -39,7 +39,7 @@ export const TeamDrawer = observer(
           {renderButton(button)}
         </span>
         <Drawer
-          title={mode == TeamDrawerMode.ADD ? "New Team" : team!.name}
+          title={mode === TeamDrawerMode.ADD ? "New Team" : team!.name}
           open={drawerIsOpen}
           closable={false}
           width={"40%"}

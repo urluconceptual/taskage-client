@@ -1,5 +1,5 @@
 import Table, { ColumnsType } from "antd/es/table";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { JobTitle, Team, userStore } from "../stores/UserStore";
 import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -11,17 +11,32 @@ import {
 import { observer } from "mobx-react";
 import { TeamDrawer } from "../components/TeamDrawer";
 
-// Define the Team objects
-let team1: Team = { id: 1, name: "Engineering", teamLeadId: 1 };
-let team2: Team = { id: 2, name: "Product", teamLeadId: 2 };
-
 export const TeamManager = observer(() => {
-  const dataSource: Team[] = teamStore.allTeams;
+  const [dataSource, setDataSource] = useState<Team[]>();
+  const [filterOptions, setFilterOptions] = useState({
+    name: "",
+    teamLead: "",
+  });
+
+  useEffect(() => {
+    setDataSource(teamStore.allTeams);
+  }, [teamStore.allTeams]);
 
   useEffect(() => {
     userStore.getAll();
     teamStore.getAll();
   }, []);
+
+  const handleFilter = () => {
+    setDataSource(teamStore.allTeams.filter((team) => {
+      return (
+        team.name.toLowerCase().includes(filterOptions.name.toLowerCase()) &&
+        userStore.userDictionary[team.teamLeadId]
+          .toLowerCase()
+          .includes(filterOptions.teamLead.toLowerCase())
+      );
+    }));
+  };
 
   const collapseProps: CollapseProps["items"] = [
     {
@@ -38,10 +53,26 @@ export const TeamManager = observer(() => {
       children: (
         <Space>
           <Space.Compact>
-            <Input placeholder="Username" />
-            <Input placeholder="Job Title" />
-            <Input placeholder="Team" />
-            <Button type="primary">Filter</Button>
+            <Input
+              value={filterOptions.name}
+              onChange={(e) =>
+                setFilterOptions((prev) => ({ ...prev, name: e.target.value }))
+              }
+              placeholder="Name"
+            />
+            <Input
+              value={filterOptions.teamLead}
+              onChange={(e) =>
+                setFilterOptions((prev) => ({
+                  ...prev,
+                  teamLead: e.target.value,
+                }))
+              }
+              placeholder="Team Lead"
+            />
+            <Button type="primary" onClick={handleFilter}>
+              Filter
+            </Button>
           </Space.Compact>
         </Space>
       ),
@@ -59,7 +90,6 @@ export const TeamManager = observer(() => {
       dataIndex: "teamLeadId",
       key: "teamLeadId",
       render: (teamLeadId) => {
-        console.log(teamLeadId, userStore.userDictionary[teamLeadId]);
         return userStore.userDictionary[teamLeadId];
       },
     },
