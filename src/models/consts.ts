@@ -3,6 +3,15 @@ export const ADMIN_LINK = "/admin";
 export const TEAM_VIEW_ADMIN_LINK = `${ADMIN_LINK}/teams`;
 export const USER_VIEW_ADMIN_LINK = `${ADMIN_LINK}/users`;
 
+export const UNAUTHORIZED_ACCESS_LINK = "/unauthorized-access";
+export const NOT_AUTHENTICATED_LINK = "/not-authenticated";
+
+export const AUTH_ROLES = {
+  ADMIN: "ROLE_ADMIN",
+  USER: "ROLE_BASIC",
+  MANAGER: "ROLE_MANAGER"
+};
+
 export const STYLESHEET_LIGHT = {
   headerBg: "#5A67D8",
   headerColor: "#F7FAFC",

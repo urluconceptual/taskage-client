@@ -28,14 +28,16 @@ export const TeamManager = observer(() => {
   }, []);
 
   const handleFilter = () => {
-    setDataSource(teamStore.allTeams.filter((team) => {
-      return (
-        team.name.toLowerCase().includes(filterOptions.name.toLowerCase()) &&
-        userStore.userDictionary[team.teamLeadId]
-          .toLowerCase()
-          .includes(filterOptions.teamLead.toLowerCase())
-      );
-    }));
+    setDataSource(
+      teamStore.allTeams.filter((team) => {
+        return (
+          team.name.toLowerCase().includes(filterOptions.name.toLowerCase()) &&
+          userStore.userDictionary[team.teamLeadId]
+            .toLowerCase()
+            .includes(filterOptions.teamLead.toLowerCase())
+        );
+      }),
+    );
   };
 
   const collapseProps: CollapseProps["items"] = [

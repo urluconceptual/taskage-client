@@ -1,8 +1,24 @@
 import { Card } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { LoginForm } from "../components/LoginForm";
+import { userStore } from "../stores/UserStore";
+import { useNavigate } from "react-router";
+import { USER_VIEW_ADMIN_LINK } from "../models/consts";
+import { observer } from "mobx-react";
 
-export const Login = () => {
+export const Login = observer(() => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userStore.isSignedIn && !userStore.automaticLogInWaiting) {
+      userStore.automaticLogIn().then((res) => {
+        if (res) {
+          navigate(USER_VIEW_ADMIN_LINK);
+        }
+      });
+    }
+  }, []);
+
   return (
     <div
       style={{
@@ -37,8 +53,8 @@ export const Login = () => {
           <LoginForm />
           <div>
             <img
-              src="./welcome-illustration.svg"
-              alt="Welcome illustration"
+              src= {userStore.isSignedIn? "./logout-illustration.svg" : "./welcome-illustration.svg"}
+              alt="Login page illustration"
               style={{ width: 300 }}
             />
           </div>
@@ -46,4 +62,4 @@ export const Login = () => {
       </Card>
     </div>
   );
-};
+});

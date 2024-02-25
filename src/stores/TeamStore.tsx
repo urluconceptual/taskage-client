@@ -21,6 +21,12 @@ export enum TeamDrawerButton {
   ADD = "add",
 }
 
+export interface TeamRequestObj {
+  name: string;
+  teamLeadId: number;
+  teamMemberIds: number[];
+}
+
 class TeamStore {
   allTeams: Team[] = [];
 
@@ -39,6 +45,31 @@ class TeamStore {
         switch (res.status) {
           case 200:
             this.allTeams = res.data;
+            break;
+          case 400:
+            message.error("Bad request. Contact your admin.");
+            break;
+          case 401:
+            message.error("Unauthorized. Log in to access.");
+            break;
+          case 403:
+            message.error("General core error. Contact your admin.");
+            break;
+        }
+      })
+      .catch((err) => {
+        message.error("General client error. Contact your admin.");
+      });
+  };
+
+  addNewTeam = (team: TeamRequestObj) => {
+    axios
+      .post(`${TEAMS_API_URL}/create`, team)
+      .then((res) => {
+        switch (res.status) {
+          case 200:
+            this.getAll();
+            message.success("Team added successfully.");
             break;
           case 400:
             message.error("Bad request. Contact your admin.");

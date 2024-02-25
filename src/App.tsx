@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import {
   ADMIN_LINK,
+  AUTH_ROLES,
   LOGIN_LINK,
   STYLESHEET_LIGHT,
   TEAM_VIEW_ADMIN_LINK,
@@ -19,6 +20,8 @@ import "./App.css";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { EmployeeDirectory } from "./pages/EmployeeDirectory";
 import { TeamManager } from "./pages/TeamManager";
+import PrivateRoute from "./utils/PrivateRoute";
+import ErrorPage from "./pages/Error";
 
 function App() {
   return (
@@ -45,6 +48,9 @@ function App() {
             hoverBorderColor: STYLESHEET_LIGHT.colorText,
             activeBorderColor: STYLESHEET_LIGHT.colorText,
           },
+          Select: {
+            colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
+          },
         },
         token: {
           colorPrimary: STYLESHEET_LIGHT.colorPrimary,
@@ -61,11 +67,14 @@ function App() {
             <Route index element={<Navigate to={LOGIN_LINK} replace />} />
             <Route path={LOGIN_LINK} element={<Login />} />
             <Route path={ADMIN_LINK} element={<AdminDashboard />} />
-            <Route path={TEAM_VIEW_ADMIN_LINK} element={<TeamManager />} />
-            <Route
-              path={USER_VIEW_ADMIN_LINK}
-              element={<EmployeeDirectory />}
-            />
+            <Route element={<PrivateRoute allowedAuthRole={AUTH_ROLES.ADMIN} />}>
+              <Route path={TEAM_VIEW_ADMIN_LINK} element={<TeamManager />} />
+              <Route
+                path={USER_VIEW_ADMIN_LINK}
+                element={<EmployeeDirectory />}
+              />
+            </Route>
+          <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
       </Router>
