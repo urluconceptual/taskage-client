@@ -52,7 +52,7 @@ class UserStore {
       logOut: action,
       getAll: action,
       automaticLogIn: action,
-      automaticLogInWaiting: observable
+      automaticLogInWaiting: observable,
     });
   }
 

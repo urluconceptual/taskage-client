@@ -9,7 +9,7 @@ export const NOT_AUTHENTICATED_LINK = "/not-authenticated";
 export const AUTH_ROLES = {
   ADMIN: "ROLE_ADMIN",
   USER: "ROLE_BASIC",
-  MANAGER: "ROLE_MANAGER"
+  MANAGER: "ROLE_MANAGER",
 };
 
 export const STYLESHEET_LIGHT = {

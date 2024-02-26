@@ -1,12 +1,15 @@
 import { Button, Result } from "antd";
 import { Link, useLocation } from "react-router-dom";
-import { LOGIN_LINK, NOT_AUTHENTICATED_LINK, UNAUTHORIZED_ACCESS_LINK } from "../models/consts";
+import {
+  LOGIN_LINK,
+  NOT_AUTHENTICATED_LINK,
+  UNAUTHORIZED_ACCESS_LINK,
+} from "../models/consts";
 import React from "react";
 
 const ErrorPage = () => {
   const location = useLocation();
   console.log("location.pathname", location.pathname);
-
 
   switch (location.pathname) {
     case UNAUTHORIZED_ACCESS_LINK:
@@ -30,7 +33,7 @@ const ErrorPage = () => {
         </div>
       );
     case NOT_AUTHENTICATED_LINK:
-    console.log("location.pathname", location.pathname);
+      console.log("location.pathname", location.pathname);
 
       return (
         <div

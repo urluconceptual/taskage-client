@@ -67,14 +67,16 @@ function App() {
             <Route index element={<Navigate to={LOGIN_LINK} replace />} />
             <Route path={LOGIN_LINK} element={<Login />} />
             <Route path={ADMIN_LINK} element={<AdminDashboard />} />
-            <Route element={<PrivateRoute allowedAuthRole={AUTH_ROLES.ADMIN} />}>
+            <Route
+              element={<PrivateRoute allowedAuthRole={AUTH_ROLES.ADMIN} />}
+            >
               <Route path={TEAM_VIEW_ADMIN_LINK} element={<TeamManager />} />
               <Route
                 path={USER_VIEW_ADMIN_LINK}
                 element={<EmployeeDirectory />}
               />
             </Route>
-          <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
       </Router>

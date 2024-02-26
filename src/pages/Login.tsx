@@ -53,7 +53,11 @@ export const Login = observer(() => {
           <LoginForm />
           <div>
             <img
-              src= {userStore.isSignedIn? "./logout-illustration.svg" : "./welcome-illustration.svg"}
+              src={
+                userStore.isSignedIn
+                  ? "./logout-illustration.svg"
+                  : "./welcome-illustration.svg"
+              }
               alt="Login page illustration"
               style={{ width: 300 }}
             />

@@ -22,11 +22,11 @@ export const LoginForm = observer(() => {
 
   const handleRedirectClick = () => {
     navigate(USER_VIEW_ADMIN_LINK);
-  }
+  };
 
   const handleLogoutClick = () => {
     userStore.logOut();
-  }
+  };
 
   const renderLoginForm = () => {
     return (
@@ -98,11 +98,17 @@ export const LoginForm = observer(() => {
         <p style={{ textAlign: "center" }}>
           Log out first to access as a different user.
         </p>
-        <Button type="primary" onClick={handleRedirectClick} style={{ width: 300 }}>
+        <Button
+          type="primary"
+          onClick={handleRedirectClick}
+          style={{ width: 300 }}
+        >
           Go to dashboard
         </Button>{" "}
         <br />
-        <Button onClick={handleLogoutClick} style={{ width: 300 }}>Log out</Button>
+        <Button onClick={handleLogoutClick} style={{ width: 300 }}>
+          Log out
+        </Button>
       </>
     );
   };

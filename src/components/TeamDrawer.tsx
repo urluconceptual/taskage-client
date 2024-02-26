@@ -156,12 +156,16 @@ export const TeamDrawer = observer(
       );
     };
 
+    const renderViewDrawer = () => {
+      return <></>;
+    };
+
     const renderContent = () => {
       switch (mode) {
         case TeamDrawerMode.ADD:
           return renderAddDrawer();
         case TeamDrawerMode.VIEW:
-          return <div>VIEW</div>;
+          return renderViewDrawer();
       }
     };
 
