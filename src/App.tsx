@@ -51,6 +51,9 @@ function App() {
           Select: {
             colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
           },
+          Card: {
+            colorBorderSecondary: STYLESHEET_LIGHT.colorBorder,
+          }
         },
         token: {
           colorPrimary: STYLESHEET_LIGHT.colorPrimary,

@@ -32,7 +32,7 @@ export const TeamManager = observer(() => {
       teamStore.allTeams.filter((team) => {
         return (
           team.name.toLowerCase().includes(filterOptions.name.toLowerCase()) &&
-          userStore.userDictionary[team.teamLeadId]
+          userStore.userDictionary[team.teamLeadId].userLabel
             .toLowerCase()
             .includes(filterOptions.teamLead.toLowerCase())
         );
@@ -92,7 +92,7 @@ export const TeamManager = observer(() => {
       dataIndex: "teamLeadId",
       key: "teamLeadId",
       render: (teamLeadId) => {
-        return userStore.userDictionary[teamLeadId];
+        return userStore.userDictionary[teamLeadId].userLabel;
       },
     },
     {
@@ -130,16 +130,6 @@ export const TeamManager = observer(() => {
   };
 
   return (
-    <div
-      style={{
-        width: 1200,
-        marginTop: 10,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        rowGap: 10,
-      }}
-    >
       <div
         style={{
           width: 1200,
@@ -171,6 +161,5 @@ export const TeamManager = observer(() => {
           />
         </Card>
       </div>
-    </div>
   );
 });

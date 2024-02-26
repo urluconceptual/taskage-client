@@ -24,8 +24,9 @@ export const STYLESHEET_LIGHT = {
   colorErrorText: "#E53E3E",
   fontFamily: "Poppins",
   colorText: "#2D3748",
-  colorTextTransparent: "#6d87ad",
+  colorTextTransparent: "#6D87AD",
   accentColor: "#48BB78",
+  colorBorder: "#C2DCE5",
 };
 
 export const CORE_BASE_URL = "http://localhost:8080";

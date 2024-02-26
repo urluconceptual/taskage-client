@@ -71,7 +71,7 @@ class UserStore {
             this.currentUser = res.data;
             localStorage.setItem(
               "authenticated_user",
-              JSON.stringify(this.currentUser!),
+              JSON.stringify(this.currentUser!)
             );
             axios.defaults.headers.common["Authorization"] =
               `Bearer ${this.currentUser!.token}`;
@@ -119,9 +119,14 @@ class UserStore {
   };
 
   get userDictionary() {
-    const userDictionary: { [key: number]: string } = {};
+    const userDictionary: {
+      [key: number]: { userData: User; userLabel: string };
+    } = {};
     this.allUsers.forEach((user) => {
-      userDictionary[user.id] = `${user.firstName} ${user.lastName}`;
+      userDictionary[user.id] = {
+        userData: user,
+        userLabel: `${user.firstName} ${user.lastName}(${user.username})`,
+      };
     });
     return userDictionary;
   }
@@ -137,7 +142,7 @@ class UserStore {
     var automaticLogInSuccess = false;
     if (localStorage.getItem("authenticated_user")) {
       var storedUser: CurrentUser = JSON.parse(
-        localStorage.getItem("authenticated_user")!,
+        localStorage.getItem("authenticated_user")!
       );
       axios.defaults.headers.common["Authorization"] =
         `Bearer ${storedUser!.token}`;
