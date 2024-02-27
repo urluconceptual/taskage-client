@@ -3,6 +3,18 @@ import axios from "axios";
 import { USERS_API_URL } from "../models/consts";
 import { message } from "antd";
 
+export enum UserDrawerMode {
+  VIEW = "view",
+  EDIT = "edit",
+  ADD = "add",
+}
+
+export enum UserDrawerButton {
+  VIEW = "view",
+  ADD = "add",
+}
+
+
 export interface LogInRequestObj {
   username?: string;
   password?: string;

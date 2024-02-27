@@ -8,6 +8,13 @@ import { AddEmployeeForm } from "../components/AddEmployeeForm";
 import { EmployeeDrawer } from "../components/EmployeeDrawer";
 import { observer } from "mobx-react";
 
+
+const AuthRoleLabel : { [key : string] : string} = {
+  "ROLE_BASIC": "BASIC",
+  "ROLE_MANAGER": "MANAGER",
+  "ROLE_ADMIN": "ADMIN",
+}
+
 export const EmployeeDirectory = observer(() => {
   const [dataSource, setDataSource] = useState<User[]>();
   const [filterOptions, setFilterOptions] = useState({
@@ -112,15 +119,7 @@ export const EmployeeDirectory = observer(() => {
       key: "authRole",
       render: (authRole) => {
         return (
-          <Select
-            defaultValue={authRole}
-            style={{ width: 120 }}
-            options={[
-              { value: "ROLE_BASIC", label: "BASIC" },
-              { value: "ROLE_MANAGER", label: "MANAGER" },
-              { value: "ROLE_ADMIN", label: "ADMIN" },
-            ]}
-          />
+          AuthRoleLabel[authRole] || "UNDEFINED ROLE"
         );
       },
     },
