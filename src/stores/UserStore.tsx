@@ -146,12 +146,18 @@ class UserStore {
       );
       axios.defaults.headers.common["Authorization"] =
         `Bearer ${storedUser!.token}`;
-      var res = await axios.get(`${USERS_API_URL}/checkLocalCredentials`);
-      if (res.status === 200) {
-        message.success(`Automatically authenticated!`);
-        this.currentUser = storedUser;
-        automaticLogInSuccess = true;
-      } else {
+      try {
+        var res = await axios.get(`${USERS_API_URL}/checkLocalCredentials`);
+        if (res.status === 200) {
+          message.success(`Automatically authenticated!`);
+          this.currentUser = storedUser;
+          automaticLogInSuccess = true;
+        } else {
+          delete axios.defaults.headers.common["Authorization"];
+          localStorage.removeItem("authenticated_user");
+          message.error("Session expired. Please log in.");
+        }
+      } catch (err) {
         delete axios.defaults.headers.common["Authorization"];
         localStorage.removeItem("authenticated_user");
         message.error("Session expired. Please log in.");

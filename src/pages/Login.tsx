@@ -1,24 +1,10 @@
 import { Card } from "antd";
-import React, { useEffect } from "react";
+import React from "react";
 import { LoginForm } from "../components/LoginForm";
 import { userStore } from "../stores/UserStore";
-import { useNavigate } from "react-router";
-import { USER_VIEW_ADMIN_LINK } from "../models/consts";
 import { observer } from "mobx-react";
 
 export const Login = observer(() => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!userStore.isSignedIn && !userStore.automaticLogInWaiting) {
-      userStore.automaticLogIn().then((res) => {
-        if (res) {
-          navigate(USER_VIEW_ADMIN_LINK);
-        }
-      });
-    }
-  }, []);
-
   return (
     <div
       style={{

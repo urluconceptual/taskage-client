@@ -1,14 +1,12 @@
-import { Button, Drawer, Form } from "antd";
+import { Button, Drawer, Form, Popconfirm } from "antd";
 import React, { useState } from "react";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
 import { Team } from "../stores/UserStore";
-import {
-  TeamDrawerButton,
-  TeamDrawerMode
-} from "../stores/TeamStore";
+import { TeamDrawerButton, TeamDrawerMode, teamStore } from "../stores/TeamStore";
 import { AddTeamDrawer } from "./AddTeamDrawer";
 import { ViewTeamDrawer } from "./ViewTeamDrawer";
+import { EditTeamDrawer } from "./EditTeamDrawer";
 
 export const TeamDrawer = observer(
   ({
@@ -20,8 +18,8 @@ export const TeamDrawer = observer(
     button: TeamDrawerButton;
     mode: TeamDrawerMode;
   }) => {
-    const [form] = Form.useForm();
     const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+    const [currentDrawerMode, setCurrentDrawerMode] = useState(mode);
 
     const renderButton = (button: TeamDrawerButton) => {
       switch (button) {
@@ -41,11 +39,53 @@ export const TeamDrawer = observer(
     };
 
     const renderContent = () => {
-      switch (mode) {
+      switch (currentDrawerMode) {
         case TeamDrawerMode.ADD:
-          return <AddTeamDrawer closeDrawer={closeDrawer} />
+          return <AddTeamDrawer closeDrawer={closeDrawer} />;
         case TeamDrawerMode.VIEW:
-          return <ViewTeamDrawer team={team!} closeDrawer={closeDrawer} />
+          return (
+            <ViewTeamDrawer
+              team={team!}
+              closeDrawer={closeDrawer}
+              setCurrentDrawerMode={setCurrentDrawerMode}
+            />
+          );
+        case TeamDrawerMode.EDIT:
+          return (
+            <EditTeamDrawer
+              closeDrawer={closeDrawer}
+              team={team!}
+              setCurrentDrawerMode={setCurrentDrawerMode}
+            />
+          );
+      }
+    };
+
+    const handleConfirmDelete = () => {
+      teamStore.deleteTeam(team!.id);
+      closeDrawer();
+    };
+
+    const renderTitle = () => {
+      switch (currentDrawerMode) {
+        case TeamDrawerMode.ADD:
+          return "New Team";
+        case TeamDrawerMode.VIEW:
+          return (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {team!.name}
+              <Popconfirm
+                title="Delete the team"
+                description="Are you sure you want to delete this team? This action is irreversible."
+                icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                onConfirm={handleConfirmDelete}
+              >
+                <Button danger>Delete</Button>
+              </Popconfirm>
+            </div>
+          );
+        case TeamDrawerMode.EDIT:
+          return team!.name;
       }
     };
 
@@ -58,7 +98,7 @@ export const TeamDrawer = observer(
           {renderButton(button)}
         </span>
         <Drawer
-          title={mode === TeamDrawerMode.ADD ? "New Team" : team!.name}
+          title={renderTitle()}
           open={drawerIsOpen}
           closable={false}
           width={"35%"}
@@ -69,5 +109,5 @@ export const TeamDrawer = observer(
         </Drawer>
       </>
     );
-  },
+  }
 );

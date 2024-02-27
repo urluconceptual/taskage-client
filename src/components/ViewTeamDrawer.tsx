@@ -1,10 +1,19 @@
-import { Card, List } from "antd";
-import React from "react";
+import { Button, Card, List } from "antd";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Team, userStore } from "../stores/UserStore";
 import { observer } from "mobx-react";
+import { TeamDrawerMode } from "../stores/TeamStore";
 
 export const ViewTeamDrawer = observer(
-  ({ team, closeDrawer }: { team: Team; closeDrawer: () => void }) => {
+  ({
+    team,
+    closeDrawer,
+    setCurrentDrawerMode,
+  }: {
+    team: Team;
+    closeDrawer: () => void;
+    setCurrentDrawerMode: Dispatch<SetStateAction<TeamDrawerMode>>;
+  }) => {
     const teamMembersDatasource = Object.values(
       userStore.userDictionary
     ).filter(
@@ -13,8 +22,16 @@ export const ViewTeamDrawer = observer(
         user.userData.team.id === team.id &&
         user.userData.id !== team.teamLeadId
     );
-
     const teamLeadDatasource = [userStore.userDictionary[team.teamLeadId]];
+
+    useEffect(() => {
+      userStore.getAll();
+    }, []);
+
+    const handleSwitchToEditing = () => {
+      setCurrentDrawerMode(TeamDrawerMode.EDIT);
+    }
+
     return (
       <>
         <List
@@ -58,6 +75,20 @@ export const ViewTeamDrawer = observer(
             }}
           ></List>
         )}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: 24,
+          }}
+        >
+          <Button style={{ width: "30%" }} onClick={closeDrawer}>
+            Cancel
+          </Button>
+          <Button style={{ width: "68%" }} type="primary" onClick={handleSwitchToEditing}>
+            Edit
+          </Button>
+        </div>
       </>
     );
   }
