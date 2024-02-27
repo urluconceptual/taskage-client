@@ -1,12 +1,18 @@
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
-import { userStore, User, JobTitle, Team } from "../stores/UserStore";
-import { Button, Card, CollapseProps, Input, Select, Space } from "antd";
+import {
+  userStore,
+  User,
+  JobTitle,
+  Team,
+  UserDrawerButton,
+  UserDrawerMode,
+} from "../stores/UserStore";
+import { Button, Card, CollapseProps, Input, Space } from "antd";
 import { Collapse } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { AddEmployeeForm } from "../components/AddEmployeeForm";
-import { EmployeeDrawer } from "../components/EmployeeDrawer";
 import { observer } from "mobx-react";
+import { UserDrawer } from "../components/UserDrawer";
 
 const AuthRoleLabel: { [key: string]: string } = {
   ROLE_BASIC: "BASIC",
@@ -136,7 +142,13 @@ export const EmployeeDirectory = observer(() => {
       title: "View",
       key: "action",
       render: (text, record) => {
-        return <EmployeeDrawer user={record} />;
+        return (
+          <UserDrawer
+            user={record}
+            button={UserDrawerButton.VIEW}
+            mode={UserDrawerMode.VIEW}
+          />
+        );
       },
     },
   ];
@@ -151,7 +163,11 @@ export const EmployeeDirectory = observer(() => {
         }}
       >
         <h2>Employee Directory</h2>
-        <AddEmployeeForm />
+        <UserDrawer
+          user={null}
+          button={UserDrawerButton.ADD}
+          mode={UserDrawerMode.ADD}
+        />
       </div>
     );
   };

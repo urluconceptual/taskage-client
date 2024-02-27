@@ -1,3 +1,4 @@
+import React from "react";
 import { observer } from "mobx-react";
 import { User, UserDrawerButton, UserDrawerMode } from "../stores/UserStore";
 import { EyeOutlined } from "@ant-design/icons";
@@ -37,7 +38,7 @@ export const UserDrawer = observer(
     const renderTitle = () => {
       switch (currentDrawerMode) {
         case UserDrawerMode.ADD:
-          return "New Team";
+          return "New User";
         default:
           return user!.username;
       }
