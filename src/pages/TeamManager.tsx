@@ -130,36 +130,36 @@ export const TeamManager = observer(() => {
   };
 
   return (
-      <div
-        style={{
-          width: 1200,
-          marginTop: 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Card title={renderTitle()} style={{ width: "100%" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: 20,
-            }}
-          >
-            <Collapse ghost items={collapseProps} />
-          </div>
-          <Table
-            columns={columns}
-            dataSource={dataSource}
-            pagination={{
-              pageSize: 10,
-            }}
-            size="middle"
-            rowKey={(record) => record.id.toString()}
-            style={{ width: "100%" }}
-          />
-        </Card>
-      </div>
+    <div
+      style={{
+        width: 1200,
+        marginTop: 20,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Card title={renderTitle()} style={{ width: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+        >
+          <Collapse ghost items={collapseProps} />
+        </div>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{
+            pageSize: 10,
+          }}
+          size="middle"
+          rowKey={(record) => record.id.toString()}
+          style={{ width: "100%" }}
+        />
+      </Card>
+    </div>
   );
 });

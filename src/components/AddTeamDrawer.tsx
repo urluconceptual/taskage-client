@@ -15,7 +15,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
 
   const filterOption = (
     input: string,
-    option?: { label: string; value: string }
+    option?: { label: string; value: string },
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   return (
@@ -60,7 +60,8 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) => user.authRole === "ROLE_MANAGER" && user.team === null
+                (user) =>
+                  user.authRole === "ROLE_MANAGER" && user.team === null,
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -82,7 +83,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) => user.authRole === "ROLE_BASIC" && user.team === null
+                (user) => user.authRole === "ROLE_BASIC" && user.team === null,
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,

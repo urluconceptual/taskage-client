@@ -14,7 +14,6 @@ export enum UserDrawerButton {
   ADD = "add",
 }
 
-
 export interface LogInRequestObj {
   username?: string;
   password?: string;
@@ -83,7 +82,7 @@ class UserStore {
             this.currentUser = res.data;
             localStorage.setItem(
               "authenticated_user",
-              JSON.stringify(this.currentUser!)
+              JSON.stringify(this.currentUser!),
             );
             axios.defaults.headers.common["Authorization"] =
               `Bearer ${this.currentUser!.token}`;
@@ -154,7 +153,7 @@ class UserStore {
     var automaticLogInSuccess = false;
     if (localStorage.getItem("authenticated_user")) {
       var storedUser: CurrentUser = JSON.parse(
-        localStorage.getItem("authenticated_user")!
+        localStorage.getItem("authenticated_user")!,
       );
       axios.defaults.headers.common["Authorization"] =
         `Bearer ${storedUser!.token}`;

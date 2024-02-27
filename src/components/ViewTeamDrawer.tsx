@@ -15,12 +15,12 @@ export const ViewTeamDrawer = observer(
     setCurrentDrawerMode: Dispatch<SetStateAction<TeamDrawerMode>>;
   }) => {
     const teamMembersDatasource = Object.values(
-      userStore.userDictionary
+      userStore.userDictionary,
     ).filter(
       (user) =>
         user.userData.team &&
         user.userData.team.id === team.id &&
-        user.userData.id !== team.teamLeadId
+        user.userData.id !== team.teamLeadId,
     );
     const teamLeadDatasource = [userStore.userDictionary[team.teamLeadId]];
 
@@ -30,7 +30,7 @@ export const ViewTeamDrawer = observer(
 
     const handleSwitchToEditing = () => {
       setCurrentDrawerMode(TeamDrawerMode.EDIT);
-    }
+    };
 
     return (
       <>
@@ -85,11 +85,15 @@ export const ViewTeamDrawer = observer(
           <Button style={{ width: "30%" }} onClick={closeDrawer}>
             Cancel
           </Button>
-          <Button style={{ width: "68%" }} type="primary" onClick={handleSwitchToEditing}>
+          <Button
+            style={{ width: "68%" }}
+            type="primary"
+            onClick={handleSwitchToEditing}
+          >
             Edit
           </Button>
         </div>
       </>
     );
-  }
+  },
 );

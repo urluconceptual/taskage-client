@@ -53,7 +53,7 @@ function App() {
           },
           Card: {
             colorBorderSecondary: STYLESHEET_LIGHT.colorBorder,
-          }
+          },
         },
         token: {
           colorPrimary: STYLESHEET_LIGHT.colorPrimary,

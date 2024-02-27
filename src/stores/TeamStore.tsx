@@ -140,7 +140,7 @@ class TeamStore {
       .catch((err) => {
         message.error("General client error. Contact your admin.");
       });
-  }
+  };
 }
 
 export const teamStore = new TeamStore();

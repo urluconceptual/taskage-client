@@ -61,5 +61,5 @@ export const UserDrawer = observer(
         ></Drawer>
       </>
     );
-  }
+  },
 );

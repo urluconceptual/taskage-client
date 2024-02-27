@@ -8,12 +8,11 @@ import { AddEmployeeForm } from "../components/AddEmployeeForm";
 import { EmployeeDrawer } from "../components/EmployeeDrawer";
 import { observer } from "mobx-react";
 
-
-const AuthRoleLabel : { [key : string] : string} = {
-  "ROLE_BASIC": "BASIC",
-  "ROLE_MANAGER": "MANAGER",
-  "ROLE_ADMIN": "ADMIN",
-}
+const AuthRoleLabel: { [key: string]: string } = {
+  ROLE_BASIC: "BASIC",
+  ROLE_MANAGER: "MANAGER",
+  ROLE_ADMIN: "ADMIN",
+};
 
 export const EmployeeDirectory = observer(() => {
   const [dataSource, setDataSource] = useState<User[]>();
@@ -118,9 +117,7 @@ export const EmployeeDirectory = observer(() => {
       dataIndex: "authRole",
       key: "authRole",
       render: (authRole) => {
-        return (
-          AuthRoleLabel[authRole] || "UNDEFINED ROLE"
-        );
+        return AuthRoleLabel[authRole] || "UNDEFINED ROLE";
       },
     },
     {
