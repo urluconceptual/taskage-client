@@ -4,6 +4,7 @@ import { User, UserDrawerButton, UserDrawerMode } from "../stores/UserStore";
 import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Button, Drawer } from "antd";
+import { AddUserDrawer } from "./AddUserDrawer";
 
 export const UserDrawer = observer(
   ({
@@ -44,6 +45,16 @@ export const UserDrawer = observer(
       }
     };
 
+    const renderContent = () => {
+      switch (currentDrawerMode) {
+        case UserDrawerMode.ADD:
+          return <AddUserDrawer closeDrawer={closeDrawer} />;
+        case UserDrawerMode.VIEW:
+        case UserDrawerMode.EDIT:
+          return <></>;
+      }
+    };
+
     return (
       <>
         <span
@@ -59,7 +70,9 @@ export const UserDrawer = observer(
           width={"35%"}
           onClose={() => closeDrawer()}
           placement="right"
-        ></Drawer>
+        >
+          {renderContent()}
+        </Drawer>
       </>
     );
   },

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   userStore,
   User,
-  JobTitle,
   Team,
   UserDrawerButton,
   UserDrawerMode,
@@ -13,6 +12,7 @@ import { Collapse } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
 import { UserDrawer } from "../components/UserDrawer";
+import { JobTitle } from "../stores/JobTitleStore";
 
 const AuthRoleLabel: { [key: string]: string } = {
   ROLE_BASIC: "BASIC",

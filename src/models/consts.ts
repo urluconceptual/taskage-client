@@ -32,3 +32,4 @@ export const STYLESHEET_LIGHT = {
 export const CORE_BASE_URL = "http://localhost:8080";
 export const USERS_API_URL = `${CORE_BASE_URL}/users`;
 export const TEAMS_API_URL = `${CORE_BASE_URL}/teams`;
+export const JOBTITLES_API_URL = `${CORE_BASE_URL}/jobTitles`;

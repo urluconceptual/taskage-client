@@ -1,6 +1,6 @@
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
-import { JobTitle, Team, userStore } from "../stores/UserStore";
+import { Team, userStore } from "../stores/UserStore";
 import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import {

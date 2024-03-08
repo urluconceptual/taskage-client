@@ -2,6 +2,7 @@ import { makeObservable, observable, action, computed } from "mobx";
 import axios from "axios";
 import { USERS_API_URL } from "../models/consts";
 import { message } from "antd";
+import { JobTitle } from "./JobTitleStore";
 
 export enum UserDrawerMode {
   VIEW = "view",
@@ -27,11 +28,6 @@ export interface CurrentUser {
   token: string;
 }
 
-export interface JobTitle {
-  id: number;
-  name: string;
-}
-
 export interface Team {
   id: number;
   name: string;
@@ -46,6 +42,17 @@ export interface User {
   authRole: string;
   jobTitle: JobTitle;
   team: Team;
+}
+
+export interface UserRequestObj {
+  id?: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+  authRole: string;
+  jobTitleId: number;
+  newJobTitleName: string;
+  teamId: number;
 }
 
 class UserStore {
