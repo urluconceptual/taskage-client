@@ -4,8 +4,8 @@ import axios from "axios";
 import { message } from "antd";
 
 export interface JobTitle {
-  id: number;
-  name: string;
+  id?: number | null;
+  name?: string | null;
 }
 
 class JobTitleStore {

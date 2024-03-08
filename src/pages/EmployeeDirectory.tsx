@@ -43,7 +43,7 @@ export const EmployeeDirectory = observer(() => {
           user.username
             .toLowerCase()
             .includes(filterOptions.username.toLowerCase()) &&
-          user.jobTitle.name
+          user.jobTitle.name!
             .toLowerCase()
             .includes(filterOptions.jobTitle.toLowerCase()) &&
           (user.team === null ||

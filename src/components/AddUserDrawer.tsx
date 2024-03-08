@@ -1,6 +1,6 @@
-import { Button, Divider, Form, Input, Select, Space } from "antd";
+import { Button, Divider, Form, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
-import { UserRequestObj } from "../stores/UserStore";
+import { UserRequestObj, userStore } from "../stores/UserStore";
 import { jobTitleStore } from "../stores/JobTitleStore";
 import { PlusOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
@@ -14,9 +14,7 @@ export const AddUserDrawer = observer(
       jobTitleStore.allJobTitles
     );
     const [newJobTitle, setNewJobTitle] = useState("");
-    const teamDropdownIsDisabled = form.getFieldValue("authRole") === undefined;
-
-    console.log(form.getFieldValue("authRole"));
+    const [authRoleIsBasic, setAuthRoleIsBasic] = useState(false);
 
     useEffect(() => {
       jobTitleStore.getAll();
@@ -37,9 +35,35 @@ export const AddUserDrawer = observer(
       setNewJobTitle("");
     };
 
+    const handleAddUserForm = (formObj: any) => {
+      const userRequestObj: UserRequestObj = {
+        username: formObj.username,
+        firstName: formObj.firstName,
+        lastName: formObj.lastName,
+        password: formObj.password,
+        authRole: formObj.authRole,
+        jobTitle: {
+          id: parseInt(formObj.jobTitle) != -1 ? parseInt(formObj.jobTitle) : null,
+          name: parseInt(formObj.jobTitle) != -1 ? null : jobTitleDataSource.find((jobTitle) => jobTitle.id === -1)?.name,
+        },
+        teamId: formObj.team,
+      };
+      userStore.addNewUser(userRequestObj);
+      form.resetFields();
+      closeDrawer();
+    };
+
+    const handleFormValuesChange = (changedValues: any) => {
+      const fieldName = Object.keys(changedValues)[0];
+
+      if (fieldName === "authRole") {
+        const value = changedValues[fieldName];
+        setAuthRoleIsBasic(value === "ROLE_BASIC");
+      }
+    };
     return (
       <>
-        <Form<UserRequestObj>
+        <Form
           form={form}
           name="teamForm"
           layout="vertical"
@@ -47,7 +71,8 @@ export const AddUserDrawer = observer(
           wrapperCol={{ span: 16 }}
           style={{ width: "150%" }}
           autoComplete="off"
-          //onFinish={handleAddTeamForm}
+          onValuesChange={handleFormValuesChange}
+          onFinish={handleAddUserForm}
         >
           <Form.Item
             label="Username"
@@ -133,8 +158,8 @@ export const AddUserDrawer = observer(
               showSearch
               filterOption={filterOption}
               options={jobTitleDataSource.map((jobTitle) => ({
-                label: jobTitle.name,
-                value: jobTitle.id.toString(),
+                label: jobTitle.name!,
+                value: jobTitle.id!.toString(),
               }))}
               notFoundContent={null}
               dropdownRender={(menu) => (
@@ -176,9 +201,12 @@ export const AddUserDrawer = observer(
                 value: team.id.toString(),
               }))}
               notFoundContent={null}
-              disabled={teamDropdownIsDisabled}
+              disabled={!authRoleIsBasic}
             />
           </Form.Item>
+          <span style={{ fontSize: 11 }}>
+            Enabled when BASIC role is selected.
+          </span>
           <Form.Item>
             <div
               style={{
