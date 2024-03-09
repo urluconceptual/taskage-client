@@ -1,8 +1,10 @@
 import { Card } from "antd";
 import React from "react";
 import { LoginForm } from "../components/LoginForm";
+import { userStore } from "../stores/UserStore";
+import { observer } from "mobx-react";
 
-export const Login = () => {
+export const Login = observer(() => {
   return (
     <div
       style={{
@@ -31,14 +33,18 @@ export const Login = () => {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            fontSize: 16,
+            fontSize: 15,
           }}
         >
           <LoginForm />
           <div>
             <img
-              src="./welcome-illustration.svg"
-              alt="Welcome illustration"
+              src={
+                userStore.isSignedIn
+                  ? "./logout-illustration.svg"
+                  : "./welcome-illustration.svg"
+              }
+              alt="Login page illustration"
               style={{ width: 300 }}
             />
           </div>
@@ -46,4 +52,4 @@ export const Login = () => {
       </Card>
     </div>
   );
-};
+});
