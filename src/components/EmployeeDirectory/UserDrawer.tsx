@@ -1,10 +1,16 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { User, UserDrawerButton, UserDrawerMode } from "../stores/UserStore";
-import { EyeOutlined } from "@ant-design/icons";
+import {
+  User,
+  UserDrawerButton,
+  UserDrawerMode,
+  userStore,
+} from "../../stores/UserStore";
+import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { Button, Drawer } from "antd";
+import { Button, Drawer, Popconfirm } from "antd";
 import { AddUserDrawer } from "./AddUserDrawer";
+import { EditUserDrawer } from "./EditUserDrawer";
 
 export const UserDrawer = observer(
   ({
@@ -21,8 +27,8 @@ export const UserDrawer = observer(
 
     const renderButton = (button: UserDrawerButton) => {
       switch (button) {
-        case UserDrawerButton.VIEW:
-          return <EyeOutlined />;
+        case UserDrawerButton.EDIT:
+          return <EditOutlined />;
         case UserDrawerButton.ADD:
           return (
             <Button onClick={() => setDrawerIsOpen(true)} type="primary">
@@ -36,12 +42,29 @@ export const UserDrawer = observer(
       setDrawerIsOpen(false);
     };
 
+    const handleConfirmDelete = () => {
+      userStore.deleteUser(user!.id);
+      closeDrawer();
+    };
+
     const renderTitle = () => {
       switch (currentDrawerMode) {
         case UserDrawerMode.ADD:
           return "New User";
         default:
-          return user!.username;
+          return (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {`${user?.firstName} ${user?.lastName} (${user!.username})`}
+              <Popconfirm
+                title="Delete the user"
+                description="Are you sure you want to delete this user? This action is irreversible."
+                icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                onConfirm={handleConfirmDelete}
+              >
+                <Button danger>Delete</Button>
+              </Popconfirm>
+            </div>
+          );
       }
     };
 
@@ -49,9 +72,8 @@ export const UserDrawer = observer(
       switch (currentDrawerMode) {
         case UserDrawerMode.ADD:
           return <AddUserDrawer closeDrawer={closeDrawer} />;
-        case UserDrawerMode.VIEW:
         case UserDrawerMode.EDIT:
-          return <></>;
+          return <EditUserDrawer user={user!} closeDrawer={closeDrawer} />;
       }
     };
 

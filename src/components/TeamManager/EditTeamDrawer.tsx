@@ -1,7 +1,11 @@
 import { Button, Form, Input, Select } from "antd";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { TeamDrawerMode, TeamRequestObj, teamStore } from "../stores/TeamStore";
-import { Team, userStore } from "../stores/UserStore";
+import {
+  TeamDrawerMode,
+  TeamRequestObj,
+  teamStore,
+} from "../../stores/TeamStore";
+import { Team, userStore } from "../../stores/UserStore";
 import { set } from "mobx";
 
 export const EditTeamDrawer = ({

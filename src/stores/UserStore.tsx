@@ -5,13 +5,12 @@ import { message } from "antd";
 import { JobTitle } from "./JobTitleStore";
 
 export enum UserDrawerMode {
-  VIEW = "view",
   EDIT = "edit",
   ADD = "add",
 }
 
 export enum UserDrawerButton {
-  VIEW = "view",
+  EDIT = "edit",
   ADD = "add",
 }
 
@@ -52,7 +51,6 @@ export interface UserRequestObj {
   password: string;
   authRole: string;
   jobTitle: JobTitle;
-  teamId: number;
 }
 
 class UserStore {
@@ -193,6 +191,54 @@ class UserStore {
         switch (res.status) {
           case 200:
             message.success("User added.");
+            break;
+          case 400:
+            message.error("Bad request. Contact your admin.");
+            break;
+          case 401:
+            message.error("Unauthorized. Log in to access.");
+            break;
+          case 403:
+            message.error("General core error. Contact your admin.");
+            break;
+        }
+      })
+      .catch((err) => {
+        message.error("General client error. Contact your admin.");
+      });
+  };
+
+  updateUser = async (userRequestObj: UserRequestObj) => {
+    await axios
+      .post(`${USERS_API_URL}/update`, userRequestObj)
+      .then((res) => {
+        switch (res.status) {
+          case 200:
+            message.success("User edited.");
+            break;
+          case 400:
+            message.error("Bad request. Contact your admin.");
+            break;
+          case 401:
+            message.error("Unauthorized. Log in to access.");
+            break;
+          case 403:
+            message.error("General core error. Contact your admin.");
+            break;
+        }
+      })
+      .catch((err) => {
+        message.error("General client error. Contact your admin.");
+      });
+  };
+
+  deleteUser = async (userId: number) => {
+    await axios
+      .delete(`${USERS_API_URL}/delete/${userId}`)
+      .then((res) => {
+        switch (res.status) {
+          case 200:
+            message.success("User deleted.");
             break;
           case 400:
             message.error("Bad request. Contact your admin.");

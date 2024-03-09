@@ -1,20 +1,24 @@
-import { Button, Divider, Form, Input, Select } from "antd";
-import React, { useEffect, useState } from "react";
-import { UserRequestObj, userStore } from "../stores/UserStore";
-import { jobTitleStore } from "../stores/JobTitleStore";
-import { PlusOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
-import { STYLESHEET_LIGHT } from "../models/consts";
-import { teamStore } from "../stores/TeamStore";
+import {
+  User,
+  UserDrawerMode,
+  UserRequestObj,
+  userStore,
+} from "../../stores/UserStore";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Button, Divider, Form, Input, Select } from "antd";
+import { teamStore } from "../../stores/TeamStore";
+import { STYLESHEET_LIGHT } from "../../models/consts";
+import { PlusOutlined } from "@ant-design/icons";
+import { jobTitleStore } from "../../stores/JobTitleStore";
 
-export const AddUserDrawer = observer(
-  ({ closeDrawer }: { closeDrawer: () => void }) => {
+export const EditUserDrawer = observer(
+  ({ user, closeDrawer }: { user: User; closeDrawer: () => void }) => {
     const [form] = Form.useForm();
     const [jobTitleDataSource, setJobTitleDataSource] = useState(
-      jobTitleStore.allJobTitles
+      jobTitleStore.allJobTitles,
     );
     const [newJobTitle, setNewJobTitle] = useState("");
-    const [authRoleIsBasic, setAuthRoleIsBasic] = useState(false);
 
     useEffect(() => {
       jobTitleStore.getAll();
@@ -27,7 +31,7 @@ export const AddUserDrawer = observer(
 
     const filterOption = (
       input: string,
-      option?: { label: string; value: string }
+      option?: { label: string; value: string },
     ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const addJobTitle = () => {
@@ -35,44 +39,41 @@ export const AddUserDrawer = observer(
       setNewJobTitle("");
     };
 
-    const handleAddUserForm = (formObj: any) => {
+    const handleEditUserForm = (formObj: any) => {
       const userRequestObj: UserRequestObj = {
+        id: user.id,
         username: formObj.username,
         firstName: formObj.firstName,
         lastName: formObj.lastName,
         password: formObj.password,
         authRole: formObj.authRole,
         jobTitle: {
-          id: parseInt(formObj.jobTitle) != -1 ? parseInt(formObj.jobTitle) : null,
-          name: parseInt(formObj.jobTitle) != -1 ? null : jobTitleDataSource.find((jobTitle) => jobTitle.id === -1)?.name,
-        },
-        teamId: formObj.team,
+          id:
+            parseInt(formObj.jobTitle) != -1
+              ? parseInt(formObj.jobTitle)
+              : null,
+          name:
+            parseInt(formObj.jobTitle) != -1
+              ? null
+              : jobTitleDataSource.find((jobTitle) => jobTitle.id === -1)?.name,
+        }
       };
-      userStore.addNewUser(userRequestObj);
+      userStore.updateUser(userRequestObj);
       form.resetFields();
       closeDrawer();
     };
 
-    const handleFormValuesChange = (changedValues: any) => {
-      const fieldName = Object.keys(changedValues)[0];
-
-      if (fieldName === "authRole") {
-        const value = changedValues[fieldName];
-        setAuthRoleIsBasic(value === "ROLE_BASIC");
-      }
-    };
     return (
       <>
         <Form
           form={form}
-          name="teamForm"
+          name="editUserForm"
           layout="vertical"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ width: "150%" }}
           autoComplete="off"
-          onValuesChange={handleFormValuesChange}
-          onFinish={handleAddUserForm}
+          onFinish={handleEditUserForm}
         >
           <Form.Item
             label="Username"
@@ -84,6 +85,7 @@ export const AddUserDrawer = observer(
                 message: "Please enter a username.",
               },
             ]}
+            initialValue={user.username}
           >
             <Input />
           </Form.Item>
@@ -98,6 +100,7 @@ export const AddUserDrawer = observer(
                 message: "Please enter a first name.",
               },
             ]}
+            initialValue={user.firstName}
           >
             <Input />
           </Form.Item>
@@ -111,6 +114,7 @@ export const AddUserDrawer = observer(
                 message: "Please enter a last name.",
               },
             ]}
+            initialValue={user.lastName}
           >
             <Input />
           </Form.Item>
@@ -118,15 +122,12 @@ export const AddUserDrawer = observer(
             label="Password"
             name={"password"}
             style={{ marginBottom: 0, marginTop: 24 }}
-            rules={[
-              {
-                required: true,
-                message: "Please enter a password.",
-              },
-            ]}
           >
             <Input type="password" />
           </Form.Item>
+          <span style={{ fontSize: 11 }}>
+            Current password is not displayed. Fill in for new password.
+          </span>
           <Form.Item
             label="Authorization Level"
             name={"authRole"}
@@ -137,6 +138,7 @@ export const AddUserDrawer = observer(
                 message: "Please select an authorization level.",
               },
             ]}
+            initialValue={user.authRole}
           >
             <Select>
               <Select.Option value="ROLE_BASIC">BASIC</Select.Option>
@@ -153,6 +155,7 @@ export const AddUserDrawer = observer(
                 message: "Please provide a job title.",
               },
             ]}
+            initialValue={user.jobTitle.id?.toString()}
           >
             <Select
               showSearch
@@ -188,25 +191,6 @@ export const AddUserDrawer = observer(
               )}
             />
           </Form.Item>
-          <Form.Item
-            label="Team"
-            name={"team"}
-            style={{ marginBottom: 0, marginTop: 24 }}
-          >
-            <Select
-              showSearch
-              filterOption={filterOption}
-              options={teamStore.allTeams.map((team) => ({
-                label: team.name,
-                value: team.id.toString(),
-              }))}
-              notFoundContent={null}
-              disabled={!authRoleIsBasic}
-            />
-          </Form.Item>
-          <span style={{ fontSize: 11 }}>
-            Enabled when BASIC role is selected.
-          </span>
           <Form.Item>
             <div
               style={{
@@ -226,5 +210,5 @@ export const AddUserDrawer = observer(
         </Form>
       </>
     );
-  }
+  },
 );

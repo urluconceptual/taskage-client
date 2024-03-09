@@ -11,7 +11,7 @@ import { Button, Card, CollapseProps, Input, Space } from "antd";
 import { Collapse } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
-import { UserDrawer } from "../components/UserDrawer";
+import { UserDrawer } from "../components/EmployeeDirectory/UserDrawer";
 import { JobTitle } from "../stores/JobTitleStore";
 
 const AuthRoleLabel: { [key: string]: string } = {
@@ -43,8 +43,8 @@ export const EmployeeDirectory = observer(() => {
           user.username
             .toLowerCase()
             .includes(filterOptions.username.toLowerCase()) &&
-          user.jobTitle.name!
-            .toLowerCase()
+          user.jobTitle
+            .name!.toLowerCase()
             .includes(filterOptions.jobTitle.toLowerCase()) &&
           (user.team === null ||
             user.team?.name
@@ -139,14 +139,14 @@ export const EmployeeDirectory = observer(() => {
       render: (team: Team) => (team ? team.name : "-"),
     },
     {
-      title: "View",
+      title: "Edit",
       key: "action",
       render: (text, record) => {
         return (
           <UserDrawer
             user={record}
-            button={UserDrawerButton.VIEW}
-            mode={UserDrawerMode.VIEW}
+            button={UserDrawerButton.EDIT}
+            mode={UserDrawerMode.EDIT}
           />
         );
       },

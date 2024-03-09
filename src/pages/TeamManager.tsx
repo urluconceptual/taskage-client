@@ -9,7 +9,7 @@ import {
   teamStore,
 } from "../stores/TeamStore";
 import { observer } from "mobx-react";
-import { TeamDrawer } from "../components/TeamDrawer";
+import { TeamDrawer } from "../components/TeamManager/TeamDrawer";
 
 export const TeamManager = observer(() => {
   const [dataSource, setDataSource] = useState<Team[]>();

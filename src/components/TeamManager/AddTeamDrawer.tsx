@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select } from "antd";
 import React from "react";
-import { TeamRequestObj, teamStore } from "../stores/TeamStore";
-import { userStore } from "../stores/UserStore";
+import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
+import { userStore } from "../../stores/UserStore";
 
 export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
   const [form] = Form.useForm();
