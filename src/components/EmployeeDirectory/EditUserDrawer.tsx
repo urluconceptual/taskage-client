@@ -56,7 +56,7 @@ export const EditUserDrawer = observer(
             parseInt(formObj.jobTitle) != -1
               ? null
               : jobTitleDataSource.find((jobTitle) => jobTitle.id === -1)?.name,
-        }
+        },
       };
       userStore.updateUser(userRequestObj);
       form.resetFields();

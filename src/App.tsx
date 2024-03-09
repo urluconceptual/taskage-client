@@ -84,7 +84,10 @@ function App() {
             <Route
               element={<PrivateRoute allowedAuthRole={AUTH_ROLES.MANAGER} />}
             >
-              <Route path={DASHBOARD_VIEW_MANAGER_LINK} element={<ManagerDashboard />} />
+              <Route
+                path={DASHBOARD_VIEW_MANAGER_LINK}
+                element={<ManagerDashboard />}
+              />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Route>

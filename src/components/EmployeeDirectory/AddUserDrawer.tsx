@@ -51,7 +51,7 @@ export const AddUserDrawer = observer(
             parseInt(formObj.jobTitle) != -1
               ? null
               : jobTitleDataSource.find((jobTitle) => jobTitle.id === -1)?.name,
-        }
+        },
       };
       userStore.addNewUser(userRequestObj);
       form.resetFields();

@@ -24,7 +24,7 @@ export const LoginForm = observer(() => {
     navigateToDefault(userStore.currentUser!.user.authRole!);
   };
 
-  const navigateToDefault = (authRole : string) => {
+  const navigateToDefault = (authRole: string) => {
     switch (authRole) {
       case "ROLE_ADMIN":
         navigate(REDIRECT_AFTER_LOGIN["ROLE_ADMIN"]);
@@ -32,7 +32,7 @@ export const LoginForm = observer(() => {
       case "ROLE_MANAGER":
         navigate(REDIRECT_AFTER_LOGIN["ROLE_MANAGER"]);
     }
-  }
+  };
 
   const handleLogoutClick = () => {
     userStore.logOut();

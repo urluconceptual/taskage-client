@@ -25,17 +25,17 @@ export const ManagerDashboard = () => {
 
   return (
     <div
-    style={{
-      width: 1200,
-      marginTop: 20,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    }}
-  >
-    <Card title={renderTitle()} style={{ width: "100%" }}>
-      <SprintDashboard />
-    </Card>
-  </div>
+      style={{
+        width: 1200,
+        marginTop: 20,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Card title={renderTitle()} style={{ width: "100%" }}>
+        <SprintDashboard />
+      </Card>
+    </div>
   );
 };

@@ -20,7 +20,7 @@ const RootLayout = observer(() => {
     }
   }, []);
 
-  const navigateToDefault = (authRole : string) => {
+  const navigateToDefault = (authRole: string) => {
     switch (authRole) {
       case "ROLE_ADMIN":
         navigate(REDIRECT_AFTER_LOGIN["ROLE_ADMIN"]);
@@ -28,7 +28,7 @@ const RootLayout = observer(() => {
       case "ROLE_MANAGER":
         navigate(REDIRECT_AFTER_LOGIN["ROLE_MANAGER"]);
     }
-  }
+  };
 
   return (
     <>
