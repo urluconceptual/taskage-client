@@ -20,10 +20,7 @@ export interface LogInRequestObj {
 }
 
 export interface CurrentUser {
-  username: string;
-  firstName: string;
-  lastName: string;
-  authRole: string;
+  user: User;
   token: string;
 }
 
@@ -184,7 +181,6 @@ class UserStore {
   };
 
   addNewUser = async (userRequestObj: UserRequestObj) => {
-    console.log(userRequestObj);
     await axios
       .post(`${USERS_API_URL}/register`, userRequestObj)
       .then((res) => {

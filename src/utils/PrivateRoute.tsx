@@ -20,7 +20,7 @@ const PrivateRoute = observer(
       const checkAccess = async () => {
         if (userStore.currentUser) {
           const currentUser = userStore.currentUser;
-          if (currentUser.authRole === allowedAuthRole) {
+          if (currentUser.user.authRole === allowedAuthRole) {
             setIsAllowed(true);
           } else {
             setNavigateToRoute(UNAUTHORIZED_ACCESS_LINK);

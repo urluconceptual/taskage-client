@@ -22,7 +22,7 @@ const CustomHeader = () => {
   };
 
   const renderMenu = () => {
-    if (userStore.currentUser?.authRole === AUTH_ROLES.ADMIN) {
+    if (userStore.currentUser?.user.authRole === AUTH_ROLES.ADMIN) {
       return (
         <>
           <Menu

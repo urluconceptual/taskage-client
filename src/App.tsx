@@ -9,6 +9,7 @@ import {
 import {
   ADMIN_LINK,
   AUTH_ROLES,
+  DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
   STYLESHEET_LIGHT,
   TEAM_VIEW_ADMIN_LINK,
@@ -22,6 +23,7 @@ import { EmployeeDirectory } from "./pages/EmployeeDirectory";
 import { TeamManager } from "./pages/TeamManager";
 import PrivateRoute from "./utils/PrivateRoute";
 import ErrorPage from "./pages/Error";
+import { ManagerDashboard } from "./pages/ManagerDashboard";
 
 function App() {
   return (
@@ -78,6 +80,11 @@ function App() {
                 path={USER_VIEW_ADMIN_LINK}
                 element={<EmployeeDirectory />}
               />
+            </Route>
+            <Route
+              element={<PrivateRoute allowedAuthRole={AUTH_ROLES.MANAGER} />}
+            >
+              <Route path={DASHBOARD_VIEW_MANAGER_LINK} element={<ManagerDashboard />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Route>

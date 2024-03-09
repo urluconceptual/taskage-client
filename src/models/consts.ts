@@ -1,10 +1,17 @@
 export const LOGIN_LINK = "/login";
 export const ADMIN_LINK = "/admin";
+export const MANAGER_LINK = "/manager";
 export const TEAM_VIEW_ADMIN_LINK = `${ADMIN_LINK}/teams`;
 export const USER_VIEW_ADMIN_LINK = `${ADMIN_LINK}/users`;
+export const DASHBOARD_VIEW_MANAGER_LINK = `${MANAGER_LINK}/dashboard`;
 
 export const UNAUTHORIZED_ACCESS_LINK = "/unauthorized-access";
 export const NOT_AUTHENTICATED_LINK = "/not-authenticated";
+
+export const REDIRECT_AFTER_LOGIN = {
+  "ROLE_ADMIN": USER_VIEW_ADMIN_LINK,
+  "ROLE_MANAGER": DASHBOARD_VIEW_MANAGER_LINK
+};
 
 export const AUTH_ROLES = {
   ADMIN: "ROLE_ADMIN",
@@ -33,3 +40,5 @@ export const CORE_BASE_URL = "http://localhost:8080";
 export const USERS_API_URL = `${CORE_BASE_URL}/users`;
 export const TEAMS_API_URL = `${CORE_BASE_URL}/teams`;
 export const JOBTITLES_API_URL = `${CORE_BASE_URL}/jobTitles`;
+export const SPRINTS_API_URL = `${CORE_BASE_URL}/sprints`;
+export const DICTIONARIES_API_URL = `${CORE_BASE_URL}/dictionary`;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { TEAMS_API_URL } from "../models/consts";
 import { message } from "antd";
 import { userStore } from "./UserStore";
+import { Sprint } from "./SprintStore";
 
 export interface Team {
   id: number;
