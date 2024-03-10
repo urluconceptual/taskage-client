@@ -3,10 +3,19 @@ import { makeObservable, observable, action } from "mobx";
 import { SPRINTS_API_URL } from "../models/consts";
 import { message } from "antd";
 
+export interface Task {
+  id: number;
+  name: string;
+  description: string;
+  statusId: number;
+  priorityId: number;
+  assigneeId: number;
+}
 export interface Sprint {
   id: number;
   startDate: string;
   endDate: string;
+  tasks: Task[];
 }
 
 class SprintStore {
@@ -22,6 +31,7 @@ class SprintStore {
     axios
       .get(`${SPRINTS_API_URL}/getAllForTeam/${teamId}`)
       .then((res) => {
+        console.log(res.data);
         switch (res.status) {
           case 200:
             this.allSprints = res.data;

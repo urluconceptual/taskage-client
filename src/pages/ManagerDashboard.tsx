@@ -1,14 +1,8 @@
 import { Card } from "antd";
-import React, { useEffect } from "react";
-import { teamStore } from "../stores/TeamStore";
-import { userStore } from "../stores/UserStore";
+import React from "react";
 import { SprintDashboard } from "../components/SprintDashboard/SprintDashboard";
 
 export const ManagerDashboard = () => {
-  useEffect(() => {
-    console.log(userStore.currentUser);
-  });
-
   const renderTitle = () => {
     return (
       <div
