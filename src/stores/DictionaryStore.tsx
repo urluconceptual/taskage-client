@@ -3,8 +3,8 @@ import { makeObservable, observable, action } from "mobx";
 import { DICTIONARIES_API_URL } from "../models/consts";
 
 class DictionaryStore {
-  statusDictionary = {};
-  priorityDictionary = {};
+  statusDictionary : {[key : number] : string} = {};
+  priorityDictionary : {[key : number] : string} = {};
 
   constructor() {
     makeObservable(this, {
@@ -17,6 +17,7 @@ class DictionaryStore {
 
   getStatusDictionary = () => {
     axios.get(`${DICTIONARIES_API_URL}/getStatuses`).then((res) => {
+      console.log(res.data);
       this.statusDictionary = res.data;
     });
   };

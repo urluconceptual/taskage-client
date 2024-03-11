@@ -21,7 +21,6 @@ export const EditTeamDrawer = ({
 
   const handleEditTeamForm = (teamRequestObj: TeamRequestObj) => {
     teamRequestObj.id = team.id;
-    console.log(teamRequestObj);
     teamRequestObj.teamMemberIds.push(teamRequestObj.teamLeadId);
     teamStore.updateTeam(teamRequestObj);
     form.resetFields();

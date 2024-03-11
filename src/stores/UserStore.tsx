@@ -66,6 +66,7 @@ class UserStore {
       getAll: action,
       automaticLogIn: action,
       automaticLogInWaiting: observable,
+      getAllForTeam: action,
     });
   }
 
@@ -251,6 +252,30 @@ class UserStore {
         message.error("General client error. Contact your admin.");
       });
   };
+
+  getAllForTeam = (teamId: number) => {
+    axios
+      .get(`${USERS_API_URL}/getAllForTeam/${teamId}`)
+      .then((res) => {
+        switch (res.status) {
+          case 200:
+            this.allUsers = res.data;
+            break;
+          case 400:
+            message.error("Bad request. Contact your admin.");
+            break;
+          case 401:
+            message.error("Unauthorized. Log in to access.");
+            break;
+          case 403:
+            message.error("General core error. Contact your admin.");
+            break;
+        }
+      })
+      .catch((err) => {
+        message.error("General client error. Contact your admin.");
+      });
+  }
 }
 
 export const userStore = new UserStore();

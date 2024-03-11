@@ -51,7 +51,7 @@ const CustomHeader = () => {
               selectedKeys={[location.pathname]}
             >
               <Menu.Item key={DASHBOARD_VIEW_MANAGER_LINK}>
-                <Link to={DASHBOARD_VIEW_MANAGER_LINK}>Team Manager</Link>
+                <Link to={DASHBOARD_VIEW_MANAGER_LINK}>Sprint Dashboard</Link>
               </Menu.Item>
             </Menu>
             <Button onClick={handleLogOutClick}>Log Out</Button>
