@@ -1,8 +1,9 @@
 import { makeObservable, observable, action, computed } from "mobx";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import { USERS_API_URL } from "../models/consts";
 import { message } from "antd";
 import { JobTitle } from "./JobTitleStore";
+import { handleAxiosError } from "../utils/ErrorHandler";
 
 export enum UserDrawerMode {
   EDIT = "edit",
@@ -80,31 +81,17 @@ class UserStore {
     await instance
       .post(`${USERS_API_URL}/login`, logInRequestObj)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            this.currentUser = res.data;
-            localStorage.setItem(
-              "authenticated_user",
-              JSON.stringify(this.currentUser!),
-            );
-            axios.defaults.headers.common["Authorization"] =
-              `Bearer ${this.currentUser!.token}`;
-            message.success(`Authenticated as ${logInRequestObj.username}.`);
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-          case 404:
-            message.error("Incorrect username or password.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        this.currentUser = res.data;
+        localStorage.setItem(
+          "authenticated_user",
+          JSON.stringify(this.currentUser!),
+        );
+        axios.defaults.headers.common["Authorization"] =
+          `Bearer ${this.currentUser!.token}`;
+        message.success(`Authenticated as ${logInRequestObj.username}.`);
       })
       .catch((err) => {
-        message.error("General client error. Contact your admin.");
+        handleAxiosError(err);
       });
   };
 
@@ -112,23 +99,11 @@ class UserStore {
     axios
       .get(`${USERS_API_URL}/getAll`)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            this.allUsers = res.data;
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-            message.error("Unauthorized. Log in to access.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        this.allUsers = res.data;
       })
-      .catch((err) => {
-        message.error("General client error. Contact your admin.");
+      .catch((err: AxiosError) => {
+        console.log(err.response?.status);
+        handleAxiosError(err);
       });
   };
 
@@ -185,23 +160,10 @@ class UserStore {
     await axios
       .post(`${USERS_API_URL}/register`, userRequestObj)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            message.success("User added.");
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-            message.error("Unauthorized. Log in to access.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        message.success("User added.");
       })
-      .catch((err) => {
-        message.error("General client error. Contact your admin.");
+      .catch((err: AxiosError) => {
+        handleAxiosError(err);
       });
   };
 
@@ -209,23 +171,10 @@ class UserStore {
     await axios
       .post(`${USERS_API_URL}/update`, userRequestObj)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            message.success("User edited.");
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-            message.error("Unauthorized. Log in to access.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        message.success("User edited.");
       })
-      .catch((err) => {
-        message.error("General client error. Contact your admin.");
+      .catch((err: AxiosError) => {
+        handleAxiosError(err);
       });
   };
 
@@ -233,23 +182,10 @@ class UserStore {
     await axios
       .delete(`${USERS_API_URL}/delete/${userId}`)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            message.success("User deleted.");
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-            message.error("Unauthorized. Log in to access.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        message.success("User deleted.");
       })
       .catch((err) => {
-        message.error("General client error. Contact your admin.");
+        handleAxiosError(err);
       });
   };
 
@@ -257,23 +193,10 @@ class UserStore {
     axios
       .get(`${USERS_API_URL}/getAllForTeam/${teamId}`)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            this.allUsers = res.data;
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-            message.error("Unauthorized. Log in to access.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        this.allUsers = res.data;
       })
       .catch((err) => {
-        message.error("General client error. Contact your admin.");
+        handleAxiosError(err);
       });
   }
 }

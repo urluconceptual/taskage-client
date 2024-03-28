@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Sprint, sprintStore } from "../../stores/SprintStore";
 import { userStore } from "../../stores/UserStore";
-import { Button, Card, Dropdown, MenuProps, Space, Tag } from "antd";
+import { Button, Card, DatePicker, DatePickerProps, Dropdown, MenuProps, Modal, Space, Tag } from "antd";
 import { observer } from "mobx-react";
 import { STYLESHEET_LIGHT } from "../../models/consts";
 import { dictionaryStore } from "../../stores/DictionaryStore";
+import { AddSprintModal } from "./AddSprintModal";
 
 export const SprintDashboard = observer(() => {
   const [datasource, setDatasource] = useState<Sprint[]>([]);
@@ -27,19 +28,23 @@ export const SprintDashboard = observer(() => {
     return date ? new Date(date).toLocaleDateString() : "";
   };
 
-  const menuItems: MenuProps["items"] =
+  const sprintDatasourceToDropdownContent = (datasource: Sprint[]) => {
+    return datasource.map((sprint) => {
+      return {
+        key: sprint.id,
+        label: `Sprint ${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`,
+        onClick: () => setSelectedSprint(sprint),
+      };
+    });
+  };
+
+  const sprintMenuItems: MenuProps["items"] =
     datasource !== null
-      ? datasource.map((sprint) => {
-          return {
-            key: sprint.id,
-            label: `Sprint ${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`,
-            onClick: () => setSelectedSprint(sprint),
-          };
-        })
+      ? sprintDatasourceToDropdownContent(datasource)
       : [];
 
-  const menuProps = {
-    items: menuItems,
+  const sprintMenuProps = {
+    items: sprintMenuItems,
   };
 
   const renderStatusColumns = () => {
@@ -58,25 +63,46 @@ export const SprintDashboard = observer(() => {
                   width: `${100 / numberOfColumns - 1}%`,
                 }}
               >
-                {selectedSprint?.tasks.filter(task => String(task.statusId) === key).map((task) => {
-                  return (
-                    <Card.Grid
-                      style={{
-                        backgroundColor: STYLESHEET_LIGHT.backgroundColor,
-                        width: "100%",
-                        margin: 5
-                      }}
-                      hoverable={true}
-                    >
-                      {task.name}
-                      <Tag style={{ float: "right" }} color="blue">
-                        {dictionaryStore.priorityDictionary[task.priorityId]}</Tag>
-                      <Tag style={{ float: "right" }} color="green">
-                        {userStore.userDictionary[task.assigneeId].userLabel} </Tag>
-                      
-                    </Card.Grid>
-                  );
-                })}
+                {selectedSprint?.tasks
+                  .filter((task) => String(task.statusId) === key)
+                  .map((task) => {
+                    return (
+                      <Card.Grid
+                        style={{
+                          backgroundColor: STYLESHEET_LIGHT.backgroundColor,
+                          width: "100%",
+                          margin: 5,
+                        }}
+                        hoverable={true}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginBottom: 5,
+                          }}
+                        >
+                          <span>{task.name}</span>
+                          <span>{`${task.progress}/${task.estimation}h`}</span>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <Tag style={{margin: 0}} color="blue">
+                              {
+                                dictionaryStore.priorityDictionary[
+                                  task.priorityId
+                                ]
+                              }
+                            </Tag>
+                            <Tag style={{margin: 0}} color="green">
+                              {
+                                userStore.userDictionary[task.assigneeId]
+                                  .userLabel
+                              }
+                            </Tag>
+                          </div>
+                      </Card.Grid>
+                    );
+                  })}
               </Card>
             );
           }
@@ -96,11 +122,15 @@ export const SprintDashboard = observer(() => {
       >
         <Space>
           <Space.Compact>
-            <Dropdown.Button menu={menuProps}>
-              {`Sprint ${formatDate(selectedSprint?.startDate)} - ${formatDate(selectedSprint?.endDate)}`}
-            </Dropdown.Button>
+            <Dropdown menu={sprintMenuProps}>
+              <Button>
+                {`Sprint ${formatDate(selectedSprint?.startDate)} - ${formatDate(selectedSprint?.endDate)}`}
+              </Button>
+            </Dropdown>
+            <AddSprintModal lastSprintEndDate={datasource[0]?.endDate}/>
           </Space.Compact>
         </Space>
+
       </div>
       <div
         style={{

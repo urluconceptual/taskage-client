@@ -17,7 +17,6 @@ class DictionaryStore {
 
   getStatusDictionary = () => {
     axios.get(`${DICTIONARIES_API_URL}/getStatuses`).then((res) => {
-      console.log(res.data);
       this.statusDictionary = res.data;
     });
   };
