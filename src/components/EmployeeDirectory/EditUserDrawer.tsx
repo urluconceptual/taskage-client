@@ -1,7 +1,6 @@
 import { observer } from "mobx-react";
 import {
   User,
-  UserDrawerMode,
   UserRequestObj,
   userStore,
 } from "../../stores/UserStore";

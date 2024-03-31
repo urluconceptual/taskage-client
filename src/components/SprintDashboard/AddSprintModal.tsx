@@ -14,12 +14,11 @@ export const AddSprintModal = observer(
     const disabledDate: DatePickerProps["disabledDate"] = (current: Dayjs) => {
       const dateOfLastSprint = Date.parse(lastSprintEndDate);
       return (
-        current && (!dateOfLastSprint || current < dayjs(dateOfLastSprint))
+        current && (!dateOfLastSprint || current.endOf('day') <= dayjs(dateOfLastSprint).endOf('day'))
       );
     };
 
     const handleAddSprint = () => {
-      console.log(selectedInterval);
       const sprintCreateRequest: SprintCreateRequest = {
         teamId: userStore.currentUser?.user.team.id!,
         startDate: selectedInterval[0],
@@ -47,7 +46,6 @@ export const AddSprintModal = observer(
               style={{ width: 400 }}
               disabledDate={disabledDate}
               onChange={(dates) => {
-                console.log(dates);
                 setSelectedInterval([dates?.[0]?.toString(), dayjs(dates?.[1]?.toString())]);
               }}
             />

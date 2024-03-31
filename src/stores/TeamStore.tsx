@@ -12,17 +12,6 @@ export interface Team {
   teamLeadId: number;
 }
 
-export enum TeamDrawerMode {
-  VIEW = "view",
-  EDIT = "edit",
-  ADD = "add",
-}
-
-export enum TeamDrawerButton {
-  VIEW = "view",
-  ADD = "add",
-}
-
 export interface TeamRequestObj {
   id?: number;
   name: string;

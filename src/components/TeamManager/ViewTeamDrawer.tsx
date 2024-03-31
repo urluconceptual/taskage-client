@@ -2,7 +2,7 @@ import { Button, Card, List } from "antd";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Team, userStore } from "../../stores/UserStore";
 import { observer } from "mobx-react";
-import { TeamDrawerMode } from "../../stores/TeamStore";
+import { TeamDrawerMode } from "../../models/ui";
 
 export const ViewTeamDrawer = observer(
   ({

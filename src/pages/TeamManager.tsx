@@ -4,12 +4,11 @@ import { Team, userStore } from "../stores/UserStore";
 import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import {
-  TeamDrawerButton,
-  TeamDrawerMode,
   teamStore,
 } from "../stores/TeamStore";
 import { observer } from "mobx-react";
 import { TeamDrawer } from "../components/TeamManager/TeamDrawer";
+import { TeamDrawerButton, TeamDrawerMode } from "../models/ui";
 
 export const TeamManager = observer(() => {
   const [dataSource, setDataSource] = useState<Team[]>();

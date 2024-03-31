@@ -4,8 +4,6 @@ import {
   userStore,
   User,
   Team,
-  UserDrawerButton,
-  UserDrawerMode,
 } from "../stores/UserStore";
 import { Button, Card, CollapseProps, Input, Space } from "antd";
 import { Collapse } from "antd";
@@ -13,6 +11,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
 import { UserDrawer } from "../components/EmployeeDirectory/UserDrawer";
 import { JobTitle } from "../stores/JobTitleStore";
+import { UserDrawerButton, UserDrawerMode } from "../models/ui";
 
 const AuthRoleLabel: { [key: string]: string } = {
   ROLE_BASIC: "BASIC",

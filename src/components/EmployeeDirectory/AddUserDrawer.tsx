@@ -14,7 +14,6 @@ export const AddUserDrawer = observer(
       jobTitleStore.allJobTitles,
     );
     const [newJobTitle, setNewJobTitle] = useState("");
-    const [authRoleIsBasic, setAuthRoleIsBasic] = useState(false);
 
     useEffect(() => {
       jobTitleStore.getAll();
@@ -58,14 +57,6 @@ export const AddUserDrawer = observer(
       closeDrawer();
     };
 
-    const handleFormValuesChange = (changedValues: any) => {
-      const fieldName = Object.keys(changedValues)[0];
-
-      if (fieldName === "authRole") {
-        const value = changedValues[fieldName];
-        setAuthRoleIsBasic(value === "ROLE_BASIC");
-      }
-    };
     return (
       <>
         <Form
@@ -76,7 +67,6 @@ export const AddUserDrawer = observer(
           wrapperCol={{ span: 16 }}
           style={{ width: "150%" }}
           autoComplete="off"
-          onValuesChange={handleFormValuesChange}
           onFinish={handleAddUserForm}
         >
           <Form.Item

@@ -5,16 +5,6 @@ import { message } from "antd";
 import { JobTitle } from "./JobTitleStore";
 import { handleAxiosError } from "../utils/ErrorHandler";
 
-export enum UserDrawerMode {
-  EDIT = "edit",
-  ADD = "add",
-}
-
-export enum UserDrawerButton {
-  EDIT = "edit",
-  ADD = "add",
-}
-
 export interface LogInRequestObj {
   username?: string;
   password?: string;
@@ -102,7 +92,6 @@ class UserStore {
         this.allUsers = res.data;
       })
       .catch((err: AxiosError) => {
-        console.log(err.response?.status);
         handleAxiosError(err);
       });
   };

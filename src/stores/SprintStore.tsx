@@ -6,7 +6,7 @@ import { handleAxiosError } from "../utils/ErrorHandler";
 
 export interface Task {
   id: number;
-  name: string;
+  title: string;
   description: string;
   statusId: number;
   estimation: number;
@@ -14,6 +14,7 @@ export interface Task {
   priorityId: number;
   assigneeId: number;
 }
+
 export interface Sprint {
   id: number;
   startDate: string;
