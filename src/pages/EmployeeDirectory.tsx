@@ -1,10 +1,6 @@
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
-import {
-  userStore,
-  User,
-  Team,
-} from "../stores/UserStore";
+import { userStore, User, Team } from "../stores/UserStore";
 import { Button, Card, CollapseProps, Input, Space } from "antd";
 import { Collapse } from "antd";
 import { SearchOutlined } from "@ant-design/icons";

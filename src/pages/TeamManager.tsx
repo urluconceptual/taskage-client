@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Team, userStore } from "../stores/UserStore";
 import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import {
-  teamStore,
-} from "../stores/TeamStore";
+import { teamStore } from "../stores/TeamStore";
 import { observer } from "mobx-react";
 import { TeamDrawer } from "../components/TeamManager/TeamDrawer";
 import { TeamDrawerButton, TeamDrawerMode } from "../models/ui";

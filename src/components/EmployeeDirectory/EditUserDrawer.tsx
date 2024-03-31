@@ -1,9 +1,5 @@
 import { observer } from "mobx-react";
-import {
-  User,
-  UserRequestObj,
-  userStore,
-} from "../../stores/UserStore";
+import { User, UserRequestObj, userStore } from "../../stores/UserStore";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button, Divider, Form, Input, Select } from "antd";
 import { teamStore } from "../../stores/TeamStore";

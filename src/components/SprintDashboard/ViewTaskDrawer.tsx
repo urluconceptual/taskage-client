@@ -4,14 +4,7 @@ import { observer } from "mobx-react";
 import { Task } from "../../stores/SprintStore";
 
 export const ViewTaskDrawer = observer(
-  ({
-    task,
-    closeDrawer,
-  }: {
-    task: Task;
-    closeDrawer: () => void;
-  }) => {
-
+  ({ task, closeDrawer }: { task: Task; closeDrawer: () => void }) => {
     return (
       <>
         <div
@@ -20,8 +13,7 @@ export const ViewTaskDrawer = observer(
             justifyContent: "space-between",
             marginTop: 24,
           }}
-        >
-        </div>
+        ></div>
       </>
     );
   },

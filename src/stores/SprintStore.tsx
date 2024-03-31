@@ -46,7 +46,7 @@ class SprintStore {
       .catch((err: AxiosError) => {
         handleAxiosError(err);
       });
-  }
+  };
 
   getAllForTeam = (teamId: number) => {
     axios

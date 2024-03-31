@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { EyeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
 import { Team } from "../../stores/UserStore";
-import {
-  teamStore,
-} from "../../stores/TeamStore";
+import { teamStore } from "../../stores/TeamStore";
 import { AddTeamDrawer } from "./AddTeamDrawer";
 import { ViewTeamDrawer } from "./ViewTeamDrawer";
 import { EditTeamDrawer } from "./EditTeamDrawer";

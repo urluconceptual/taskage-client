@@ -66,7 +66,7 @@ export const SprintDashboard = observer(() => {
 
   const renderStatusColumns = () => {
     const numberOfColumns = Object.entries(
-      dictionaryStore.statusDictionary
+      dictionaryStore.statusDictionary,
     ).length;
     return (
       <>
@@ -79,7 +79,7 @@ export const SprintDashboard = observer(() => {
                 selectedSprint={selectedSprint!}
               />
             );
-          }
+          },
         )}
       </>
     );
@@ -95,7 +95,11 @@ export const SprintDashboard = observer(() => {
         }}
       >
         <Space>
-          <TaskDrawer task={null} button={TaskDrawerButton.ADD} mode={TaskDrawerMode.ADD} />
+          <TaskDrawer
+            task={null}
+            button={TaskDrawerButton.ADD}
+            mode={TaskDrawerMode.ADD}
+          />
           <Space.Compact>
             <Dropdown menu={sprintMenuProps}>
               <Button>

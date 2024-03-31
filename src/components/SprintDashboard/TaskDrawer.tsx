@@ -84,5 +84,5 @@ export const TaskDrawer = observer(
         </Drawer>
       </>
     );
-  }
+  },
 );

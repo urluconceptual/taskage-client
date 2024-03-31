@@ -19,7 +19,7 @@ export const TaskCard = observer(({ task }: { task: Task }) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginBottom: 5
+          marginBottom: 5,
         }}
       >
         <span>{task.title}</span>

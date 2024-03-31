@@ -1,9 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import {
-  User,
-  userStore,
-} from "../../stores/UserStore";
+import { User, userStore } from "../../stores/UserStore";
 import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Button, Drawer, Popconfirm } from "antd";

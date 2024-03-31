@@ -14,7 +14,9 @@ export const AddSprintModal = observer(
     const disabledDate: DatePickerProps["disabledDate"] = (current: Dayjs) => {
       const dateOfLastSprint = Date.parse(lastSprintEndDate);
       return (
-        current && (!dateOfLastSprint || current.endOf('day') <= dayjs(dateOfLastSprint).endOf('day'))
+        current &&
+        (!dateOfLastSprint ||
+          current.endOf("day") <= dayjs(dateOfLastSprint).endOf("day"))
       );
     };
 
@@ -46,12 +48,15 @@ export const AddSprintModal = observer(
               style={{ width: 400 }}
               disabledDate={disabledDate}
               onChange={(dates) => {
-                setSelectedInterval([dates?.[0]?.toString(), dayjs(dates?.[1]?.toString())]);
+                setSelectedInterval([
+                  dates?.[0]?.toString(),
+                  dayjs(dates?.[1]?.toString()),
+                ]);
               }}
             />
           </div>
         </Modal>
       </>
     );
-  }
+  },
 );

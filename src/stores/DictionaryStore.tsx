@@ -3,8 +3,8 @@ import { makeObservable, observable, action } from "mobx";
 import { DICTIONARIES_API_URL } from "../models/consts";
 
 class DictionaryStore {
-  statusDictionary : {[key : number] : string} = {};
-  priorityDictionary : {[key : number] : string} = {};
+  statusDictionary: { [key: number]: string } = {};
+  priorityDictionary: { [key: number]: string } = {};
 
   constructor() {
     makeObservable(this, {

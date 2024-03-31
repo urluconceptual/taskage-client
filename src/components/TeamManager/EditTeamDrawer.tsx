@@ -1,9 +1,6 @@
 import { Button, Form, Input, Select } from "antd";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import {
-  TeamRequestObj,
-  teamStore,
-} from "../../stores/TeamStore";
+import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
 import { Team, userStore } from "../../stores/UserStore";
 import { set } from "mobx";
 import { TeamDrawerMode } from "../../models/ui";

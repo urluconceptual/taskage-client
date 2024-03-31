@@ -187,7 +187,7 @@ class UserStore {
       .catch((err) => {
         handleAxiosError(err);
       });
-  }
+  };
 }
 
 export const userStore = new UserStore();
