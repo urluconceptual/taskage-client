@@ -5,7 +5,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import {
   NOT_AUTHENTICATED_LINK,
   UNAUTHORIZED_ACCESS_LINK,
-} from "../models/consts";
+} from "../utils/consts";
 import { userStore } from "../stores/UserStore";
 
 const PrivateRoute = observer(

@@ -4,7 +4,7 @@ import {
   LOGIN_LINK,
   NOT_AUTHENTICATED_LINK,
   UNAUTHORIZED_ACCESS_LINK,
-} from "../models/consts";
+} from "../utils/consts";
 import React from "react";
 
 const ErrorPage = () => {

@@ -1,8 +1,8 @@
 import { Card } from "antd";
 import { observer } from "mobx-react";
 import React from "react";
-import { STYLESHEET_LIGHT } from "../../models/consts";
-import { Sprint } from "../../stores/SprintStore";
+import { Sprint } from "../../models/Sprint";
+import { STYLESHEET_LIGHT } from "../../utils/consts";
 import { TaskCard } from "./TaskCard";
 
 interface Status {

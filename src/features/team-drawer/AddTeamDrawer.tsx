@@ -1,42 +1,24 @@
 import { Button, Form, Input, Select } from "antd";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { FORM_ITEM_STYLE, TeamDrawerMode } from "../../models/ui";
-import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
-import { Team, userStore } from "../../stores/UserStore";
+import React from "react";
+import { TeamRequestObj } from "../../models/Team";
+import { teamStore } from "../../stores/TeamStore";
+import { userStore } from "../../stores/UserStore";
+import { FORM_ITEM_STYLE } from "../../utils/ui";
 
-export const EditTeamDrawer = ({
-  closeDrawer,
-  setCurrentDrawerMode,
-  team,
-}: {
-  closeDrawer: () => void;
-  team: Team;
-  setCurrentDrawerMode: Dispatch<SetStateAction<TeamDrawerMode>>;
-}) => {
+export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
   const [form] = Form.useForm();
 
-  const handleEditTeamForm = (teamRequestObj: TeamRequestObj) => {
-    teamRequestObj.id = team.id;
+  const handleAddTeamForm = (teamRequestObj: TeamRequestObj) => {
     teamRequestObj.teamMemberIds.push(teamRequestObj.teamLeadId);
-    teamStore.updateTeam(teamRequestObj);
+    teamStore.addNewTeam(teamRequestObj);
     form.resetFields();
-    setCurrentDrawerMode(TeamDrawerMode.VIEW);
     closeDrawer();
   };
-
-  useEffect(() => {
-    userStore.getAll();
-  }, []);
 
   const filterOption = (
     input: string,
     option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
-  const handleCancelClick = () => {
-    setCurrentDrawerMode(TeamDrawerMode.VIEW);
-    closeDrawer();
-  };
 
   return (
     <>
@@ -47,7 +29,7 @@ export const EditTeamDrawer = ({
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         autoComplete="off"
-        onFinish={handleEditTeamForm}
+        onFinish={handleAddTeamForm}
       >
         <Form.Item
           label="Name"
@@ -59,7 +41,6 @@ export const EditTeamDrawer = ({
               message: "Please enter a name for the team.",
             },
           ]}
-          initialValue={team.name}
         >
           <Input style={FORM_ITEM_STYLE} />
         </Form.Item>
@@ -74,7 +55,6 @@ export const EditTeamDrawer = ({
               message: "Please select a team lead for the team.",
             },
           ]}
-          initialValue={team.teamLeadId.toString()}
         >
           <Select
             style={FORM_ITEM_STYLE}
@@ -82,9 +62,7 @@ export const EditTeamDrawer = ({
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) =>
-                  user.authRole === "ROLE_MANAGER" &&
-                  (user.team === null || user.team!.id === team.id)
+                (user) => user.authRole === "ROLE_MANAGER" && user.team === null
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -99,14 +77,6 @@ export const EditTeamDrawer = ({
           label="Team Members"
           name="teamMemberIds"
           style={{ marginBottom: 0, marginTop: 24 }}
-          initialValue={userStore.allUsers
-            .filter(
-              (user) =>
-                user.authRole === "ROLE_BASIC" &&
-                user.team &&
-                user.team!.id === team.id
-            )
-            .map((user) => user.id.toString())}
         >
           <Select
             style={FORM_ITEM_STYLE}
@@ -115,9 +85,7 @@ export const EditTeamDrawer = ({
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) =>
-                  user.authRole === "ROLE_BASIC" &&
-                  (user.team === null || user.team!.id === team.id)
+                (user) => user.authRole === "ROLE_BASIC" && user.team === null
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -137,7 +105,7 @@ export const EditTeamDrawer = ({
               width: "145%",
             }}
           >
-            <Button style={{ width: "30%" }} onClick={handleCancelClick}>
+            <Button style={{ width: "30%" }} onClick={closeDrawer}>
               Cancel
             </Button>
             <Button style={{ width: "68%" }} type="primary" htmlType="submit">

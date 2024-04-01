@@ -1,31 +1,33 @@
+import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Drawer, Popconfirm } from "antd";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { TaskDrawerButton, TaskDrawerMode } from "../../models/ui";
-import { Button, Drawer, Popconfirm } from "antd";
-import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import { AddTaskDrawer } from "./AddTaskDrawer";
-import { Task } from "../../stores/TaskStore";
+import { User } from "../../models/User";
+import { userStore } from "../../stores/UserStore";
+import { UserDrawerButton, UserDrawerMode } from "../../utils/ui";
+import { AddUserDrawer } from "./AddUserDrawer";
+import { EditUserDrawer } from "./EditUserDrawer";
 
-export const TaskDrawer = observer(
+export const UserDrawer = observer(
   ({
-    task,
+    user,
     button,
     mode,
   }: {
-    task: Task | null;
-    button: TaskDrawerButton;
-    mode: TaskDrawerMode;
+    user: User | null;
+    button: UserDrawerButton;
+    mode: UserDrawerMode;
   }) => {
     const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-    const renderButton = (button: TaskDrawerButton) => {
+    const renderButton = (button: UserDrawerButton) => {
       switch (button) {
-        case TaskDrawerButton.EDIT:
+        case UserDrawerButton.EDIT:
           return <EditOutlined />;
-        case TaskDrawerButton.ADD:
+        case UserDrawerButton.ADD:
           return (
             <Button onClick={() => setDrawerIsOpen(true)} type="primary">
-              Add Task
+              Add Employee
             </Button>
           );
       }
@@ -35,18 +37,24 @@ export const TaskDrawer = observer(
       setDrawerIsOpen(false);
     };
 
+    const handleConfirmDelete = () => {
+      userStore.deleteUser(user!.id);
+      closeDrawer();
+    };
+
     const renderTitle = () => {
       switch (mode) {
-        case TaskDrawerMode.ADD:
-          return "New Task";
+        case UserDrawerMode.ADD:
+          return "New User";
         default:
           return (
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {task?.title}
+              {`${user?.firstName} ${user?.lastName} (${user!.username})`}
               <Popconfirm
-                title="Delete this task"
-                description="Are you sure you want to delete this task? This action is irreversible."
+                title="Delete the user"
+                description="Are you sure you want to delete this user? This action is irreversible."
                 icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                onConfirm={handleConfirmDelete}
               >
                 <Button danger>Delete</Button>
               </Popconfirm>
@@ -57,10 +65,10 @@ export const TaskDrawer = observer(
 
     const renderContent = () => {
       switch (mode) {
-        case TaskDrawerMode.ADD:
-          return <AddTaskDrawer closeDrawer={closeDrawer} />;
-        default:
-          return <div>Edit Task Form</div>;
+        case UserDrawerMode.ADD:
+          return <AddUserDrawer closeDrawer={closeDrawer} />;
+        case UserDrawerMode.EDIT:
+          return <EditUserDrawer user={user!} closeDrawer={closeDrawer} />;
       }
     };
 
@@ -84,5 +92,5 @@ export const TaskDrawer = observer(
         </Drawer>
       </>
     );
-  },
+  }
 );

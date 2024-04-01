@@ -3,10 +3,12 @@ import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
-import { UserDrawer } from "../components/EmployeeDirectory/UserDrawer";
-import { UserDrawerButton, UserDrawerMode } from "../models/ui";
-import { JobTitle } from "../stores/JobTitleStore";
-import { Team, User, userStore } from "../stores/UserStore";
+import { UserDrawer } from "../features/user-drawer/UserDrawer";
+import { JobTitle } from "../models/JobTitle";
+import { Team } from "../models/Team";
+import { User } from "../models/User";
+import { userStore } from "../stores/UserStore";
+import { UserDrawerButton, UserDrawerMode } from "../utils/ui";
 
 const AuthRoleLabel: { [key: string]: string } = {
   ROLE_BASIC: "BASIC",

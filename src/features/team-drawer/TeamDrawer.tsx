@@ -1,13 +1,13 @@
-import { Button, Drawer, Form, Popconfirm } from "antd";
-import React, { useState } from "react";
 import { EyeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Drawer, Popconfirm } from "antd";
 import { observer } from "mobx-react";
-import { Team } from "../../stores/UserStore";
+import React, { useState } from "react";
+import { Team } from "../../models/Team";
 import { teamStore } from "../../stores/TeamStore";
+import { TeamDrawerButton, TeamDrawerMode } from "../../utils/ui";
 import { AddTeamDrawer } from "./AddTeamDrawer";
-import { ViewTeamDrawer } from "./ViewTeamDrawer";
 import { EditTeamDrawer } from "./EditTeamDrawer";
-import { TeamDrawerButton, TeamDrawerMode } from "../../models/ui";
+import { ViewTeamDrawer } from "./ViewTeamDrawer";
 
 export const TeamDrawer = observer(
   ({
@@ -110,5 +110,5 @@ export const TeamDrawer = observer(
         </Drawer>
       </>
     );
-  },
+  }
 );

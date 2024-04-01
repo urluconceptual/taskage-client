@@ -1,12 +1,8 @@
-import { makeObservable, observable } from "mobx";
-import { JOBTITLES_API_URL } from "../models/consts";
 import axios, { AxiosError } from "axios";
-import { handleAxiosError } from "../utils/ErrorHandler";
-
-export interface JobTitle {
-  id?: number | null;
-  name?: string | null;
-}
+import { makeObservable, observable } from "mobx";
+import { JobTitle } from "../models/JobTitle";
+import { JOBTITLES_API_URL } from "../utils/consts";
+import { handleAxiosError } from "../utils/ui";
 
 class JobTitleStore {
   allJobTitles: JobTitle[] = [];

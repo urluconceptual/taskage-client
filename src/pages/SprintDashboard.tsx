@@ -1,0 +1,98 @@
+import { Button, Card, Dropdown, MenuProps, Space } from "antd";
+import React, { useEffect, useState } from "react";
+import { TaskBoard } from "../features/task-board/TaskBoard";
+import { AddSprintModal } from "../features/task-drawer/AddSprintModal";
+import { TaskDrawer } from "../features/task-drawer/TaskDrawer";
+import { Sprint } from "../models/Sprint";
+import { dictionaryStore } from "../stores/DictionaryStore";
+import { sprintStore } from "../stores/SprintStore";
+import { userStore } from "../stores/UserStore";
+import { TaskDrawerButton, TaskDrawerMode, formatDate } from "../utils/ui";
+
+export const SprintDashboard = () => {
+  const [datasource, setDatasource] = useState<Sprint[]>([]);
+  const [selectedSprint, setSelectedSprint] = useState<Sprint>();
+
+  useEffect(() => {
+    setDatasource(sprintStore.allSprints.sort((a, b) => b.id - a.id));
+    setSelectedSprint(sprintStore.allSprints[0]);
+  }, [sprintStore.allSprints]);
+
+  useEffect(() => {
+    let teamId = userStore.currentUser?.user.team.id!;
+    sprintStore.getAllForTeam(teamId);
+    userStore.getAllForTeam(teamId);
+    dictionaryStore.getPriorityDictionary();
+    dictionaryStore.getStatusDictionary();
+  }, []);
+
+  const sprintDatasourceToDropdownContent = (datasource: Sprint[]) => {
+    return datasource.map((sprint) => {
+      return {
+        key: sprint.id,
+        label: `Sprint ${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`,
+        onClick: () => setSelectedSprint(sprint),
+      };
+    });
+  };
+
+  const sprintMenuItems: MenuProps["items"] =
+    datasource !== null ? sprintDatasourceToDropdownContent(datasource) : [];
+
+  const sprintMenuProps = {
+    items: sprintMenuItems,
+  };
+
+  const renderTitle = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2>Sprint Dashboard</h2>
+      </div>
+    );
+  };
+
+  return (
+    <div
+      style={{
+        width: 1200,
+        marginTop: 20,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Card title={renderTitle()} style={{ width: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            marginBottom: 20,
+          }}
+        >
+          <Space>
+            <TaskDrawer
+              task={null}
+              button={TaskDrawerButton.ADD}
+              mode={TaskDrawerMode.ADD}
+            />
+            <Space.Compact>
+              <Dropdown menu={sprintMenuProps}>
+                <Button>
+                  {`Sprint ${formatDate(selectedSprint?.startDate)} - ${formatDate(selectedSprint?.endDate)}`}
+                </Button>
+              </Dropdown>
+              <AddSprintModal lastSprintEndDate={datasource[0]?.endDate} />
+            </Space.Compact>
+          </Space>
+        </div>
+        <TaskBoard selectedSprint={selectedSprint} />
+      </Card>
+    </div>
+  );
+};

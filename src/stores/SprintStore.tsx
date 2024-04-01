@@ -1,21 +1,9 @@
-import axios, { AxiosError } from "axios";
-import { makeObservable, observable, action, computed } from "mobx";
-import { SPRINTS_API_URL } from "../models/consts";
 import { message } from "antd";
-import { handleAxiosError } from "../utils/ErrorHandler";
-import { formatDate } from "../models/ui";
-import { Task } from "./TaskStore";
-
-export interface Sprint {
-  id: number;
-  startDate: string;
-  endDate: string;
-  tasks: Task[];
-}
-
-export interface SprintCreateRequest extends Omit<Sprint, "id" | "tasks"> {
-  teamId: number;
-}
+import axios, { AxiosError } from "axios";
+import { action, computed, makeObservable, observable } from "mobx";
+import { Sprint, SprintCreateRequest } from "../models/Sprint";
+import { SPRINTS_API_URL } from "../utils/consts";
+import { formatDate, handleAxiosError } from "../utils/ui";
 
 class SprintStore {
   allSprints: Sprint[] = [];

@@ -9,7 +9,7 @@ import {
   STYLESHEET_LIGHT,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
-} from "../models/consts";
+} from "../utils/consts";
 import { Button, Menu } from "antd";
 import { userStore } from "../stores/UserStore";
 

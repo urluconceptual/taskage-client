@@ -1,22 +1,10 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { action, makeObservable, observable } from "mobx";
-import { TEAMS_API_URL } from "../models/consts";
-import { handleAxiosError } from "../utils/ErrorHandler";
+import { Team, TeamRequestObj } from "../models/Team";
+import { TEAMS_API_URL } from "../utils/consts";
+import { handleAxiosError } from "../utils/ui";
 import { userStore } from "./UserStore";
-
-export interface Team {
-  id: number;
-  name: string;
-  teamLeadId: number;
-}
-
-export interface TeamRequestObj {
-  id?: number;
-  name: string;
-  teamLeadId: number;
-  teamMemberIds: number[];
-}
 
 class TeamStore {
   allTeams: Team[] = [];

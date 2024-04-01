@@ -1,45 +1,14 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { action, computed, makeObservable, observable } from "mobx";
-import { USERS_API_URL } from "../models/consts";
-import { handleAxiosError } from "../utils/ErrorHandler";
-import { JobTitle } from "./JobTitleStore";
-
-export interface LogInRequestObj {
-  username?: string;
-  password?: string;
-}
-
-export interface CurrentUser {
-  user: User;
-  token: string;
-}
-
-export interface Team {
-  id: number;
-  name: string;
-  teamLeadId: number;
-}
-
-export interface User {
-  id: number;
-  username: string;
-  firstName: string;
-  lastName: string;
-  authRole: string;
-  jobTitle: JobTitle;
-  team: Team;
-}
-
-export interface UserRequestObj {
-  id?: number;
-  username: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  authRole: string;
-  jobTitle: JobTitle;
-}
+import {
+  CurrentUser,
+  LogInRequestObj,
+  User,
+  UserRequestObj,
+} from "../models/User";
+import { USERS_API_URL } from "../utils/consts";
+import { handleAxiosError } from "../utils/ui";
 
 class UserStore {
   currentUser: CurrentUser | null = null;

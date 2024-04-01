@@ -1,14 +1,15 @@
-import { Button, Divider, Form, Input } from "antd";
-import React from "react";
 import {
-  UserOutlined,
-  EyeOutlined,
   EyeInvisibleOutlined,
+  EyeOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { LogInRequestObj, userStore } from "../stores/UserStore";
+import { Button, Divider, Form, Input } from "antd";
 import { observer } from "mobx-react";
+import React from "react";
 import { useNavigate } from "react-router";
-import { REDIRECT_AFTER_LOGIN } from "../models/consts";
+import { LogInRequestObj } from "../models/User";
+import { userStore } from "../stores/UserStore";
+import { REDIRECT_AFTER_LOGIN } from "../utils/consts";
 
 export const LoginForm = observer(() => {
   const navigate = useNavigate();

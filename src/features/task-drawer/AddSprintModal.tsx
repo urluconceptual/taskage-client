@@ -2,7 +2,8 @@ import { Button, DatePicker, DatePickerProps, Modal } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { SprintCreateRequest, sprintStore } from "../../stores/SprintStore";
+import { SprintCreateRequest } from "../../models/Sprint";
+import { sprintStore } from "../../stores/SprintStore";
 import { userStore } from "../../stores/UserStore";
 
 export const AddSprintModal = observer(

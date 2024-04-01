@@ -1,6 +1,6 @@
 import axios from "axios";
 import { makeObservable, observable, action, computed } from "mobx";
-import { DICTIONARIES_API_URL } from "../models/consts";
+import { DICTIONARIES_API_URL } from "../utils/consts";
 
 class DictionaryStore {
   statusDictionary: { [key: number]: string } = {};

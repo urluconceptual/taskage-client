@@ -2,11 +2,12 @@ import { Button, Form, Input, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { observer } from "mobx-react";
 import React from "react";
-import { FORM_ITEM_STYLE } from "../../models/ui";
+import { Task } from "../../models/Task";
 import { dictionaryStore } from "../../stores/DictionaryStore";
 import { sprintStore } from "../../stores/SprintStore";
-import { Task, taskStore } from "../../stores/TaskStore";
+import { taskStore } from "../../stores/TaskStore";
 import { userStore } from "../../stores/UserStore";
+import { FORM_ITEM_STYLE } from "../../utils/ui";
 
 export const AddTaskDrawer = observer(
   ({ closeDrawer }: { closeDrawer: () => void }) => {

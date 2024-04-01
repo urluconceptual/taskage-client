@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { Task } from "../../stores/TaskStore";
+import { Task } from "../../models/Task";
 
 export const ViewTaskDrawer = observer(
   ({ task, closeDrawer }: { task: Task; closeDrawer: () => void }) => {

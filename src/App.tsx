@@ -14,16 +14,16 @@ import {
   LOGIN_LINK,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
-} from "./models/consts";
-import { LIGHT_THEME } from "./models/ui";
+} from "./utils/consts";
+import { LIGHT_THEME } from "./utils/ui";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { EmployeeDirectory } from "./pages/EmployeeDirectory";
 import ErrorPage from "./pages/Error";
 import { Login } from "./pages/Login";
-import { ManagerDashboard } from "./pages/ManagerDashboard";
+import { SprintDashboard } from "./pages/SprintDashboard";
 import RootLayout from "./pages/Root";
 import { TeamManager } from "./pages/TeamManager";
-import PrivateRoute from "./utils/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -48,7 +48,7 @@ function App() {
             >
               <Route
                 path={DASHBOARD_VIEW_MANAGER_LINK}
-                element={<ManagerDashboard />}
+                element={<SprintDashboard />}
               />
             </Route>
             <Route path="*" element={<ErrorPage />} />

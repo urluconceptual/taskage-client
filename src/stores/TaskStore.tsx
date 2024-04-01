@@ -1,20 +1,10 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { action, makeObservable } from "mobx";
-import { TASKS_API_URL } from "../models/consts";
-import { handleAxiosError } from "../utils/ErrorHandler";
+import { Task } from "../models/Task";
+import { TASKS_API_URL } from "../utils/consts";
+import { handleAxiosError } from "../utils/ui";
 import { sprintStore } from "./SprintStore";
-
-export interface Task {
-  id: number;
-  title: string;
-  description: string;
-  statusId: number;
-  estimation: number;
-  progress: number;
-  priorityId: number;
-  assigneeId: number;
-}
 
 class TaskStore {
   constructor() {

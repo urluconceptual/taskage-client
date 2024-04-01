@@ -1,23 +1,43 @@
 import { Button, Form, Input, Select } from "antd";
-import React from "react";
-import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { Team, TeamRequestObj } from "../../models/Team";
+import { teamStore } from "../../stores/TeamStore";
 import { userStore } from "../../stores/UserStore";
-import { FORM_ITEM_STYLE } from "../../models/ui";
+import { FORM_ITEM_STYLE, TeamDrawerMode } from "../../utils/ui";
 
-export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
+export const EditTeamDrawer = ({
+  closeDrawer,
+  setCurrentDrawerMode,
+  team,
+}: {
+  closeDrawer: () => void;
+  team: Team;
+  setCurrentDrawerMode: Dispatch<SetStateAction<TeamDrawerMode>>;
+}) => {
   const [form] = Form.useForm();
 
-  const handleAddTeamForm = (teamRequestObj: TeamRequestObj) => {
+  const handleEditTeamForm = (teamRequestObj: TeamRequestObj) => {
+    teamRequestObj.id = team.id;
     teamRequestObj.teamMemberIds.push(teamRequestObj.teamLeadId);
-    teamStore.addNewTeam(teamRequestObj);
+    teamStore.updateTeam(teamRequestObj);
     form.resetFields();
+    setCurrentDrawerMode(TeamDrawerMode.VIEW);
     closeDrawer();
   };
 
+  useEffect(() => {
+    userStore.getAll();
+  }, []);
+
   const filterOption = (
     input: string,
-    option?: { label: string; value: string },
+    option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const handleCancelClick = () => {
+    setCurrentDrawerMode(TeamDrawerMode.VIEW);
+    closeDrawer();
+  };
 
   return (
     <>
@@ -28,7 +48,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         autoComplete="off"
-        onFinish={handleAddTeamForm}
+        onFinish={handleEditTeamForm}
       >
         <Form.Item
           label="Name"
@@ -40,6 +60,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
               message: "Please enter a name for the team.",
             },
           ]}
+          initialValue={team.name}
         >
           <Input style={FORM_ITEM_STYLE} />
         </Form.Item>
@@ -54,6 +75,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
               message: "Please select a team lead for the team.",
             },
           ]}
+          initialValue={team.teamLeadId.toString()}
         >
           <Select
             style={FORM_ITEM_STYLE}
@@ -62,7 +84,8 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
             options={userStore.allUsers
               .filter(
                 (user) =>
-                  user.authRole === "ROLE_MANAGER" && user.team === null,
+                  user.authRole === "ROLE_MANAGER" &&
+                  (user.team === null || user.team!.id === team.id)
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -77,6 +100,14 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
           label="Team Members"
           name="teamMemberIds"
           style={{ marginBottom: 0, marginTop: 24 }}
+          initialValue={userStore.allUsers
+            .filter(
+              (user) =>
+                user.authRole === "ROLE_BASIC" &&
+                user.team &&
+                user.team!.id === team.id
+            )
+            .map((user) => user.id.toString())}
         >
           <Select
             style={FORM_ITEM_STYLE}
@@ -85,7 +116,9 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) => user.authRole === "ROLE_BASIC" && user.team === null,
+                (user) =>
+                  user.authRole === "ROLE_BASIC" &&
+                  (user.team === null || user.team!.id === team.id)
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -105,7 +138,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
               width: "145%",
             }}
           >
-            <Button style={{ width: "30%" }} onClick={closeDrawer}>
+            <Button style={{ width: "30%" }} onClick={handleCancelClick}>
               Cancel
             </Button>
             <Button style={{ width: "68%" }} type="primary" htmlType="submit">
