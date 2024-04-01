@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
 import { Team, userStore } from "../../stores/UserStore";
 import { set } from "mobx";
-import { TeamDrawerMode } from "../../models/ui";
+import { FORM_ITEM_STYLE, TeamDrawerMode } from "../../models/ui";
 
 export const EditTeamDrawer = ({
   closeDrawer,
@@ -31,7 +31,7 @@ export const EditTeamDrawer = ({
 
   const filterOption = (
     input: string,
-    option?: { label: string; value: string },
+    option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   const handleCancelClick = () => {
@@ -47,7 +47,6 @@ export const EditTeamDrawer = ({
         layout="vertical"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        style={{ width: "150%" }}
         autoComplete="off"
         onFinish={handleEditTeamForm}
       >
@@ -63,7 +62,7 @@ export const EditTeamDrawer = ({
           ]}
           initialValue={team.name}
         >
-          <Input />
+          <Input style={FORM_ITEM_STYLE} />
         </Form.Item>
         <span style={{ fontSize: 11 }}>Has to be unique.</span>
         <Form.Item
@@ -79,13 +78,14 @@ export const EditTeamDrawer = ({
           initialValue={team.teamLeadId.toString()}
         >
           <Select
+            style={FORM_ITEM_STYLE}
             showSearch
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
                 (user) =>
                   user.authRole === "ROLE_MANAGER" &&
-                  (user.team === null || user.team!.id === team.id),
+                  (user.team === null || user.team!.id === team.id)
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -105,11 +105,12 @@ export const EditTeamDrawer = ({
               (user) =>
                 user.authRole === "ROLE_BASIC" &&
                 user.team &&
-                user.team!.id === team.id,
+                user.team!.id === team.id
             )
             .map((user) => user.id.toString())}
         >
           <Select
+            style={FORM_ITEM_STYLE}
             showSearch
             mode="multiple"
             filterOption={filterOption}
@@ -117,7 +118,7 @@ export const EditTeamDrawer = ({
               .filter(
                 (user) =>
                   user.authRole === "ROLE_BASIC" &&
-                  (user.team === null || user.team!.id === team.id),
+                  (user.team === null || user.team!.id === team.id)
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -134,6 +135,7 @@ export const EditTeamDrawer = ({
               display: "flex",
               justifyContent: "space-between",
               marginTop: 24,
+              width: "145%",
             }}
           >
             <Button style={{ width: "30%" }} onClick={handleCancelClick}>

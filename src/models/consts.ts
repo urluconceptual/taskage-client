@@ -34,6 +34,7 @@ export const STYLESHEET_LIGHT = {
   colorTextTransparent: "#6D87AD",
   accentColor: "#48BB78",
   colorBorder: "#C2DCE5",
+  canvasColor: "#EAF3F6"
 };
 
 export const CORE_BASE_URL = "http://localhost:8080";
@@ -42,3 +43,5 @@ export const TEAMS_API_URL = `${CORE_BASE_URL}/teams`;
 export const JOBTITLES_API_URL = `${CORE_BASE_URL}/jobTitles`;
 export const SPRINTS_API_URL = `${CORE_BASE_URL}/sprints`;
 export const DICTIONARIES_API_URL = `${CORE_BASE_URL}/dictionary`;
+export const TASKS_API_URL = `${CORE_BASE_URL}/tasks`;
+

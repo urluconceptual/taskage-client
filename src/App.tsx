@@ -24,47 +24,12 @@ import { TeamManager } from "./pages/TeamManager";
 import PrivateRoute from "./utils/PrivateRoute";
 import ErrorPage from "./pages/Error";
 import { ManagerDashboard } from "./pages/ManagerDashboard";
+import { LIGHT_THEME } from "./models/ui";
 
 function App() {
   return (
     <ConfigProvider
-      theme={{
-        components: {
-          Layout: {
-            headerBg: STYLESHEET_LIGHT.headerBg,
-            fontFamily: STYLESHEET_LIGHT.logoFontFamily,
-          },
-          Menu: {
-            colorBgContainer: STYLESHEET_LIGHT.headerBg,
-            colorText: STYLESHEET_LIGHT.headerTextColor,
-            horizontalItemHoverColor: STYLESHEET_LIGHT.headerTextColor,
-            horizontalItemSelectedColor: STYLESHEET_LIGHT.headerTextColor,
-          },
-          Table: {
-            borderColor: STYLESHEET_LIGHT.colorTextTransparent,
-            headerSplitColor: STYLESHEET_LIGHT.colorTextTransparent,
-            headerBg: STYLESHEET_LIGHT.colorSecondaryTransparent,
-          },
-          Input: {
-            colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
-            hoverBorderColor: STYLESHEET_LIGHT.colorText,
-            activeBorderColor: STYLESHEET_LIGHT.colorText,
-          },
-          Select: {
-            colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
-          },
-          Card: {
-            colorBorderSecondary: STYLESHEET_LIGHT.colorBorder,
-          },
-        },
-        token: {
-          colorPrimary: STYLESHEET_LIGHT.colorPrimary,
-          colorError: STYLESHEET_LIGHT.colorErrorText,
-          fontFamily: STYLESHEET_LIGHT.fontFamily,
-          colorText: STYLESHEET_LIGHT.colorText,
-          colorBgBase: STYLESHEET_LIGHT.backgroundColor,
-        },
-      }}
+      theme={LIGHT_THEME}
     >
       <Router>
         <Routes>

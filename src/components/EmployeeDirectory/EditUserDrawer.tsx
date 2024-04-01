@@ -6,12 +6,13 @@ import { teamStore } from "../../stores/TeamStore";
 import { STYLESHEET_LIGHT } from "../../models/consts";
 import { PlusOutlined } from "@ant-design/icons";
 import { jobTitleStore } from "../../stores/JobTitleStore";
+import { FORM_ITEM_STYLE } from "../../models/ui";
 
 export const EditUserDrawer = observer(
   ({ user, closeDrawer }: { user: User; closeDrawer: () => void }) => {
     const [form] = Form.useForm();
     const [jobTitleDataSource, setJobTitleDataSource] = useState(
-      jobTitleStore.allJobTitles,
+      jobTitleStore.allJobTitles
     );
     const [newJobTitle, setNewJobTitle] = useState("");
 
@@ -26,7 +27,7 @@ export const EditUserDrawer = observer(
 
     const filterOption = (
       input: string,
-      option?: { label: string; value: string },
+      option?: { label: string; value: string }
     ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const addJobTitle = () => {
@@ -66,7 +67,6 @@ export const EditUserDrawer = observer(
           layout="vertical"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          style={{ width: "150%" }}
           autoComplete="off"
           onFinish={handleEditUserForm}
         >
@@ -82,7 +82,7 @@ export const EditUserDrawer = observer(
             ]}
             initialValue={user.username}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <span style={{ fontSize: 11 }}>Has to be unique.</span>
           <Form.Item
@@ -97,7 +97,7 @@ export const EditUserDrawer = observer(
             ]}
             initialValue={user.firstName}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Last Name"
@@ -111,14 +111,14 @@ export const EditUserDrawer = observer(
             ]}
             initialValue={user.lastName}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Password"
             name={"password"}
             style={{ marginBottom: 0, marginTop: 24 }}
           >
-            <Input type="password" />
+            <Input type="password" style={FORM_ITEM_STYLE} />
           </Form.Item>
           <span style={{ fontSize: 11 }}>
             Current password is not displayed. Fill in for new password.
@@ -135,7 +135,7 @@ export const EditUserDrawer = observer(
             ]}
             initialValue={user.authRole}
           >
-            <Select>
+            <Select style={FORM_ITEM_STYLE}>
               <Select.Option value="ROLE_BASIC">BASIC</Select.Option>
               <Select.Option value="ROLE_MANAGER">MANAGER</Select.Option>
             </Select>
@@ -154,6 +154,7 @@ export const EditUserDrawer = observer(
           >
             <Select
               showSearch
+              style={FORM_ITEM_STYLE}
               filterOption={filterOption}
               options={jobTitleDataSource.map((jobTitle) => ({
                 label: jobTitle.name!,
@@ -192,6 +193,7 @@ export const EditUserDrawer = observer(
                 display: "flex",
                 justifyContent: "space-between",
                 marginTop: 24,
+                width: "145%",
               }}
             >
               <Button style={{ width: "30%" }} onClick={closeDrawer}>
@@ -205,5 +207,5 @@ export const EditUserDrawer = observer(
         </Form>
       </>
     );
-  },
+  }
 );

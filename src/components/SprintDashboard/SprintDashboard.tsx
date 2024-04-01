@@ -18,7 +18,7 @@ import { AddSprintModal } from "./AddSprintModal";
 import { TaskSection } from "./TaskSection";
 import { AddTaskDrawer } from "./AddTaskDrawer";
 import { TaskDrawer } from "./TaskDrawer";
-import { TaskDrawerButton, TaskDrawerMode } from "../../models/ui";
+import { TaskDrawerButton, TaskDrawerMode, formatDate } from "../../models/ui";
 
 export const SprintDashboard = observer(() => {
   const [datasource, setDatasource] = useState<Sprint[]>([]);
@@ -36,16 +36,6 @@ export const SprintDashboard = observer(() => {
     dictionaryStore.getPriorityDictionary();
     dictionaryStore.getStatusDictionary();
   }, []);
-
-  const formatDate = (date: string | undefined) => {
-    if (!date) return "";
-    const dateObj = new Date(date);
-    var day = ("0" + dateObj.getDate()).slice(-2);
-    var month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-    var year = dateObj.getFullYear();
-
-    return day + "/" + month + "/" + year;
-  };
 
   const sprintDatasourceToDropdownContent = (datasource: Sprint[]) => {
     return datasource.map((sprint) => {

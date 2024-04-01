@@ -1,19 +1,10 @@
 import axios, { AxiosError } from "axios";
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 import { SPRINTS_API_URL } from "../models/consts";
 import { message } from "antd";
 import { handleAxiosError } from "../utils/ErrorHandler";
-
-export interface Task {
-  id: number;
-  title: string;
-  description: string;
-  statusId: number;
-  estimation: number;
-  progress: number;
-  priorityId: number;
-  assigneeId: number;
-}
+import { formatDate } from "../models/ui";
+import { Task } from "./TaskStore";
 
 export interface Sprint {
   id: number;
@@ -33,6 +24,7 @@ class SprintStore {
       allSprints: observable,
       getAllForTeam: action,
       create: action,
+      sprintsAsDatasource: computed
     });
   }
 
@@ -58,6 +50,14 @@ class SprintStore {
         handleAxiosError(err);
       });
   };
+
+  get sprintsAsDatasource() {
+    return this.allSprints.map((sprint) => ({
+      value: sprint.id,
+      label: `Sprint ${formatDate(sprint?.startDate)} - ${formatDate(sprint?.endDate)}`,
+    }));
+  }
+
 }
 
 export const sprintStore = new SprintStore();

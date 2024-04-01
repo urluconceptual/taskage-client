@@ -1,5 +1,5 @@
 import axios from "axios";
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 import { DICTIONARIES_API_URL } from "../models/consts";
 
 class DictionaryStore {
@@ -12,6 +12,7 @@ class DictionaryStore {
       priorityDictionary: observable,
       getStatusDictionary: action,
       getPriorityDictionary: action,
+      priorityAsDatasource: computed,
     });
   }
 
@@ -26,6 +27,15 @@ class DictionaryStore {
       this.priorityDictionary = res.data;
     });
   };
+
+  get priorityAsDatasource() {
+    return Object.entries(this.priorityDictionary).map(([key, value]) => {
+      return {
+        value: key,
+        label: value,
+      };
+    });
+  }
 }
 
 export const dictionaryStore = new DictionaryStore();

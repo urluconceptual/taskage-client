@@ -6,6 +6,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react";
 import { STYLESHEET_LIGHT } from "../../models/consts";
 import { teamStore } from "../../stores/TeamStore";
+import { FORM_ITEM_STYLE } from "../../models/ui";
 
 export const AddUserDrawer = observer(
   ({ closeDrawer }: { closeDrawer: () => void }) => {
@@ -65,7 +66,6 @@ export const AddUserDrawer = observer(
           layout="vertical"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          style={{ width: "150%" }}
           autoComplete="off"
           onFinish={handleAddUserForm}
         >
@@ -80,7 +80,7 @@ export const AddUserDrawer = observer(
               },
             ]}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <span style={{ fontSize: 11 }}>Has to be unique.</span>
           <Form.Item
@@ -94,7 +94,7 @@ export const AddUserDrawer = observer(
               },
             ]}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Last Name"
@@ -107,7 +107,7 @@ export const AddUserDrawer = observer(
               },
             ]}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -120,7 +120,7 @@ export const AddUserDrawer = observer(
               },
             ]}
           >
-            <Input type="password" />
+            <Input type="password" style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Authorization Level"
@@ -133,7 +133,7 @@ export const AddUserDrawer = observer(
               },
             ]}
           >
-            <Select>
+            <Select style={FORM_ITEM_STYLE} >
               <Select.Option value="ROLE_BASIC">BASIC</Select.Option>
               <Select.Option value="ROLE_MANAGER">MANAGER</Select.Option>
             </Select>
@@ -150,6 +150,7 @@ export const AddUserDrawer = observer(
             ]}
           >
             <Select
+              style={FORM_ITEM_STYLE} 
               showSearch
               filterOption={filterOption}
               options={jobTitleDataSource.map((jobTitle) => ({
@@ -189,6 +190,7 @@ export const AddUserDrawer = observer(
                 display: "flex",
                 justifyContent: "space-between",
                 marginTop: 24,
+                width: "145%"
               }}
             >
               <Button style={{ width: "30%" }} onClick={closeDrawer}>
