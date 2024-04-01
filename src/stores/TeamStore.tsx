@@ -1,10 +1,9 @@
-import { makeObservable, observable, action } from "mobx";
-import axios, { AxiosError } from "axios";
-import { TEAMS_API_URL } from "../models/consts";
 import { message } from "antd";
-import { userStore } from "./UserStore";
-import { Sprint } from "./SprintStore";
+import axios, { AxiosError } from "axios";
+import { action, makeObservable, observable } from "mobx";
+import { TEAMS_API_URL } from "../models/consts";
 import { handleAxiosError } from "../utils/ErrorHandler";
+import { userStore } from "./UserStore";
 
 export interface Team {
   id: number;

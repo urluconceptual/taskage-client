@@ -1,9 +1,9 @@
-import { makeObservable, observable, action, computed } from "mobx";
-import axios, { Axios, AxiosError } from "axios";
-import { USERS_API_URL } from "../models/consts";
 import { message } from "antd";
-import { JobTitle } from "./JobTitleStore";
+import axios, { AxiosError } from "axios";
+import { action, computed, makeObservable, observable } from "mobx";
+import { USERS_API_URL } from "../models/consts";
 import { handleAxiosError } from "../utils/ErrorHandler";
+import { JobTitle } from "./JobTitleStore";
 
 export interface LogInRequestObj {
   username?: string;
@@ -74,7 +74,7 @@ class UserStore {
         this.currentUser = res.data;
         localStorage.setItem(
           "authenticated_user",
-          JSON.stringify(this.currentUser!),
+          JSON.stringify(this.currentUser!)
         );
         axios.defaults.headers.common["Authorization"] =
           `Bearer ${this.currentUser!.token}`;
@@ -120,7 +120,7 @@ class UserStore {
     var automaticLogInSuccess = false;
     if (localStorage.getItem("authenticated_user")) {
       var storedUser: CurrentUser = JSON.parse(
-        localStorage.getItem("authenticated_user")!,
+        localStorage.getItem("authenticated_user")!
       );
       axios.defaults.headers.common["Authorization"] =
         `Bearer ${storedUser!.token}`;

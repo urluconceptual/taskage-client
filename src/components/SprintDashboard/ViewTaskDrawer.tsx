@@ -1,7 +1,6 @@
-import { Button, Card, List } from "antd";
-import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { Task } from "../../stores/SprintStore";
+import React from "react";
+import { Task } from "../../stores/TaskStore";
 
 export const ViewTaskDrawer = observer(
   ({ task, closeDrawer }: { task: Task; closeDrawer: () => void }) => {
@@ -16,5 +15,5 @@ export const ViewTaskDrawer = observer(
         ></div>
       </>
     );
-  },
+  }
 );

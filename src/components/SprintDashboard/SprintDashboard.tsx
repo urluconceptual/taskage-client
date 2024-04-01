@@ -1,24 +1,13 @@
+import { Button, Dropdown, MenuProps, Space } from "antd";
+import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
+import { TaskDrawerButton, TaskDrawerMode, formatDate } from "../../models/ui";
+import { dictionaryStore } from "../../stores/DictionaryStore";
 import { Sprint, sprintStore } from "../../stores/SprintStore";
 import { userStore } from "../../stores/UserStore";
-import {
-  Button,
-  Card,
-  DatePicker,
-  DatePickerProps,
-  Dropdown,
-  MenuProps,
-  Modal,
-  Space,
-  Tag,
-} from "antd";
-import { observer } from "mobx-react";
-import { dictionaryStore } from "../../stores/DictionaryStore";
 import { AddSprintModal } from "./AddSprintModal";
-import { TaskSection } from "./TaskSection";
-import { AddTaskDrawer } from "./AddTaskDrawer";
 import { TaskDrawer } from "./TaskDrawer";
-import { TaskDrawerButton, TaskDrawerMode, formatDate } from "../../models/ui";
+import { TaskSection } from "./TaskSection";
 
 export const SprintDashboard = observer(() => {
   const [datasource, setDatasource] = useState<Sprint[]>([]);
@@ -56,7 +45,7 @@ export const SprintDashboard = observer(() => {
 
   const renderStatusColumns = () => {
     const numberOfColumns = Object.entries(
-      dictionaryStore.statusDictionary,
+      dictionaryStore.statusDictionary
     ).length;
     return (
       <>
@@ -69,7 +58,7 @@ export const SprintDashboard = observer(() => {
                 selectedSprint={selectedSprint!}
               />
             );
-          },
+          }
         )}
       </>
     );

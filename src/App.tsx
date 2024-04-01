@@ -1,30 +1,29 @@
 import { ConfigProvider } from "antd";
 import React from "react";
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
 } from "react-router-dom";
+import "./App.css";
 import {
   ADMIN_LINK,
   AUTH_ROLES,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
-  STYLESHEET_LIGHT,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
 } from "./models/consts";
-import RootLayout from "./pages/Root";
-import { Login } from "./pages/Login";
-import "./App.css";
+import { LIGHT_THEME } from "./models/ui";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { EmployeeDirectory } from "./pages/EmployeeDirectory";
+import ErrorPage from "./pages/Error";
+import { Login } from "./pages/Login";
+import { ManagerDashboard } from "./pages/ManagerDashboard";
+import RootLayout from "./pages/Root";
 import { TeamManager } from "./pages/TeamManager";
 import PrivateRoute from "./utils/PrivateRoute";
-import ErrorPage from "./pages/Error";
-import { ManagerDashboard } from "./pages/ManagerDashboard";
-import { LIGHT_THEME } from "./models/ui";
 
 function App() {
   return (

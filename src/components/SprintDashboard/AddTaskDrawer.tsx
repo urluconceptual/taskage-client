@@ -1,12 +1,12 @@
-import { Button, Form, Input, InputNumber, Select, Space } from "antd";
+import { Button, Form, Input, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { observer } from "mobx-react";
 import React from "react";
-import { dictionaryStore } from "../../stores/DictionaryStore";
 import { FORM_ITEM_STYLE } from "../../models/ui";
+import { dictionaryStore } from "../../stores/DictionaryStore";
 import { sprintStore } from "../../stores/SprintStore";
-import { userStore } from "../../stores/UserStore";
 import { Task, taskStore } from "../../stores/TaskStore";
+import { userStore } from "../../stores/UserStore";
 
 export const AddTaskDrawer = observer(
   ({ closeDrawer }: { closeDrawer: () => void }) => {
@@ -140,5 +140,5 @@ export const AddTaskDrawer = observer(
         </Form.Item>
       </Form>
     );
-  },
+  }
 );

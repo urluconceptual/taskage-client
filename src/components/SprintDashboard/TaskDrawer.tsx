@@ -1,10 +1,10 @@
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { Task } from "../../stores/SprintStore";
 import { TaskDrawerButton, TaskDrawerMode } from "../../models/ui";
 import { Button, Drawer, Popconfirm } from "antd";
 import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { AddTaskDrawer } from "./AddTaskDrawer";
+import { Task } from "../../stores/TaskStore";
 
 export const TaskDrawer = observer(
   ({

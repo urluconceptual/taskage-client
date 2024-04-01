@@ -1,9 +1,9 @@
-import axios, { AxiosError } from "axios";
-import { makeObservable, observable, action, computed } from "mobx";
-import { TASKS_API_URL } from "../models/consts";
-import { sprintStore } from "./SprintStore";
 import { message } from "antd";
+import axios, { AxiosError } from "axios";
+import { action, makeObservable } from "mobx";
+import { TASKS_API_URL } from "../models/consts";
 import { handleAxiosError } from "../utils/ErrorHandler";
+import { sprintStore } from "./SprintStore";
 
 export interface Task {
   id: number;

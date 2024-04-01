@@ -1,9 +1,8 @@
 import { Button, Form, Input, Select } from "antd";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { FORM_ITEM_STYLE, TeamDrawerMode } from "../../models/ui";
 import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
 import { Team, userStore } from "../../stores/UserStore";
-import { set } from "mobx";
-import { FORM_ITEM_STYLE, TeamDrawerMode } from "../../models/ui";
 
 export const EditTeamDrawer = ({
   closeDrawer,
@@ -31,7 +30,7 @@ export const EditTeamDrawer = ({
 
   const filterOption = (
     input: string,
-    option?: { label: string; value: string },
+    option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   const handleCancelClick = () => {
@@ -85,7 +84,7 @@ export const EditTeamDrawer = ({
               .filter(
                 (user) =>
                   user.authRole === "ROLE_MANAGER" &&
-                  (user.team === null || user.team!.id === team.id),
+                  (user.team === null || user.team!.id === team.id)
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -105,7 +104,7 @@ export const EditTeamDrawer = ({
               (user) =>
                 user.authRole === "ROLE_BASIC" &&
                 user.team &&
-                user.team!.id === team.id,
+                user.team!.id === team.id
             )
             .map((user) => user.id.toString())}
         >
@@ -118,7 +117,7 @@ export const EditTeamDrawer = ({
               .filter(
                 (user) =>
                   user.authRole === "ROLE_BASIC" &&
-                  (user.team === null || user.team!.id === team.id),
+                  (user.team === null || user.team!.id === team.id)
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,

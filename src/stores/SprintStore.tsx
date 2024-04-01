@@ -33,7 +33,7 @@ class SprintStore {
       .post(`${SPRINTS_API_URL}/create`, sprint)
       .then(() => {
         this.getAllForTeam(sprint.teamId);
-        message.success("Sprint created successfully");
+        message.success("Sprint created successfully.");
       })
       .catch((err: AxiosError) => {
         handleAxiosError(err);

@@ -1,8 +1,8 @@
 import { Button, Card, List } from "antd";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { Team, userStore } from "../../stores/UserStore";
 import { observer } from "mobx-react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { TeamDrawerMode } from "../../models/ui";
+import { Team, userStore } from "../../stores/UserStore";
 
 export const ViewTeamDrawer = observer(
   ({
@@ -15,12 +15,12 @@ export const ViewTeamDrawer = observer(
     setCurrentDrawerMode: Dispatch<SetStateAction<TeamDrawerMode>>;
   }) => {
     const teamMembersDatasource = Object.values(
-      userStore.userDictionary,
+      userStore.userDictionary
     ).filter(
       (user) =>
         user.userData.team &&
         user.userData.team.id === team.id &&
-        user.userData.id !== team.teamLeadId,
+        user.userData.id !== team.teamLeadId
     );
     const teamLeadDatasource = [userStore.userDictionary[team.teamLeadId]];
 
@@ -95,5 +95,5 @@ export const ViewTeamDrawer = observer(
         </div>
       </>
     );
-  },
+  }
 );

@@ -1,18 +1,18 @@
-import { observer } from "mobx-react";
-import { User, UserRequestObj, userStore } from "../../stores/UserStore";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Button, Divider, Form, Input, Select } from "antd";
-import { teamStore } from "../../stores/TeamStore";
-import { STYLESHEET_LIGHT } from "../../models/consts";
 import { PlusOutlined } from "@ant-design/icons";
-import { jobTitleStore } from "../../stores/JobTitleStore";
+import { Button, Divider, Form, Input, Select } from "antd";
+import { observer } from "mobx-react";
+import React, { useEffect, useState } from "react";
+import { STYLESHEET_LIGHT } from "../../models/consts";
 import { FORM_ITEM_STYLE } from "../../models/ui";
+import { jobTitleStore } from "../../stores/JobTitleStore";
+import { teamStore } from "../../stores/TeamStore";
+import { User, UserRequestObj, userStore } from "../../stores/UserStore";
 
 export const EditUserDrawer = observer(
   ({ user, closeDrawer }: { user: User; closeDrawer: () => void }) => {
     const [form] = Form.useForm();
     const [jobTitleDataSource, setJobTitleDataSource] = useState(
-      jobTitleStore.allJobTitles,
+      jobTitleStore.allJobTitles
     );
     const [newJobTitle, setNewJobTitle] = useState("");
 
@@ -27,7 +27,7 @@ export const EditUserDrawer = observer(
 
     const filterOption = (
       input: string,
-      option?: { label: string; value: string },
+      option?: { label: string; value: string }
     ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const addJobTitle = () => {
@@ -207,5 +207,5 @@ export const EditUserDrawer = observer(
         </Form>
       </>
     );
-  },
+  }
 );

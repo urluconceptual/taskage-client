@@ -1,13 +1,12 @@
-import Table, { ColumnsType } from "antd/es/table";
-import React, { useEffect, useState } from "react";
-import { userStore, User, Team } from "../stores/UserStore";
-import { Button, Card, CollapseProps, Input, Space } from "antd";
-import { Collapse } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
+import Table, { ColumnsType } from "antd/es/table";
 import { observer } from "mobx-react";
+import React, { useEffect, useState } from "react";
 import { UserDrawer } from "../components/EmployeeDirectory/UserDrawer";
-import { JobTitle } from "../stores/JobTitleStore";
 import { UserDrawerButton, UserDrawerMode } from "../models/ui";
+import { JobTitle } from "../stores/JobTitleStore";
+import { Team, User, userStore } from "../stores/UserStore";
 
 const AuthRoleLabel: { [key: string]: string } = {
   ROLE_BASIC: "BASIC",
@@ -46,7 +45,7 @@ export const EmployeeDirectory = observer(() => {
               .toLowerCase()
               .includes(filterOptions.team.toLowerCase()))
         );
-      }),
+      })
     );
   };
 

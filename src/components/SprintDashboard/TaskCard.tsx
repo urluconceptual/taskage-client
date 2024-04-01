@@ -1,10 +1,10 @@
 import { Card, Tag } from "antd";
 import { observer } from "mobx-react";
-import { STYLESHEET_LIGHT } from "../../models/consts";
-import { Task } from "../../stores/SprintStore";
-import { dictionaryStore } from "../../stores/DictionaryStore";
-import { userStore } from "../../stores/UserStore";
 import React from "react";
+import { STYLESHEET_LIGHT } from "../../models/consts";
+import { dictionaryStore } from "../../stores/DictionaryStore";
+import { Task } from "../../stores/TaskStore";
+import { userStore } from "../../stores/UserStore";
 
 export const TaskCard = observer(({ task }: { task: Task }) => {
   return (

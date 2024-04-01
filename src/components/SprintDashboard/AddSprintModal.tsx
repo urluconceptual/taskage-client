@@ -1,10 +1,9 @@
 import { Button, DatePicker, DatePickerProps, Modal } from "antd";
-import { observer } from "mobx-react";
 import dayjs, { Dayjs } from "dayjs";
+import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { SprintCreateRequest, sprintStore } from "../../stores/SprintStore";
 import { userStore } from "../../stores/UserStore";
-import { set } from "mobx";
 
 export const AddSprintModal = observer(
   ({ lastSprintEndDate }: { lastSprintEndDate: string }) => {
@@ -58,5 +57,5 @@ export const AddSprintModal = observer(
         </Modal>
       </>
     );
-  },
+  }
 );

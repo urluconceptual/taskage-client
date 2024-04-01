@@ -1,9 +1,9 @@
 import { Card } from "antd";
 import { observer } from "mobx-react";
+import React from "react";
 import { STYLESHEET_LIGHT } from "../../models/consts";
 import { Sprint } from "../../stores/SprintStore";
 import { TaskCard } from "./TaskCard";
-import React from "react";
 
 interface Status {
   id: string;
@@ -36,5 +36,5 @@ export const TaskSection = observer(
           })}
       </Card>
     );
-  },
+  }
 );
