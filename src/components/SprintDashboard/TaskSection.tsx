@@ -29,11 +29,17 @@ export const TaskSection = observer(
         }}
         bodyStyle={{ padding: 10 }}
       >
-        {selectedSprint?.tasks
-          .filter((task) => String(task.statusId) === status.id)
-          .map((task) => {
-            return <TaskCard task={task} />;
-          })}
+        {selectedSprint?.tasks.filter(
+          (task) => String(task.statusId) === status.id
+        ).length > 0 ? (
+          selectedSprint?.tasks
+            .filter((task) => String(task.statusId) === status.id)
+            .map((task) => {
+              return <TaskCard task={task} />;
+            })
+        ) : (
+          <div style={{ textAlign: "center" }}>No tasks</div>
+        )}
       </Card>
     );
   }
