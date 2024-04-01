@@ -41,12 +41,12 @@ export const LIGHT_THEME = {
     colorText: STYLESHEET_LIGHT.colorText,
     colorBgBase: STYLESHEET_LIGHT.backgroundColor,
   },
-}
+};
 
 export const FORM_ITEM_STYLE = {
-  width: '145%',
-  maxWidth: '145%'
-}
+  width: "145%",
+  maxWidth: "145%",
+};
 
 export enum TeamDrawerMode {
   VIEW = "view",

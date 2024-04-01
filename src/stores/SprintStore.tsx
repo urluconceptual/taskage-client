@@ -24,7 +24,7 @@ class SprintStore {
       allSprints: observable,
       getAllForTeam: action,
       create: action,
-      sprintsAsDatasource: computed
+      sprintsAsDatasource: computed,
     });
   }
 
@@ -57,7 +57,6 @@ class SprintStore {
       label: `Sprint ${formatDate(sprint?.startDate)} - ${formatDate(sprint?.endDate)}`,
     }));
   }
-
 }
 
 export const sprintStore = new SprintStore();

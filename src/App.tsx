@@ -28,9 +28,7 @@ import { LIGHT_THEME } from "./models/ui";
 
 function App() {
   return (
-    <ConfigProvider
-      theme={LIGHT_THEME}
-    >
+    <ConfigProvider theme={LIGHT_THEME}>
       <Router>
         <Routes>
           <Route path="/" element={<RootLayout />}>

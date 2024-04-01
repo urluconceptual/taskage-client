@@ -140,5 +140,5 @@ export const AddTaskDrawer = observer(
         </Form.Item>
       </Form>
     );
-  }
+  },
 );

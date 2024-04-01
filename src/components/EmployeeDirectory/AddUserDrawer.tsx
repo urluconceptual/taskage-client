@@ -133,7 +133,7 @@ export const AddUserDrawer = observer(
               },
             ]}
           >
-            <Select style={FORM_ITEM_STYLE} >
+            <Select style={FORM_ITEM_STYLE}>
               <Select.Option value="ROLE_BASIC">BASIC</Select.Option>
               <Select.Option value="ROLE_MANAGER">MANAGER</Select.Option>
             </Select>
@@ -150,7 +150,7 @@ export const AddUserDrawer = observer(
             ]}
           >
             <Select
-              style={FORM_ITEM_STYLE} 
+              style={FORM_ITEM_STYLE}
               showSearch
               filterOption={filterOption}
               options={jobTitleDataSource.map((jobTitle) => ({
@@ -190,7 +190,7 @@ export const AddUserDrawer = observer(
                 display: "flex",
                 justifyContent: "space-between",
                 marginTop: 24,
-                width: "145%"
+                width: "145%",
               }}
             >
               <Button style={{ width: "30%" }} onClick={closeDrawer}>

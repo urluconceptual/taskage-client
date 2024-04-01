@@ -12,7 +12,7 @@ export const EditUserDrawer = observer(
   ({ user, closeDrawer }: { user: User; closeDrawer: () => void }) => {
     const [form] = Form.useForm();
     const [jobTitleDataSource, setJobTitleDataSource] = useState(
-      jobTitleStore.allJobTitles
+      jobTitleStore.allJobTitles,
     );
     const [newJobTitle, setNewJobTitle] = useState("");
 
@@ -27,7 +27,7 @@ export const EditUserDrawer = observer(
 
     const filterOption = (
       input: string,
-      option?: { label: string; value: string }
+      option?: { label: string; value: string },
     ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const addJobTitle = () => {
@@ -207,5 +207,5 @@ export const EditUserDrawer = observer(
         </Form>
       </>
     );
-  }
+  },
 );

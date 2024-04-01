@@ -24,7 +24,7 @@ class TaskStore {
   }
 
   create = (newTask: Task, teamId: number) => {
-    console.log(newTask, teamId)
+    console.log(newTask, teamId);
     axios
       .post(`${TASKS_API_URL}/create`, newTask)
       .then(() => {
