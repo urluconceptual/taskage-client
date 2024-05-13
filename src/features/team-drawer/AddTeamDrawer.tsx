@@ -1,7 +1,9 @@
 import { Button, Form, Input, Select } from "antd";
 import React from "react";
-import { TeamRequestObj, teamStore } from "../../stores/TeamStore";
+import { TeamRequestObj } from "../../models/Team";
+import { teamStore } from "../../stores/TeamStore";
 import { userStore } from "../../stores/UserStore";
+import { FORM_ITEM_STYLE } from "../../utils/ui";
 
 export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
   const [form] = Form.useForm();
@@ -15,7 +17,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
 
   const filterOption = (
     input: string,
-    option?: { label: string; value: string },
+    option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   return (
@@ -26,7 +28,6 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
         layout="vertical"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        style={{ width: "150%" }}
         autoComplete="off"
         onFinish={handleAddTeamForm}
       >
@@ -41,7 +42,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
             },
           ]}
         >
-          <Input />
+          <Input style={FORM_ITEM_STYLE} />
         </Form.Item>
         <span style={{ fontSize: 11 }}>Has to be unique.</span>
         <Form.Item
@@ -56,12 +57,12 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
           ]}
         >
           <Select
+            style={FORM_ITEM_STYLE}
             showSearch
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) =>
-                  user.authRole === "ROLE_MANAGER" && user.team === null,
+                (user) => user.authRole === "ROLE_MANAGER" && user.team === null
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -78,12 +79,13 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
           style={{ marginBottom: 0, marginTop: 24 }}
         >
           <Select
+            style={FORM_ITEM_STYLE}
             showSearch
             mode="multiple"
             filterOption={filterOption}
             options={userStore.allUsers
               .filter(
-                (user) => user.authRole === "ROLE_BASIC" && user.team === null,
+                (user) => user.authRole === "ROLE_BASIC" && user.team === null
               )
               .map((user) => ({
                 label: `${user.firstName} ${user.lastName}(${user.username})`,
@@ -100,6 +102,7 @@ export const AddTeamDrawer = ({ closeDrawer }: { closeDrawer: () => void }) => {
               display: "flex",
               justifyContent: "space-between",
               marginTop: 24,
+              width: "145%",
             }}
           >
             <Button style={{ width: "30%" }} onClick={closeDrawer}>

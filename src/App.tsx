@@ -1,71 +1,33 @@
 import { ConfigProvider } from "antd";
 import React from "react";
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
 } from "react-router-dom";
+import "./App.css";
 import {
   ADMIN_LINK,
   AUTH_ROLES,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
-  STYLESHEET_LIGHT,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
-} from "./models/consts";
-import RootLayout from "./pages/Root";
-import { Login } from "./pages/Login";
-import "./App.css";
+} from "./utils/consts";
+import { LIGHT_THEME } from "./utils/ui";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { EmployeeDirectory } from "./pages/EmployeeDirectory";
-import { TeamManager } from "./pages/TeamManager";
-import PrivateRoute from "./utils/PrivateRoute";
 import ErrorPage from "./pages/Error";
-import { ManagerDashboard } from "./pages/ManagerDashboard";
+import { Login } from "./pages/Login";
+import { SprintDashboard } from "./pages/SprintDashboard";
+import RootLayout from "./pages/Root";
+import { TeamManager } from "./pages/TeamManager";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Layout: {
-            headerBg: STYLESHEET_LIGHT.headerBg,
-            fontFamily: STYLESHEET_LIGHT.logoFontFamily,
-          },
-          Menu: {
-            colorBgContainer: STYLESHEET_LIGHT.headerBg,
-            colorText: STYLESHEET_LIGHT.headerTextColor,
-            horizontalItemHoverColor: STYLESHEET_LIGHT.headerTextColor,
-            horizontalItemSelectedColor: STYLESHEET_LIGHT.headerTextColor,
-          },
-          Table: {
-            borderColor: STYLESHEET_LIGHT.colorTextTransparent,
-            headerSplitColor: STYLESHEET_LIGHT.colorTextTransparent,
-            headerBg: STYLESHEET_LIGHT.colorSecondaryTransparent,
-          },
-          Input: {
-            colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
-            hoverBorderColor: STYLESHEET_LIGHT.colorText,
-            activeBorderColor: STYLESHEET_LIGHT.colorText,
-          },
-          Select: {
-            colorBorder: STYLESHEET_LIGHT.colorTextTransparent,
-          },
-          Card: {
-            colorBorderSecondary: STYLESHEET_LIGHT.colorBorder,
-          },
-        },
-        token: {
-          colorPrimary: STYLESHEET_LIGHT.colorPrimary,
-          colorError: STYLESHEET_LIGHT.colorErrorText,
-          fontFamily: STYLESHEET_LIGHT.fontFamily,
-          colorText: STYLESHEET_LIGHT.colorText,
-          colorBgBase: STYLESHEET_LIGHT.backgroundColor,
-        },
-      }}
-    >
+    <ConfigProvider theme={LIGHT_THEME}>
       <Router>
         <Routes>
           <Route path="/" element={<RootLayout />}>
@@ -86,7 +48,7 @@ function App() {
             >
               <Route
                 path={DASHBOARD_VIEW_MANAGER_LINK}
-                element={<ManagerDashboard />}
+                element={<SprintDashboard />}
               />
             </Route>
             <Route path="*" element={<ErrorPage />} />

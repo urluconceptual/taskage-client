@@ -1,0 +1,96 @@
+import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Drawer, Popconfirm } from "antd";
+import { observer } from "mobx-react";
+import React, { useState } from "react";
+import { User } from "../../models/User";
+import { userStore } from "../../stores/UserStore";
+import { UserDrawerButton, UserDrawerMode } from "../../utils/ui";
+import { AddUserDrawer } from "./AddUserDrawer";
+import { EditUserDrawer } from "./EditUserDrawer";
+
+export const UserDrawer = observer(
+  ({
+    user,
+    button,
+    mode,
+  }: {
+    user: User | null;
+    button: UserDrawerButton;
+    mode: UserDrawerMode;
+  }) => {
+    const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+
+    const renderButton = (button: UserDrawerButton) => {
+      switch (button) {
+        case UserDrawerButton.EDIT:
+          return <EditOutlined />;
+        case UserDrawerButton.ADD:
+          return (
+            <Button onClick={() => setDrawerIsOpen(true)} type="primary">
+              Add Employee
+            </Button>
+          );
+      }
+    };
+
+    const closeDrawer = () => {
+      setDrawerIsOpen(false);
+    };
+
+    const handleConfirmDelete = () => {
+      userStore.deleteUser(user!.id);
+      closeDrawer();
+    };
+
+    const renderTitle = () => {
+      switch (mode) {
+        case UserDrawerMode.ADD:
+          return "New User";
+        default:
+          return (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {`${user?.firstName} ${user?.lastName} (${user!.username})`}
+              <Popconfirm
+                title="Delete the user"
+                description="Are you sure you want to delete this user? This action is irreversible."
+                icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                onConfirm={handleConfirmDelete}
+              >
+                <Button danger>Delete</Button>
+              </Popconfirm>
+            </div>
+          );
+      }
+    };
+
+    const renderContent = () => {
+      switch (mode) {
+        case UserDrawerMode.ADD:
+          return <AddUserDrawer closeDrawer={closeDrawer} />;
+        case UserDrawerMode.EDIT:
+          return <EditUserDrawer user={user!} closeDrawer={closeDrawer} />;
+      }
+    };
+
+    return (
+      <>
+        <span
+          onClick={() => setDrawerIsOpen(true)}
+          style={{ cursor: "pointer" }}
+        >
+          {renderButton(button)}
+        </span>
+        <Drawer
+          title={renderTitle()}
+          open={drawerIsOpen}
+          closable={false}
+          width={"35%"}
+          onClose={() => closeDrawer()}
+          placement="right"
+        >
+          {renderContent()}
+        </Drawer>
+      </>
+    );
+  }
+);

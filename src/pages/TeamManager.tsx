@@ -1,15 +1,13 @@
-import Table, { ColumnsType } from "antd/es/table";
-import React, { useEffect, useState } from "react";
-import { Team, userStore } from "../stores/UserStore";
-import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import {
-  TeamDrawerButton,
-  TeamDrawerMode,
-  teamStore,
-} from "../stores/TeamStore";
+import { Button, Card, Collapse, CollapseProps, Input, Space } from "antd";
+import Table, { ColumnsType } from "antd/es/table";
 import { observer } from "mobx-react";
-import { TeamDrawer } from "../components/TeamManager/TeamDrawer";
+import React, { useEffect, useState } from "react";
+import { TeamDrawer } from "../features/team-drawer/TeamDrawer";
+import { Team } from "../models/Team";
+import { teamStore } from "../stores/TeamStore";
+import { userStore } from "../stores/UserStore";
+import { TeamDrawerButton, TeamDrawerMode } from "../utils/ui";
 
 export const TeamManager = observer(() => {
   const [dataSource, setDataSource] = useState<Team[]>();
@@ -36,7 +34,7 @@ export const TeamManager = observer(() => {
             .toLowerCase()
             .includes(filterOptions.teamLead.toLowerCase())
         );
-      }),
+      })
     );
   };
 

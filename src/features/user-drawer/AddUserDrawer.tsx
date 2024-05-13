@@ -1,22 +1,19 @@
-import { observer } from "mobx-react";
-import {
-  User,
-  UserDrawerMode,
-  UserRequestObj,
-  userStore,
-} from "../../stores/UserStore";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Button, Divider, Form, Input, Select } from "antd";
-import { teamStore } from "../../stores/TeamStore";
-import { STYLESHEET_LIGHT } from "../../models/consts";
 import { PlusOutlined } from "@ant-design/icons";
+import { Button, Divider, Form, Input, Select } from "antd";
+import { observer } from "mobx-react";
+import React, { useEffect, useState } from "react";
+import { UserRequestObj } from "../../models/User";
 import { jobTitleStore } from "../../stores/JobTitleStore";
+import { teamStore } from "../../stores/TeamStore";
+import { userStore } from "../../stores/UserStore";
+import { STYLESHEET_LIGHT } from "../../utils/consts";
+import { FORM_ITEM_STYLE } from "../../utils/ui";
 
-export const EditUserDrawer = observer(
-  ({ user, closeDrawer }: { user: User; closeDrawer: () => void }) => {
+export const AddUserDrawer = observer(
+  ({ closeDrawer }: { closeDrawer: () => void }) => {
     const [form] = Form.useForm();
     const [jobTitleDataSource, setJobTitleDataSource] = useState(
-      jobTitleStore.allJobTitles,
+      jobTitleStore.allJobTitles
     );
     const [newJobTitle, setNewJobTitle] = useState("");
 
@@ -31,7 +28,7 @@ export const EditUserDrawer = observer(
 
     const filterOption = (
       input: string,
-      option?: { label: string; value: string },
+      option?: { label: string; value: string }
     ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const addJobTitle = () => {
@@ -39,9 +36,8 @@ export const EditUserDrawer = observer(
       setNewJobTitle("");
     };
 
-    const handleEditUserForm = (formObj: any) => {
+    const handleAddUserForm = (formObj: any) => {
       const userRequestObj: UserRequestObj = {
-        id: user.id,
         username: formObj.username,
         firstName: formObj.firstName,
         lastName: formObj.lastName,
@@ -58,7 +54,7 @@ export const EditUserDrawer = observer(
               : jobTitleDataSource.find((jobTitle) => jobTitle.id === -1)?.name,
         },
       };
-      userStore.updateUser(userRequestObj);
+      userStore.addNewUser(userRequestObj);
       form.resetFields();
       closeDrawer();
     };
@@ -67,13 +63,12 @@ export const EditUserDrawer = observer(
       <>
         <Form
           form={form}
-          name="editUserForm"
+          name="addUserForm"
           layout="vertical"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          style={{ width: "150%" }}
           autoComplete="off"
-          onFinish={handleEditUserForm}
+          onFinish={handleAddUserForm}
         >
           <Form.Item
             label="Username"
@@ -85,9 +80,8 @@ export const EditUserDrawer = observer(
                 message: "Please enter a username.",
               },
             ]}
-            initialValue={user.username}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <span style={{ fontSize: 11 }}>Has to be unique.</span>
           <Form.Item
@@ -100,9 +94,8 @@ export const EditUserDrawer = observer(
                 message: "Please enter a first name.",
               },
             ]}
-            initialValue={user.firstName}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Last Name"
@@ -114,20 +107,22 @@ export const EditUserDrawer = observer(
                 message: "Please enter a last name.",
               },
             ]}
-            initialValue={user.lastName}
           >
-            <Input />
+            <Input style={FORM_ITEM_STYLE} />
           </Form.Item>
           <Form.Item
             label="Password"
             name={"password"}
             style={{ marginBottom: 0, marginTop: 24 }}
+            rules={[
+              {
+                required: true,
+                message: "Please enter a password.",
+              },
+            ]}
           >
-            <Input type="password" />
+            <Input type="password" style={FORM_ITEM_STYLE} />
           </Form.Item>
-          <span style={{ fontSize: 11 }}>
-            Current password is not displayed. Fill in for new password.
-          </span>
           <Form.Item
             label="Authorization Level"
             name={"authRole"}
@@ -138,9 +133,8 @@ export const EditUserDrawer = observer(
                 message: "Please select an authorization level.",
               },
             ]}
-            initialValue={user.authRole}
           >
-            <Select>
+            <Select style={FORM_ITEM_STYLE}>
               <Select.Option value="ROLE_BASIC">BASIC</Select.Option>
               <Select.Option value="ROLE_MANAGER">MANAGER</Select.Option>
             </Select>
@@ -155,9 +149,9 @@ export const EditUserDrawer = observer(
                 message: "Please provide a job title.",
               },
             ]}
-            initialValue={user.jobTitle.id?.toString()}
           >
             <Select
+              style={FORM_ITEM_STYLE}
               showSearch
               filterOption={filterOption}
               options={jobTitleDataSource.map((jobTitle) => ({
@@ -197,6 +191,7 @@ export const EditUserDrawer = observer(
                 display: "flex",
                 justifyContent: "space-between",
                 marginTop: 24,
+                width: "145%",
               }}
             >
               <Button style={{ width: "30%" }} onClick={closeDrawer}>
@@ -210,5 +205,5 @@ export const EditUserDrawer = observer(
         </Form>
       </>
     );
-  },
+  }
 );

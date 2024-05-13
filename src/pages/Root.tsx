@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
 import { observer } from "mobx-react";
 import { userStore } from "../stores/UserStore";
-import { REDIRECT_AFTER_LOGIN } from "../models/consts";
+import { REDIRECT_AFTER_LOGIN } from "../utils/consts";
 
 const RootLayout = observer(() => {
   const navigate = useNavigate();

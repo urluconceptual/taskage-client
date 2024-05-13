@@ -1,13 +1,9 @@
-import axios from "axios";
-import { makeObservable, observable, action } from "mobx";
-import { SPRINTS_API_URL } from "../models/consts";
 import { message } from "antd";
-
-export interface Sprint {
-  id: number;
-  startDate: string;
-  endDate: string;
-}
+import axios, { AxiosError } from "axios";
+import { action, computed, makeObservable, observable } from "mobx";
+import { Sprint, SprintCreateRequest } from "../models/Sprint";
+import { SPRINTS_API_URL } from "../utils/consts";
+import { formatDate, handleAxiosError } from "../utils/ui";
 
 class SprintStore {
   allSprints: Sprint[] = [];
@@ -15,32 +11,40 @@ class SprintStore {
     makeObservable(this, {
       allSprints: observable,
       getAllForTeam: action,
+      create: action,
+      sprintsAsDatasource: computed,
     });
   }
+
+  create = (sprint: SprintCreateRequest) => {
+    axios
+      .post(`${SPRINTS_API_URL}/create`, sprint)
+      .then(() => {
+        this.getAllForTeam(sprint.teamId);
+        message.success("Sprint created successfully.");
+      })
+      .catch((err: AxiosError) => {
+        handleAxiosError(err);
+      });
+  };
 
   getAllForTeam = (teamId: number) => {
     axios
       .get(`${SPRINTS_API_URL}/getAllForTeam/${teamId}`)
       .then((res) => {
-        switch (res.status) {
-          case 200:
-            this.allSprints = res.data;
-            break;
-          case 400:
-            message.error("Bad request. Contact your admin.");
-            break;
-          case 401:
-            message.error("Unauthorized. Log in to access.");
-            break;
-          case 403:
-            message.error("General core error. Contact your admin.");
-            break;
-        }
+        this.allSprints = res.data;
       })
-      .catch((err) => {
-        message.error("General client error. Contact your admin.");
+      .catch((err: AxiosError) => {
+        handleAxiosError(err);
       });
   };
+
+  get sprintsAsDatasource() {
+    return this.allSprints.map((sprint) => ({
+      value: sprint.id,
+      label: `Sprint ${formatDate(sprint?.startDate)} - ${formatDate(sprint?.endDate)}`,
+    }));
+  }
 }
 
 export const sprintStore = new SprintStore();

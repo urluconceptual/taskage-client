@@ -1,13 +1,12 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
 import { Spin } from "antd";
-import { userStore } from "../stores/UserStore";
+import { observer } from "mobx-react-lite";
+import React, { useEffect, useState } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import {
   NOT_AUTHENTICATED_LINK,
   UNAUTHORIZED_ACCESS_LINK,
-} from "../models/consts";
-import React from "react";
+} from "../utils/consts";
+import { userStore } from "../stores/UserStore";
 
 const PrivateRoute = observer(
   ({ allowedAuthRole }: { allowedAuthRole: String }) => {
@@ -41,7 +40,7 @@ const PrivateRoute = observer(
     ) : (
       <Navigate to={navigateToRoute} replace />
     );
-  },
+  }
 );
 
 export default PrivateRoute;
