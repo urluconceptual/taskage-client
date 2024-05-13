@@ -36,7 +36,6 @@ export const EditTeamDrawer = ({
 
   const handleCancelClick = () => {
     setCurrentDrawerMode(TeamDrawerMode.VIEW);
-    closeDrawer();
   };
 
   return (

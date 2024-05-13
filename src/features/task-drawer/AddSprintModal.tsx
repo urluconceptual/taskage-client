@@ -41,7 +41,7 @@ export const AddSprintModal = observer(
           open={isModalOpen}
           onOk={handleAddSprint}
           onCancel={() => setIsModalOpen(false)}
-          width={500}
+          width={450}
         >
           <div style={{ display: "flex", justifyContent: "center" }}>
             <DatePicker.RangePicker

@@ -1,4 +1,5 @@
 import { Button, Card, Dropdown, MenuProps, Space } from "antd";
+import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { TaskBoard } from "../features/task-board/TaskBoard";
 import { AddSprintModal } from "../features/task-drawer/AddSprintModal";
@@ -9,13 +10,17 @@ import { sprintStore } from "../stores/SprintStore";
 import { userStore } from "../stores/UserStore";
 import { TaskDrawerButton, TaskDrawerMode, formatDate } from "../utils/ui";
 
-export const SprintDashboard = () => {
+export const SprintDashboard = observer(() => {
   const [datasource, setDatasource] = useState<Sprint[]>([]);
-  const [selectedSprint, setSelectedSprint] = useState<Sprint>();
+  const [selectedSprintId, setSelectedSprintId] = useState<number>();
+  const selectedSprint: Sprint | null = selectedSprintId
+    ? sprintStore.sprintsAsDictionary[selectedSprintId]
+    : null;
 
   useEffect(() => {
     setDatasource(sprintStore.allSprints.sort((a, b) => b.id - a.id));
-    setSelectedSprint(sprintStore.allSprints[0]);
+    if (selectedSprintId === undefined && sprintStore.allSprints.length > 0)
+      setSelectedSprintId(sprintStore.allSprints[0].id);
   }, [sprintStore.allSprints]);
 
   useEffect(() => {
@@ -31,7 +36,7 @@ export const SprintDashboard = () => {
       return {
         key: sprint.id,
         label: `Sprint ${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`,
-        onClick: () => setSelectedSprint(sprint),
+        onClick: () => setSelectedSprintId(sprint.id),
       };
     });
   };
@@ -91,8 +96,8 @@ export const SprintDashboard = () => {
             </Space.Compact>
           </Space>
         </div>
-        <TaskBoard selectedSprint={selectedSprint} />
+        <TaskBoard selectedSprint={selectedSprint!} />
       </Card>
     </div>
   );
-};
+});

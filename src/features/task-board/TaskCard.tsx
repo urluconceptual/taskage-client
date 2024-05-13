@@ -5,6 +5,8 @@ import { Task } from "../../models/Task";
 import { dictionaryStore } from "../../stores/DictionaryStore";
 import { userStore } from "../../stores/UserStore";
 import { STYLESHEET_LIGHT } from "../../utils/consts";
+import { TaskDrawerButton, TaskDrawerMode } from "../../utils/ui";
+import { TaskDrawer } from "../task-drawer/TaskDrawer";
 
 export const TaskCard = observer(({ task }: { task: Task }) => {
   return (
@@ -22,7 +24,15 @@ export const TaskCard = observer(({ task }: { task: Task }) => {
           marginBottom: 5,
         }}
       >
-        <span>{task.title}</span>
+        <span>
+          {" "}
+          <TaskDrawer
+            task={task}
+            button={TaskDrawerButton.VIEW}
+            mode={TaskDrawerMode.VIEW}
+          />{" "}
+          {task.title}
+        </span>
         <span>{`${task.progress}/${task.estimation}h`}</span>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>

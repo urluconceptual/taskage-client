@@ -1,5 +1,5 @@
 import axios from "axios";
-import { makeObservable, observable, action, computed } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { DICTIONARIES_API_URL } from "../utils/consts";
 
 class DictionaryStore {
@@ -13,6 +13,7 @@ class DictionaryStore {
       getStatusDictionary: action,
       getPriorityDictionary: action,
       priorityAsDatasource: computed,
+      statusAsDatasource: computed,
     });
   }
 
@@ -30,6 +31,15 @@ class DictionaryStore {
 
   get priorityAsDatasource() {
     return Object.entries(this.priorityDictionary).map(([key, value]) => {
+      return {
+        value: key,
+        label: value,
+      };
+    });
+  }
+
+  get statusAsDatasource() {
+    return Object.entries(this.statusDictionary).map(([key, value]) => {
       return {
         value: key,
         label: value,

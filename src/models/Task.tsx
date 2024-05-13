@@ -7,4 +7,5 @@ export interface Task {
   progress: number;
   priorityId: number;
   assigneeId: number;
+  sprintId: number;
 }

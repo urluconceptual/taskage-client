@@ -10,13 +10,25 @@ class TaskStore {
   constructor() {
     makeObservable(this, {
       create: action,
+      update: action,
     });
   }
 
   create = (newTask: Task, teamId: number) => {
-    console.log(newTask, teamId);
     axios
       .post(`${TASKS_API_URL}/create`, newTask)
+      .then(() => {
+        sprintStore.getAllForTeam(teamId);
+        message.success("Task added successfully");
+      })
+      .catch((err: AxiosError) => {
+        handleAxiosError(err);
+      });
+  };
+
+  update = (task: Task, teamId: number) => {
+    axios
+      .post(`${TASKS_API_URL}/update`, task)
       .then(() => {
         sprintStore.getAllForTeam(teamId);
         message.success("Task added successfully");

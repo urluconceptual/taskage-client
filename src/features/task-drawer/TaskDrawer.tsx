@@ -1,10 +1,16 @@
-import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  EyeOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import { Button, Drawer, Popconfirm } from "antd";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Task } from "../../models/Task";
 import { TaskDrawerButton, TaskDrawerMode } from "../../utils/ui";
 import { AddTaskDrawer } from "./AddTaskDrawer";
+import { EditTaskDrawer } from "./EditTaskDrawer";
+import { ViewTaskDrawer } from "./ViewTaskDrawer";
 
 export const TaskDrawer = observer(
   ({
@@ -17,11 +23,14 @@ export const TaskDrawer = observer(
     mode: TaskDrawerMode;
   }) => {
     const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+    const [currentDrawerMode, setCurrentDrawerMode] = useState(mode);
 
     const renderButton = (button: TaskDrawerButton) => {
       switch (button) {
         case TaskDrawerButton.EDIT:
           return <EditOutlined />;
+        case TaskDrawerButton.VIEW:
+          return <EyeOutlined />;
         case TaskDrawerButton.ADD:
           return (
             <Button onClick={() => setDrawerIsOpen(true)} type="primary">
@@ -36,10 +45,12 @@ export const TaskDrawer = observer(
     };
 
     const renderTitle = () => {
-      switch (mode) {
+      switch (currentDrawerMode) {
         case TaskDrawerMode.ADD:
           return "New Task";
-        default:
+        case TaskDrawerMode.VIEW:
+          return task?.title;
+        case TaskDrawerMode.EDIT:
           return (
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               {task?.title}
@@ -56,11 +67,25 @@ export const TaskDrawer = observer(
     };
 
     const renderContent = () => {
-      switch (mode) {
+      switch (currentDrawerMode) {
         case TaskDrawerMode.ADD:
           return <AddTaskDrawer closeDrawer={closeDrawer} />;
-        default:
-          return <div>Edit Task Form</div>;
+        case TaskDrawerMode.VIEW:
+          return (
+            <ViewTaskDrawer
+              task={task!}
+              closeDrawer={closeDrawer}
+              setCurrentDrawerMode={setCurrentDrawerMode}
+            />
+          );
+        case TaskDrawerMode.EDIT:
+          return (
+            <EditTaskDrawer
+              task={task!}
+              closeDrawer={closeDrawer}
+              setCurrentDrawerMode={setCurrentDrawerMode}
+            />
+          );
       }
     };
 

@@ -13,6 +13,7 @@ class SprintStore {
       getAllForTeam: action,
       create: action,
       sprintsAsDatasource: computed,
+      sprintsAsDictionary: computed,
     });
   }
 
@@ -44,6 +45,21 @@ class SprintStore {
       value: sprint.id,
       label: `Sprint ${formatDate(sprint?.startDate)} - ${formatDate(sprint?.endDate)}`,
     }));
+  }
+
+  get sprintsAsLabels() {
+    return this.allSprints.reduce((acc: { [key: number]: string }, sprint) => {
+      acc[sprint.id] =
+        `${formatDate(sprint?.startDate)} - ${formatDate(sprint?.endDate)}`;
+      return acc;
+    }, {});
+  }
+
+  get sprintsAsDictionary() {
+    return this.allSprints.reduce((acc: { [key: number]: Sprint }, sprint) => {
+      acc[sprint.id] = sprint;
+      return acc;
+    }, {});
   }
 }
 
