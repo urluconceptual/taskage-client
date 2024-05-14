@@ -1,6 +1,6 @@
+import { message } from "antd";
+import { AxiosError } from "axios";
 import { STYLESHEET_LIGHT } from "./consts";
-import {AxiosError} from "axios";
-import {message} from "antd";
 
 export const LIGHT_THEME = {
   components: {
@@ -34,6 +34,9 @@ export const LIGHT_THEME = {
     },
     Card: {
       colorBorderSecondary: STYLESHEET_LIGHT.colorBorder,
+    },
+    Progress: {
+      defaultColor: STYLESHEET_LIGHT.colorPrimary,
     },
   },
   token: {
