@@ -1,8 +1,8 @@
 import { Button, Card, Dropdown, MenuProps, Space } from "antd";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
+import { AddSprintModal } from "../features/sprint/AddSprintModal";
 import { TaskBoard } from "../features/task-board/TaskBoard";
-import { AddSprintModal } from "../features/task-drawer/AddSprintModal";
 import { TaskDrawer } from "../features/task-drawer/TaskDrawer";
 import { Sprint } from "../models/Sprint";
 import { dictionaryStore } from "../stores/DictionaryStore";

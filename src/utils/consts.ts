@@ -4,6 +4,7 @@ export const MANAGER_LINK = "/manager";
 export const TEAM_VIEW_ADMIN_LINK = `${ADMIN_LINK}/teams`;
 export const USER_VIEW_ADMIN_LINK = `${ADMIN_LINK}/users`;
 export const DASHBOARD_VIEW_MANAGER_LINK = `${MANAGER_LINK}/dashboard`;
+export const TEAM_DETAILS_MANAGER_LINK = `${MANAGER_LINK}/team`;
 
 export const UNAUTHORIZED_ACCESS_LINK = "/unauthorized-access";
 export const NOT_AUTHENTICATED_LINK = "/not-authenticated";

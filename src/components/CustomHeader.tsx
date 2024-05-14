@@ -1,17 +1,18 @@
-import React from "react";
-import { Header } from "antd/es/layout/layout";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FundProjectionScreenOutlined } from "@ant-design/icons";
+import { Button, Menu } from "antd";
+import { Header } from "antd/es/layout/layout";
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { userStore } from "../stores/UserStore";
 import {
   AUTH_ROLES,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
   STYLESHEET_LIGHT,
+  TEAM_DETAILS_MANAGER_LINK,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
 } from "../utils/consts";
-import { Button, Menu } from "antd";
-import { userStore } from "../stores/UserStore";
 
 const CustomHeader = () => {
   const location = useLocation();
@@ -52,6 +53,9 @@ const CustomHeader = () => {
             >
               <Menu.Item key={DASHBOARD_VIEW_MANAGER_LINK}>
                 <Link to={DASHBOARD_VIEW_MANAGER_LINK}>Sprint Dashboard</Link>
+              </Menu.Item>
+              <Menu.Item key={TEAM_DETAILS_MANAGER_LINK}>
+                <Link to={TEAM_DETAILS_MANAGER_LINK}>Team Details</Link>
               </Menu.Item>
             </Menu>
             <Button onClick={handleLogOutClick}>Log Out</Button>

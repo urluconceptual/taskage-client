@@ -7,23 +7,25 @@ import {
   Routes,
 } from "react-router-dom";
 import "./App.css";
+import PrivateRoute from "./components/PrivateRoute";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { EmployeeDirectory } from "./pages/EmployeeDirectory";
+import ErrorPage from "./pages/Error";
+import { Login } from "./pages/Login";
+import RootLayout from "./pages/Root";
+import { SprintDashboard } from "./pages/SprintDashboard";
+import { TeamDetails } from "./pages/TeamDetails";
+import { TeamManager } from "./pages/TeamManager";
 import {
   ADMIN_LINK,
   AUTH_ROLES,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
+  TEAM_DETAILS_MANAGER_LINK,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
 } from "./utils/consts";
 import { LIGHT_THEME } from "./utils/ui";
-import { AdminDashboard } from "./pages/AdminDashboard";
-import { EmployeeDirectory } from "./pages/EmployeeDirectory";
-import ErrorPage from "./pages/Error";
-import { Login } from "./pages/Login";
-import { SprintDashboard } from "./pages/SprintDashboard";
-import RootLayout from "./pages/Root";
-import { TeamManager } from "./pages/TeamManager";
-import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -49,6 +51,10 @@ function App() {
               <Route
                 path={DASHBOARD_VIEW_MANAGER_LINK}
                 element={<SprintDashboard />}
+              />
+              <Route
+                path={TEAM_DETAILS_MANAGER_LINK}
+                element={<TeamDetails />}
               />
             </Route>
             <Route path="*" element={<ErrorPage />} />
