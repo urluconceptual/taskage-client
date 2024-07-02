@@ -52,8 +52,7 @@ export const AddTaskDrawer = observer(
           .reduce((acc, x) => acc + x, 0) !== 0 &&
           form.getFieldValue("taskType") &&
           form.getFieldValue("effortPoints") &&
-          form.getFieldValue("priorityId") &&
-          form.getFieldValue("sprintId")
+          form.getFieldValue("priorityId")
       );
     };
 
@@ -85,23 +84,21 @@ export const AddTaskDrawer = observer(
       if (!canRequestSuggestions) {
         setBestOption(-1);
         setBestOptionDescription(
-          "Please fill in: priority, sprint, effort points and type to find best option."
+          "Please fill in: priority, effort points and type to find best option."
         );
       } else {
         const priorityId = form.getFieldValue("priorityId");
-        const sprintId = form.getFieldValue("sprintId");
         const effortPoints = form.getFieldValue("effortPoints");
         const taskType = form.getFieldValue("taskType");
 
         const recommendation = await taskStore.findBestOption(
           priorityId,
-          sprintId,
           effortPoints,
           taskType
         );
         setBestOption(recommendation);
         setBestOptionDescription(
-          "Best option: " + userStore.userDictionary[recommendation]?.userLabel
+          `${userStore.userDictionary[recommendation]?.userLabel} is a great option for this task.`
         );
       }
       setShowBestOptionPopconfirm(true);

@@ -28,7 +28,6 @@ export const EditTaskDrawer = observer(
     const [taskTypeDataSource, setTaskTypeDataSource] = useState<TaskType[]>(
       []
     );
-    const [canRequestSuggestions, setCanRequestSuggestions] = useState(true);
 
     useEffect(() => {
       taskTypeStore.getAll();
@@ -68,20 +67,6 @@ export const EditTaskDrawer = observer(
       taskStore.update(editedTaskObj);
       form.resetFields();
       closeDrawer();
-    };
-
-    const retryGetSuggestions = () => {
-      setCanRequestSuggestions(
-        !(
-          sprintStore.allSprints
-            .map((sprint) => sprint.tasks.length)
-            .reduce((acc, x) => acc + x, 0) !== 0 &&
-          form.getFieldValue("taskType") &&
-          form.getFieldValue("effortPoints") &&
-          form.getFieldValue("priorityId") &&
-          form.getFieldValue("sprintId")
-        )
-      );
     };
 
     const addTaskType = () => {
@@ -167,9 +152,6 @@ export const EditTaskDrawer = observer(
             style={FORM_ITEM_STYLE}
           />
         </Form.Item>
-        <Button type="primary" disabled={canRequestSuggestions}>
-          Find best option
-        </Button>
         <Form.Item
           label="Status"
           name={"statusId"}
@@ -237,7 +219,6 @@ export const EditTaskDrawer = observer(
                     value={newTaskType}
                     onChange={(e) => {
                       setNewTaskType(e.target.value);
-                      retryGetSuggestions();
                     }}
                   />
 

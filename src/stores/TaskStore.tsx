@@ -82,7 +82,6 @@ class TaskStore {
 
   findBestOption = async (
     priorityId: number,
-    sprintId: number,
     effortPoints: number,
     taskType: number
   ): Promise<number> => {
