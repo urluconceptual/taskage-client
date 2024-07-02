@@ -65,7 +65,7 @@ export const EditTaskDrawer = observer(
         },
       };
       var teamId = userStore.currentUser?.user.team.id!;
-      taskStore.update(editedTaskObj, teamId);
+      taskStore.update(editedTaskObj);
       form.resetFields();
       closeDrawer();
     };

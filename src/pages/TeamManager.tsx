@@ -30,7 +30,7 @@ export const TeamManager = observer(() => {
       teamStore.allTeams.filter((team) => {
         return (
           team.name.toLowerCase().includes(filterOptions.name.toLowerCase()) &&
-          userStore.userDictionary[team.teamLeadId].userLabel
+          userStore.userDictionary[team.teamLeadId]?.userLabel
             .toLowerCase()
             .includes(filterOptions.teamLead.toLowerCase())
         );
@@ -154,7 +154,7 @@ export const TeamManager = observer(() => {
             pageSize: 10,
           }}
           size="middle"
-          rowKey={(record) => record.id.toString()}
+          rowKey={(record) => record.id?.toString()}
           style={{ width: "100%" }}
         />
       </Card>

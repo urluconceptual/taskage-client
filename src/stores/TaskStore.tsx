@@ -14,7 +14,6 @@ class TaskStore {
     makeObservable(this, {
       create: action,
       update: action,
-      updateTasksFromWebSocket: action,
       findBestOption: action,
     });
 
@@ -36,20 +35,22 @@ class TaskStore {
 
   connectWebSocket = () => {
     WebSocketService.connect("task");
+    WebSocketService.on("task", "ADD", this.handleWebSocketMessage);
+    WebSocketService.on("task", "UPDATE", this.handleWebSocketMessage);
+    WebSocketService.on("task", "DELETE", this.handleWebSocketMessage);
   };
 
   disconnectWebSocket = () => {
     WebSocketService.disconnect("task");
-    WebSocketService.off("tasks", "TASK_ADD");
-    WebSocketService.off("tasks", "TASK_UPDATE");
-    WebSocketService.off("tasks", "TASK_DELETE");
+    WebSocketService.off("task", "ADD");
+    WebSocketService.off("task", "UPDATE");
+    WebSocketService.off("task", "DELETE");
   };
 
-  create = (newTask: Task, teamId: number) => {
+  create = (newTask: Task) => {
     axios
       .post(`${TASKS_API_URL}/create`, newTask)
       .then(() => {
-        sprintStore.getAllForTeam(teamId);
         message.success("Task added successfully");
       })
       .catch((err: AxiosError) => {
@@ -57,11 +58,10 @@ class TaskStore {
       });
   };
 
-  update = (task: Task, teamId: number) => {
+  update = (task: Task) => {
     axios
       .post(`${TASKS_API_URL}/update`, task)
       .then(() => {
-        sprintStore.getAllForTeam(teamId);
         message.success("Task updated successfully");
       })
       .catch((err: AxiosError) => {
@@ -69,11 +69,10 @@ class TaskStore {
       });
   };
 
-  delete = (taskId: number, teamId: number) => {
+  delete = (taskId: number) => {
     axios
       .delete(`${TASKS_API_URL}/delete/${taskId}`)
       .then(() => {
-        sprintStore.getAllForTeam(teamId);
         message.success("Task deleted successfully");
       })
       .catch((err: AxiosError) => {
@@ -107,12 +106,31 @@ class TaskStore {
       });
   };
 
-  updateTasksFromWebSocket = (message: any) => {
-    const { action, task, taskId } = message;
-  };
-
   handleWebSocketMessage = (message: any) => {
-    this.updateTasksFromWebSocket(message);
+    const { action, task, taskId } = message;
+    switch (action) {
+      case "ADD":
+        sprintStore.allSprints = sprintStore.allSprints.map((s) =>
+          s.id === task.sprintId ? { ...s, tasks: s.tasks.concat(task) } : s
+        );
+        break;
+      case "UPDATE":
+        sprintStore.allSprints = sprintStore.allSprints.map((s) =>
+          s.id === task.sprintId
+            ? { ...s, tasks: s.tasks.map((t) => (t.id === task.id ? task : t)) }
+            : s
+        );
+        break;
+      case "DELETE":
+        sprintStore.allSprints = sprintStore.allSprints.map((s) =>
+          s.tasks.some((t) => t.id === taskId)
+            ? { ...s, tasks: s.tasks.filter((t) => t.id !== taskId) }
+            : s
+        );
+        break;
+      default:
+        break;
+    }
   };
 }
 

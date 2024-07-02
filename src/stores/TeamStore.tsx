@@ -15,7 +15,6 @@ class TeamStore {
       allTeams: observable,
       getAll: action,
       getTeamMembersForTeam: action,
-      updateTeamsFromWebSocket: action,
     });
 
     reaction(
@@ -99,7 +98,7 @@ class TeamStore {
       });
   };
 
-  updateTeamsFromWebSocket = (message: any) => {
+  handleWebSocketMessage = (message: any) => {
     const { action, team, teamId } = message;
     switch (action) {
       case "ADD":
@@ -114,10 +113,6 @@ class TeamStore {
       default:
         break;
     }
-  };
-
-  handleWebSocketMessage = (message: any) => {
-    this.updateTeamsFromWebSocket(message);
   };
 }
 

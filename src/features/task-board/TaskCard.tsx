@@ -40,7 +40,7 @@ export const TaskCard = observer(({ task }: { task: Task }) => {
           {dictionaryStore.priorityDictionary[task.priorityId]}
         </Tag>
         <Tag style={{ margin: 0 }} color="green">
-          {userStore.userDictionary[task.assigneeId].userLabel}
+          {userStore.userDictionary[task.assigneeId]?.userLabel}
         </Tag>
       </div>
     </Card.Grid>

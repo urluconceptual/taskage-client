@@ -11,6 +11,7 @@ import { TaskDrawerButton, TaskDrawerMode } from "../../utils/ui";
 import { AddTaskDrawer } from "./AddTaskDrawer";
 import { EditTaskDrawer } from "./EditTaskDrawer";
 import { ViewTaskDrawer } from "./ViewTaskDrawer";
+import { taskStore } from "../../stores/TaskStore";
 
 export const TaskDrawer = observer(
   ({
@@ -44,6 +45,11 @@ export const TaskDrawer = observer(
       setDrawerIsOpen(false);
     };
 
+    const hondleConfirmDelete = () => {
+      taskStore.delete(task!.id);
+      closeDrawer();
+    };
+
     const renderTitle = () => {
       switch (currentDrawerMode) {
         case TaskDrawerMode.ADD:
@@ -58,6 +64,7 @@ export const TaskDrawer = observer(
                 title="Delete this task"
                 description="Are you sure you want to delete this task? This action is irreversible."
                 icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                onConfirm={hondleConfirmDelete}
               >
                 <Button danger>Delete</Button>
               </Popconfirm>

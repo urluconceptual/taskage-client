@@ -1,6 +1,6 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import {
   CurrentUser,
   LogInRequestObj,
@@ -9,6 +9,7 @@ import {
 } from "../models/User";
 import { USERS_API_URL } from "../utils/consts";
 import { handleAxiosError } from "../utils/ui";
+import WebSocketService from "../utils/WebSocketService";
 
 class UserStore {
   currentUser: CurrentUser | null = null;
@@ -28,7 +29,36 @@ class UserStore {
       automaticLogInWaiting: observable,
       getAllForTeam: action,
     });
+
+    reaction(
+      () => this.isSignedIn,
+      (isLoggedIn) => {
+        if (isLoggedIn) {
+          this.connectWebSockets();
+        } else {
+          this.disconnectWebSockets();
+        }
+      }
+    );
+
+    if (this.isSignedIn) {
+      this.connectWebSockets();
+    }
   }
+
+  connectWebSockets = () => {
+    WebSocketService.connect("user");
+    WebSocketService.on("user", "ADD", this.handleWebSocketMessage);
+    WebSocketService.on("user", "UPDATE", this.handleWebSocketMessage);
+    WebSocketService.on("user", "DELETE", this.handleWebSocketMessage);
+  };
+
+  disconnectWebSockets = () => {
+    WebSocketService.disconnect("user");
+    WebSocketService.off("user", "ADD");
+    WebSocketService.off("user", "UPDATE");
+    WebSocketService.off("user", "DELETE");
+  };
 
   get isSignedIn() {
     return this.currentUser !== null;
@@ -156,6 +186,23 @@ class UserStore {
       .catch((err) => {
         handleAxiosError(err);
       });
+  };
+
+  handleWebSocketMessage = (message: any) => {
+    const { action, user, userId } = message;
+    switch (action) {
+      case "ADD":
+        this.allUsers = this.allUsers.concat(user);
+        break;
+      case "UPDATE":
+        this.allUsers = this.allUsers.map((t) => (t.id === user.id ? user : t));
+        break;
+      case "DELETE":
+        this.allUsers = this.allUsers.filter((t) => t.id !== userId);
+        break;
+      default:
+        break;
+    }
   };
 }
 

@@ -76,8 +76,7 @@ export const AddTaskDrawer = observer(
               : taskTypeDataSource.find((taskType) => taskType.id === -1)?.name,
         },
       };
-      var teamId = userStore.currentUser?.user.team.id!;
-      taskStore.create(newTask, teamId);
+      taskStore.create(newTask);
       form.resetFields();
       closeDrawer();
     };
@@ -103,7 +102,7 @@ export const AddTaskDrawer = observer(
         );
         setBestOption(recommendation);
         setBestOptionDescription(
-          "Best option: " + userStore.userDictionary[recommendation].userLabel
+          "Best option: " + userStore.userDictionary[recommendation]?.userLabel
         );
       }
       setShowBestOptionPopconfirm(true);

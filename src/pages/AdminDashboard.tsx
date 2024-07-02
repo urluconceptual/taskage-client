@@ -141,9 +141,10 @@ const AdminDashboard: React.FC = observer(() => {
                   </Select>
                 </Col>
               </Row>
-              <Table<UserActivityLog>
+              <Table
                 pagination={{
                   pageSize: 7,
+                  showSizeChanger: false,
                 }}
                 dataSource={filteredActivities}
                 columns={userActivityColumns}

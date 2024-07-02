@@ -104,7 +104,7 @@ export const TeamDetails = observer(() => {
     const data = Object.entries(userStore.userDictionary)
       .filter(([key, item]: any) => item.userData?.username == "bjohnson")
       .map(([key, user]) => ({
-        title: user.userLabel,
+        title: user?.userLabel,
         capacity: sprintStore.sprintsAsDictionary[selectedSprintId].tasks
           .filter((task) => task.assigneeId === parseInt(key))
           .map((task) => task.estimation)

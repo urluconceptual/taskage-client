@@ -194,7 +194,7 @@ export const EmployeeDirectory = observer(() => {
             pageSize: 10,
           }}
           size="middle"
-          rowKey={(record) => record.id.toString()}
+          rowKey={(record) => record.id?.toString()}
           style={{ width: "100%" }}
         />
       </Card>

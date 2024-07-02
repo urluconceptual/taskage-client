@@ -45,7 +45,7 @@ export const ViewTaskDrawer = observer(
           type="inner"
           title="Assignee"
         >
-          {userStore.userDictionary[task.assigneeId].userLabel}
+          {userStore.userDictionary[task.assigneeId]?.userLabel}
         </Card>
         <Card
           size="small"
