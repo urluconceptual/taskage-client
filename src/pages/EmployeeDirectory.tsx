@@ -42,10 +42,9 @@ export const EmployeeDirectory = observer(() => {
           user.jobTitle
             .name!.toLowerCase()
             .includes(filterOptions.jobTitle.toLowerCase()) &&
-          (user.team === null ||
-            user.team?.name
-              .toLowerCase()
-              .includes(filterOptions.team.toLowerCase()))
+          user.team?.name
+            .toLowerCase()
+            .includes(filterOptions.team.toLowerCase())
         );
       })
     );

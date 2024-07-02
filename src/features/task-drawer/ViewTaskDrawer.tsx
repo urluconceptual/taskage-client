@@ -1,9 +1,10 @@
 import { Button, Card } from "antd";
 import { observer } from "mobx-react";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Task } from "../../models/Task";
 import { dictionaryStore } from "../../stores/DictionaryStore";
 import { sprintStore } from "../../stores/SprintStore";
+import { taskTypeStore } from "../../stores/TaskTypeStore";
 import { userStore } from "../../stores/UserStore";
 import { TaskDrawerMode } from "../../utils/ui";
 
@@ -20,6 +21,10 @@ export const ViewTaskDrawer = observer(
     const handleSwitchToEditing = () => {
       setCurrentDrawerMode(TaskDrawerMode.EDIT);
     };
+
+    useEffect(() => {
+      taskTypeStore.getAll();
+    }, []);
 
     return (
       <>
@@ -46,9 +51,20 @@ export const ViewTaskDrawer = observer(
           size="small"
           style={{ marginTop: 16 }}
           type="inner"
+          title="Effort"
+        >
+          {`${task.effortPoints} points`}
+        </Card>
+        <Card
+          size="small"
+          style={{ marginTop: 16 }}
+          type="inner"
           title="Progress"
         >
           {`${task.progress}/${task.estimation}h`}
+        </Card>
+        <Card size="small" style={{ marginTop: 16 }} type="inner" title="Type">
+          {`${task.taskType.name.toUpperCase()} Task`}
         </Card>
         <Card
           size="small"

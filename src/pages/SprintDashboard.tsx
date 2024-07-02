@@ -1,6 +1,8 @@
+import React from "react";
+
 import { Button, Card, Dropdown, MenuProps, Space } from "antd";
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AddSprintModal } from "../features/sprint/AddSprintModal";
 import { TaskBoard } from "../features/task-board/TaskBoard";
 import { TaskDrawer } from "../features/task-drawer/TaskDrawer";
@@ -24,6 +26,7 @@ export const SprintDashboard = observer(() => {
   }, [sprintStore.allSprints]);
 
   useEffect(() => {
+    console.log(userStore.currentUser);
     let teamId = userStore.currentUser?.user.team.id!;
     sprintStore.getAllForTeam(teamId);
     userStore.getAllForTeam(teamId);

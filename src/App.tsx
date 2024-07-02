@@ -1,5 +1,6 @@
-import { ConfigProvider } from "antd";
 import React from "react";
+
+import { ConfigProvider } from "antd";
 import {
   Navigate,
   Route,
@@ -8,7 +9,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import PrivateRoute from "./components/PrivateRoute";
-import { AdminDashboard } from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import { EmployeeDirectory } from "./pages/EmployeeDirectory";
 import ErrorPage from "./pages/Error";
 import { Login } from "./pages/Login";
@@ -17,7 +18,7 @@ import { SprintDashboard } from "./pages/SprintDashboard";
 import { TeamDetails } from "./pages/TeamDetails";
 import { TeamManager } from "./pages/TeamManager";
 import {
-  ADMIN_LINK,
+  ADMIN_DASHBOARD_LINK,
   AUTH_ROLES,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
@@ -35,7 +36,6 @@ function App() {
           <Route path="/" element={<RootLayout />}>
             <Route index element={<Navigate to={LOGIN_LINK} replace />} />
             <Route path={LOGIN_LINK} element={<Login />} />
-            <Route path={ADMIN_LINK} element={<AdminDashboard />} />
             <Route
               element={<PrivateRoute allowedAuthRole={AUTH_ROLES.ADMIN} />}
             >
@@ -44,6 +44,7 @@ function App() {
                 path={USER_VIEW_ADMIN_LINK}
                 element={<EmployeeDirectory />}
               />
+              <Route path={ADMIN_DASHBOARD_LINK} element={<AdminDashboard />} />
             </Route>
             <Route
               element={<PrivateRoute allowedAuthRole={AUTH_ROLES.MANAGER} />}

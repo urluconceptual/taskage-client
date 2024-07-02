@@ -1,7 +1,8 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, reaction } from "mobx";
 import { Team, TeamRequestObj } from "../models/Team";
+import WebSocketService from "../utils/WebSocketService";
 import { TEAMS_API_URL } from "../utils/consts";
 import { handleAxiosError } from "../utils/ui";
 import { userStore } from "./UserStore";
@@ -14,8 +15,38 @@ class TeamStore {
       allTeams: observable,
       getAll: action,
       getTeamMembersForTeam: action,
+      updateTeamsFromWebSocket: action,
     });
+
+    reaction(
+      () => userStore.isSignedIn,
+      (isLoggedIn) => {
+        if (isLoggedIn) {
+          this.connectWebSockets();
+        } else {
+          this.disconnectWebSockets();
+        }
+      }
+    );
+
+    if (userStore.isSignedIn) {
+      this.connectWebSockets();
+    }
   }
+
+  connectWebSockets = () => {
+    WebSocketService.connect("team");
+    WebSocketService.on("team", "ADD", this.handleWebSocketMessage);
+    WebSocketService.on("team", "UPDATE", this.handleWebSocketMessage);
+    WebSocketService.on("team", "DELETE", this.handleWebSocketMessage);
+  };
+
+  disconnectWebSockets = () => {
+    WebSocketService.disconnect("team");
+    WebSocketService.off("team", "ADD");
+    WebSocketService.off("team", "UPDATE");
+    WebSocketService.off("team", "DELETE");
+  };
 
   getAll = () => {
     axios
@@ -66,6 +97,27 @@ class TeamStore {
       .catch((err: AxiosError) => {
         handleAxiosError(err);
       });
+  };
+
+  updateTeamsFromWebSocket = (message: any) => {
+    const { action, team, teamId } = message;
+    switch (action) {
+      case "ADD":
+        this.allTeams = this.allTeams.concat(team);
+        break;
+      case "UPDATE":
+        this.allTeams = this.allTeams.map((t) => (t.id === team.id ? team : t));
+        break;
+      case "DELETE":
+        this.allTeams = this.allTeams.filter((t) => t.id !== teamId);
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleWebSocketMessage = (message: any) => {
+    this.updateTeamsFromWebSocket(message);
   };
 }
 

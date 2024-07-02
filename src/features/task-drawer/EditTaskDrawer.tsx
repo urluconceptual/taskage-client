@@ -1,13 +1,17 @@
-import { Button, Form, Input, InputNumber, Select } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Divider, Form, Input, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { observer } from "mobx-react";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Task } from "../../models/Task";
+import { TaskType } from "../../models/TaskType";
 import { dictionaryStore } from "../../stores/DictionaryStore";
 import { sprintStore } from "../../stores/SprintStore";
 import { taskStore } from "../../stores/TaskStore";
+import { taskTypeStore } from "../../stores/TaskTypeStore";
 import { userStore } from "../../stores/UserStore";
-import { FORM_ITEM_STYLE, TaskDrawerMode } from "../../utils/ui";
+import { STYLESHEET_LIGHT } from "../../utils/consts";
+import { FORM_ITEM_STYLE, TaskDrawerMode, filterOption } from "../../utils/ui";
 
 export const EditTaskDrawer = observer(
   ({
@@ -20,17 +24,69 @@ export const EditTaskDrawer = observer(
     task: Task;
   }) => {
     const [form] = Form.useForm();
+    const [newTaskType, setNewTaskType] = useState("");
+    const [taskTypeDataSource, setTaskTypeDataSource] = useState<TaskType[]>(
+      []
+    );
+    const [canRequestSuggestions, setCanRequestSuggestions] = useState(true);
+
+    useEffect(() => {
+      taskTypeStore.getAll();
+    }, []);
+
+    useEffect(() => {
+      setTaskTypeDataSource(taskTypeStore.allTaskTypes);
+    }, [taskTypeStore.allTaskTypes]);
 
     const handleCancelClick = () => {
       setCurrentDrawerMode(TaskDrawerMode.VIEW);
     };
 
-    const handleEditTaskForm = (editedTask: Task) => {
-      editedTask.id = task.id;
+    const handleEditTaskForm = (editedTask: any) => {
+      const editedTaskObj: Task = {
+        id: task.id,
+        title: editedTask.title,
+        description: editedTask.description,
+        statusId: parseInt(editedTask.statusId),
+        priorityId: parseInt(editedTask.priorityId),
+        sprintId: parseInt(editedTask.sprintId),
+        assigneeId: parseInt(editedTask.assigneeId),
+        effortPoints: editedTask.effortPoints,
+        progress: editedTask.progress,
+        estimation: editedTask.estimation,
+        taskType: {
+          id: parseInt(editedTask.taskType),
+          name:
+            parseInt(editedTask.taskType) !== -1
+              ? taskTypeDataSource.find(
+                  (taskType) => taskType.id === parseInt(editedTask.taskType)
+                )?.name
+              : editedTask.taskType,
+        },
+      };
       var teamId = userStore.currentUser?.user.team.id!;
-      taskStore.update(editedTask, teamId);
+      taskStore.update(editedTaskObj, teamId);
       form.resetFields();
       closeDrawer();
+    };
+
+    const retryGetSuggestions = () => {
+      setCanRequestSuggestions(
+        !(
+          sprintStore.allSprints
+            .map((sprint) => sprint.tasks.length)
+            .reduce((acc, x) => acc + x, 0) !== 0 &&
+          form.getFieldValue("taskType") &&
+          form.getFieldValue("effortPoints") &&
+          form.getFieldValue("priorityId") &&
+          form.getFieldValue("sprintId")
+        )
+      );
+    };
+
+    const addTaskType = () => {
+      setTaskTypeDataSource((prev) => [...prev, { id: -1, name: newTaskType }]);
+      setNewTaskType("");
     };
 
     return (
@@ -111,6 +167,9 @@ export const EditTaskDrawer = observer(
             style={FORM_ITEM_STYLE}
           />
         </Form.Item>
+        <Button type="primary" disabled={canRequestSuggestions}>
+          Find best option
+        </Button>
         <Form.Item
           label="Status"
           name={"statusId"}
@@ -126,6 +185,74 @@ export const EditTaskDrawer = observer(
           <Select
             options={dictionaryStore.statusAsDatasource}
             style={FORM_ITEM_STYLE}
+          />
+        </Form.Item>
+        <Form.Item
+          label="Effort Points"
+          name={"effortPoints"}
+          style={{ marginBottom: 0, marginTop: 24 }}
+          rules={[
+            {
+              required: true,
+              message: "Please provide a value for effort points.",
+            },
+            {
+              type: "number",
+              min: 0,
+              message: "Effort must be greater than 0.",
+            },
+          ]}
+          initialValue={task.effortPoints}
+        >
+          <InputNumber style={FORM_ITEM_STYLE} />
+        </Form.Item>
+        <Form.Item
+          label="Type"
+          name={"taskType"}
+          style={{ marginBottom: 0, marginTop: 24 }}
+          rules={[
+            {
+              required: true,
+              message: "Please select.",
+            },
+          ]}
+          initialValue={task.taskType.id?.toString()}
+        >
+          <Select
+            style={FORM_ITEM_STYLE}
+            showSearch
+            filterOption={filterOption}
+            options={taskTypeDataSource.map((taskType) => ({
+              label: taskType.name!,
+              value: taskType.id!.toString(),
+            }))}
+            notFoundContent={null}
+            dropdownRender={(menu) => (
+              <div>
+                {menu}
+                <Divider style={{ margin: "8px 0" }} />
+                <div style={{ padding: "0 8px 4px", display: "flex" }}>
+                  <Input
+                    placeholder="Add task type"
+                    value={newTaskType}
+                    onChange={(e) => {
+                      setNewTaskType(e.target.value);
+                      retryGetSuggestions();
+                    }}
+                  />
+
+                  <Button
+                    type="text"
+                    icon={
+                      <PlusOutlined
+                        style={{ color: STYLESHEET_LIGHT.colorPrimary }}
+                      />
+                    }
+                    onClick={addTaskType}
+                  />
+                </div>
+              </div>
+            )}
           />
         </Form.Item>
         <Form.Item

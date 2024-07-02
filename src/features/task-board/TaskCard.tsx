@@ -1,6 +1,6 @@
+import React from "react";
 import { Card, Tag } from "antd";
 import { observer } from "mobx-react";
-import React from "react";
 import { Task } from "../../models/Task";
 import { dictionaryStore } from "../../stores/DictionaryStore";
 import { userStore } from "../../stores/UserStore";

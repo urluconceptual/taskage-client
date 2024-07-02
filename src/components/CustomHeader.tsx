@@ -1,10 +1,11 @@
+import React from "react";
 import { FundProjectionScreenOutlined } from "@ant-design/icons";
 import { Button, Menu } from "antd";
 import { Header } from "antd/es/layout/layout";
-import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userStore } from "../stores/UserStore";
 import {
+  ADMIN_DASHBOARD_LINK,
   AUTH_ROLES,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
@@ -39,6 +40,9 @@ const CustomHeader = () => {
               <Menu.Item key={TEAM_VIEW_ADMIN_LINK}>
                 <Link to={TEAM_VIEW_ADMIN_LINK}>Team Manager</Link>
               </Menu.Item>
+              <Menu.Item key={ADMIN_DASHBOARD_LINK}>
+                <Link to={ADMIN_DASHBOARD_LINK}>My Metrics</Link>
+              </Menu.Item>
             </Menu>
             <Button onClick={handleLogOutClick}>Log Out</Button>
           </>
@@ -55,7 +59,7 @@ const CustomHeader = () => {
                 <Link to={DASHBOARD_VIEW_MANAGER_LINK}>Sprint Dashboard</Link>
               </Menu.Item>
               <Menu.Item key={TEAM_DETAILS_MANAGER_LINK}>
-                <Link to={TEAM_DETAILS_MANAGER_LINK}>Team Details</Link>
+                <Link to={TEAM_DETAILS_MANAGER_LINK}>My Details</Link>
               </Menu.Item>
             </Menu>
             <Button onClick={handleLogOutClick}>Log Out</Button>

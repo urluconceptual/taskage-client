@@ -7,7 +7,7 @@ import { jobTitleStore } from "../../stores/JobTitleStore";
 import { teamStore } from "../../stores/TeamStore";
 import { userStore } from "../../stores/UserStore";
 import { STYLESHEET_LIGHT } from "../../utils/consts";
-import { FORM_ITEM_STYLE } from "../../utils/ui";
+import { FORM_ITEM_STYLE, filterOption } from "../../utils/ui";
 
 export const AddUserDrawer = observer(
   ({ closeDrawer }: { closeDrawer: () => void }) => {
@@ -25,11 +25,6 @@ export const AddUserDrawer = observer(
     useEffect(() => {
       setJobTitleDataSource(jobTitleStore.allJobTitles);
     }, [jobTitleStore.allJobTitles]);
-
-    const filterOption = (
-      input: string,
-      option?: { label: string; value: string }
-    ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const addJobTitle = () => {
       setJobTitleDataSource((prev) => [...prev, { id: -1, name: newJobTitle }]);

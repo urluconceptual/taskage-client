@@ -101,7 +101,8 @@ export const TaskDrawer = observer(
           title={renderTitle()}
           open={drawerIsOpen}
           closable={false}
-          width={"35%"}
+          width={"40%"}
+          style={{ padding: "10px" }}
           onClose={() => closeDrawer()}
           placement="right"
         >
