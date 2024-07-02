@@ -1,11 +1,14 @@
 export const LOGIN_LINK = "/login";
 export const ADMIN_LINK = "/admin";
 export const MANAGER_LINK = "/manager";
+export const BASIC_LINK = "/basic";
 export const TEAM_VIEW_ADMIN_LINK = `${ADMIN_LINK}/teams`;
 export const USER_VIEW_ADMIN_LINK = `${ADMIN_LINK}/users`;
 export const ADMIN_DASHBOARD_LINK = `${ADMIN_LINK}/dashboard`;
 export const DASHBOARD_VIEW_MANAGER_LINK = `${MANAGER_LINK}/dashboard`;
 export const TEAM_DETAILS_MANAGER_LINK = `${MANAGER_LINK}/team`;
+export const DASHBOARD_VIEW_BASIC_LINK = `${BASIC_LINK}/dashboard`;
+export const MY_DETAILS_LINK = `${BASIC_LINK}/team`;
 
 export const UNAUTHORIZED_ACCESS_LINK = "/unauthorized-access";
 export const NOT_AUTHENTICATED_LINK = "/not-authenticated";

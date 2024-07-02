@@ -82,7 +82,6 @@ export const AddTaskDrawer = observer(
     };
 
     const findBestOption = async () => {
-      console.log("canRequestSuggestions", canRequestSuggestions);
       if (!canRequestSuggestions) {
         setBestOption(-1);
         setBestOptionDescription(

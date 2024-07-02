@@ -26,7 +26,6 @@ export const SprintDashboard = observer(() => {
   }, [sprintStore.allSprints]);
 
   useEffect(() => {
-    console.log(userStore.currentUser);
     let teamId = userStore.currentUser?.user.team.id!;
     sprintStore.getAllForTeam(teamId);
     userStore.getAllForTeam(teamId);

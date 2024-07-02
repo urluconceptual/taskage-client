@@ -7,8 +7,10 @@ import { userStore } from "../stores/UserStore";
 import {
   ADMIN_DASHBOARD_LINK,
   AUTH_ROLES,
+  DASHBOARD_VIEW_BASIC_LINK,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
+  MY_DETAILS_LINK,
   STYLESHEET_LIGHT,
   TEAM_DETAILS_MANAGER_LINK,
   TEAM_VIEW_ADMIN_LINK,
@@ -59,7 +61,25 @@ const CustomHeader = () => {
                 <Link to={DASHBOARD_VIEW_MANAGER_LINK}>Sprint Dashboard</Link>
               </Menu.Item>
               <Menu.Item key={TEAM_DETAILS_MANAGER_LINK}>
-                <Link to={TEAM_DETAILS_MANAGER_LINK}>My Details</Link>
+                <Link to={TEAM_DETAILS_MANAGER_LINK}>Team Details</Link>
+              </Menu.Item>
+            </Menu>
+            <Button onClick={handleLogOutClick}>Log Out</Button>
+          </>
+        );
+      case AUTH_ROLES.USER:
+        return (
+          <>
+            <Menu
+              mode="horizontal"
+              style={{ justifyContent: "flex-end", flex: 6 }}
+              selectedKeys={[location.pathname]}
+            >
+              <Menu.Item key={DASHBOARD_VIEW_BASIC_LINK}>
+                <Link to={DASHBOARD_VIEW_BASIC_LINK}>Sprint Dashboard</Link>
+              </Menu.Item>
+              <Menu.Item key={MY_DETAILS_LINK}>
+                <Link to={MY_DETAILS_LINK}>My Details</Link>
               </Menu.Item>
             </Menu>
             <Button onClick={handleLogOutClick}>Log Out</Button>

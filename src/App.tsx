@@ -20,8 +20,10 @@ import { TeamManager } from "./pages/TeamManager";
 import {
   ADMIN_DASHBOARD_LINK,
   AUTH_ROLES,
+  DASHBOARD_VIEW_BASIC_LINK,
   DASHBOARD_VIEW_MANAGER_LINK,
   LOGIN_LINK,
+  MY_DETAILS_LINK,
   TEAM_DETAILS_MANAGER_LINK,
   TEAM_VIEW_ADMIN_LINK,
   USER_VIEW_ADMIN_LINK,
@@ -57,6 +59,13 @@ function App() {
                 path={TEAM_DETAILS_MANAGER_LINK}
                 element={<TeamDetails />}
               />
+            </Route>
+            <Route element={<PrivateRoute allowedAuthRole={AUTH_ROLES.USER} />}>
+              <Route
+                path={DASHBOARD_VIEW_BASIC_LINK}
+                element={<SprintDashboard />}
+              />
+              <Route path={MY_DETAILS_LINK} element={<TeamDetails />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Route>

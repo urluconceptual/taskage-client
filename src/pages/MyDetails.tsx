@@ -1,13 +1,55 @@
-import { Button, Card, Dropdown, List, MenuProps, Progress, Space } from "antd";
+import { Card, List, MenuProps, Progress } from "antd";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
-import { AddSprintModal } from "../features/sprint/AddSprintModal";
 import { Sprint } from "../models/Sprint";
 import { sprintStore } from "../stores/SprintStore";
 import { userStore } from "../stores/UserStore";
 import { formatDate } from "../utils/ui";
+import Chart from "react-google-charts";
+import Title from "antd/es/typography/Title";
 
-export const TeamDetails = observer(() => {
+const sprintData = [
+  {
+    sprintNumber: "Sprint 20/04/2024 - 30/04/2024",
+    effortPoints: 5,
+  },
+  {
+    sprintNumber: "Sprint 06/04/2024 - 20/04/2024",
+    effortPoints: 13,
+  },
+  {
+    sprintNumber: "Sprint 25/03/2024 - 05/04/2024",
+    effortPoints: 16,
+  },
+  {
+    sprintNumber: "Sprint 10/03/2024 - 24/03/2024",
+    effortPoints: 12,
+  },
+  {
+    sprintNumber: "Sprint 24/02/2024 - 09/03/2024",
+    effortPoints: 22,
+  },
+];
+
+const data = [
+  ["Sprint", "Effort Points"],
+  ...sprintData.map((sprint) => [sprint.sprintNumber, sprint.effortPoints]),
+];
+
+const options = {
+  title: "Effort Points per Sprint",
+  chartArea: { width: "50%" },
+  hAxis: {
+    title: "Effort Points",
+    minValue: 0,
+  },
+  vAxis: {
+    title: "Sprint",
+  },
+  bars: "horizontal",
+};
+
+export const MyDetails = observer(() => {
   const [sprintDatasource, setSprintDatasource] = useState<Sprint[]>([]);
   const [userDatasource, setUserDatasource] = useState<
     { title: string; capacity: number }[]
@@ -58,15 +100,15 @@ export const TeamDetails = observer(() => {
         sprintStore.sprintsAsDictionary[selectedSprintId]
       )
     );
-    const data = Object.entries(userStore.userDictionary).map(
-      ([key, user]) => ({
-        title: user.userLabel,
+    const data = Object.entries(userStore.userDictionary)
+      .filter(([key, item]: any) => item.userData?.username == "bjohnson")
+      .map(([key, user]) => ({
+        title: user?.userLabel,
         capacity: sprintStore.sprintsAsDictionary[selectedSprintId].tasks
           .filter((task) => task.assigneeId === parseInt(key))
           .map((task) => task.estimation)
           .reduce((acc, curr) => acc + curr, 0),
-      })
-    );
+      }));
 
     setUserDatasource(data);
   }, [selectedSprintId]);
@@ -86,7 +128,7 @@ export const TeamDetails = observer(() => {
           alignItems: "center",
         }}
       >
-        <h2>Team Details</h2>
+        <h2>My Details</h2>
       </div>
     );
   };
@@ -109,7 +151,7 @@ export const TeamDetails = observer(() => {
             marginBottom: 20,
           }}
         >
-          <Space>
+          {/* <Space>
             <Space.Compact>
               <Dropdown menu={sprintMenuProps}>
                 <Button>
@@ -120,8 +162,9 @@ export const TeamDetails = observer(() => {
                 lastSprintEndDate={sprintDatasource[0]?.endDate}
               />
             </Space.Compact>
-          </Space>
+          </Space> */}
         </div>
+        <Title level={4}>Current Sprint</Title>
         <List
           itemLayout="horizontal"
           dataSource={userDatasource}
@@ -137,6 +180,14 @@ export const TeamDetails = observer(() => {
               />
             </List.Item>
           )}
+        />
+        <Title level={4}>Last Sprints</Title>
+        <Chart
+          chartType="BarChart"
+          width="100%"
+          height="400px"
+          data={data}
+          options={options}
         />
       </Card>
     </div>
