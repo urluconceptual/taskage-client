@@ -39,9 +39,17 @@ export const STYLESHEET_LIGHT = {
   canvasColor: "#EAF3F6",
 };
 
+const getBaseURLString = (url: string | undefined) => {
+  if(!url) throw new Error("URL is not defined");
+  const parsedUrl = new URL(url);
+  return parsedUrl.host + parsedUrl.pathname;
+}
+
+
 export const CORE_BASE_URL = process.env.REACT_APP_CORE_BASE_URL;
 export const HELPER_BASE_URL = process.env.REACT_APP_HELPER_BASE_URL;
 
+export const WEBSOCKET_URL = `ws://${getBaseURLString(CORE_BASE_URL)}/ws`;
 export const USERS_API_URL = `${CORE_BASE_URL}/users`;
 export const TEAMS_API_URL = `${CORE_BASE_URL}/teams`;
 export const ADMIN_API_URL = `${CORE_BASE_URL}/admin`;

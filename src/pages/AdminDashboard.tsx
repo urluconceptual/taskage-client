@@ -147,7 +147,13 @@ const AdminDashboard: React.FC = observer(() => {
                 }}
                 dataSource={filteredActivities}
                 columns={userActivityColumns}
-                rowKey="timestamp"
+                rowKey={(record) =>
+                  record.timestamp +
+                  record.userId +
+                  record.level +
+                  record.activity +
+                  Math.random()
+                }
                 style={{ marginTop: "20px" }}
               />
             </Card>

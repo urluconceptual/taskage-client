@@ -90,7 +90,7 @@ export const TeamManager = observer(() => {
       dataIndex: "teamLeadId",
       key: "teamLeadId",
       render: (teamLeadId) => {
-        return userStore.userDictionary[teamLeadId].userLabel;
+        return userStore.userDictionary[teamLeadId]?.userLabel;
       },
     },
     {

@@ -1,10 +1,12 @@
+import { WEBSOCKET_URL } from "./consts";
+
 class WebSocketService {
   private sockets: { [key: string]: WebSocket | null } = {};
   private callbacks: { [key: string]: { [action: string]: (data: any) => void } } = {};
 
   connect(route: string) {
     if (!this.sockets[route]) {
-      const socket = new WebSocket(`ws://localhost:5001/core/ws/${route}`);
+      const socket = new WebSocket(`${WEBSOCKET_URL}/${route}`);
       this.sockets[route] = socket;
       this.callbacks[route] = {};
 
