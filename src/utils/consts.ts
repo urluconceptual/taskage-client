@@ -3,6 +3,7 @@ export const ADMIN_LINK = "/admin";
 export const MANAGER_LINK = "/manager";
 export const TEAM_VIEW_ADMIN_LINK = `${ADMIN_LINK}/teams`;
 export const USER_VIEW_ADMIN_LINK = `${ADMIN_LINK}/users`;
+export const ADMIN_DASHBOARD_LINK = `${ADMIN_LINK}/dashboard`;
 export const DASHBOARD_VIEW_MANAGER_LINK = `${MANAGER_LINK}/dashboard`;
 export const TEAM_DETAILS_MANAGER_LINK = `${MANAGER_LINK}/team`;
 
@@ -38,10 +39,15 @@ export const STYLESHEET_LIGHT = {
   canvasColor: "#EAF3F6",
 };
 
-export const CORE_BASE_URL = "http://localhost:5001";
+export const CORE_BASE_URL = process.env.REACT_APP_CORE_BASE_URL;
+export const HELPER_BASE_URL = process.env.REACT_APP_HELPER_BASE_URL;
+
 export const USERS_API_URL = `${CORE_BASE_URL}/users`;
 export const TEAMS_API_URL = `${CORE_BASE_URL}/teams`;
+export const ADMIN_API_URL = `${CORE_BASE_URL}/admin`;
 export const JOBTITLES_API_URL = `${CORE_BASE_URL}/jobTitles`;
+export const TASKTYPES_API_URL = `${CORE_BASE_URL}/taskTypes`;
 export const SPRINTS_API_URL = `${CORE_BASE_URL}/sprints`;
 export const DICTIONARIES_API_URL = `${CORE_BASE_URL}/dictionary`;
 export const TASKS_API_URL = `${CORE_BASE_URL}/tasks`;
+export const ASSIGNMENT_API_URL = `${HELPER_BASE_URL}/assignment`;
