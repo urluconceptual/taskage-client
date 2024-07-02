@@ -109,7 +109,25 @@ export const AddTaskDrawer = observer(
       setShowBestOptionPopconfirm(false);
     };
 
+    const getAssigneeOptions = () => {
+      if (!userStore.currentUser?.user.authRole?.includes("ROLE_MANAGER"))
+        return [
+          {
+            label: `${userStore.currentUser?.user.firstName} ${userStore.currentUser?.user.lastName}(${userStore.currentUser?.user.username})`,
+            value: userStore.currentUser?.user.id.toString(),
+          },
+        ];
+
+      return userStore.allUsers.map((user) => ({
+        label: `${user.firstName} ${user.lastName}(${user.username})`,
+        value: user.id.toString(),
+      }));
+    };
+
     const renderFindBestOptionButton = () => {
+      if (!userStore.currentUser?.user.authRole?.includes("ROLE_MANAGER"))
+        return null;
+
       return (
         <Popconfirm
           title="Find best option"
@@ -265,13 +283,7 @@ export const AddTaskDrawer = observer(
             },
           ]}
         >
-          <Select
-            options={userStore.allUsers.map((user) => ({
-              label: `${user.firstName} ${user.lastName}(${user.username})`,
-              value: user.id.toString(),
-            }))}
-            style={FORM_ITEM_STYLE}
-          />
+          <Select options={getAssigneeOptions()} style={FORM_ITEM_STYLE} />
         </Form.Item>
         {renderFindBestOptionButton()}
         <Form.Item

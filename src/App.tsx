@@ -29,6 +29,8 @@ import {
   USER_VIEW_ADMIN_LINK,
 } from "./utils/consts";
 import { LIGHT_THEME } from "./utils/ui";
+import { SprintDashboardBasic } from "./pages/SprintDashboardBasic";
+import { MyDetails } from "./pages/MyDetails";
 
 function App() {
   return (
@@ -63,9 +65,9 @@ function App() {
             <Route element={<PrivateRoute allowedAuthRole={AUTH_ROLES.USER} />}>
               <Route
                 path={DASHBOARD_VIEW_BASIC_LINK}
-                element={<SprintDashboard />}
+                element={<SprintDashboardBasic />}
               />
-              <Route path={MY_DETAILS_LINK} element={<TeamDetails />} />
+              <Route path={MY_DETAILS_LINK} element={<MyDetails />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Route>

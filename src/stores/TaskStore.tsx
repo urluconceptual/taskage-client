@@ -105,6 +105,14 @@ class TaskStore {
       });
   };
 
+  checkSendNotification = (task: Task) => {
+    if (task.assigneeId === userStore.currentUser?.user.id) {
+      message.info(
+        `You have been assigned to task: ${task.title}. Check it out!`
+      );
+    }
+  };
+
   handleWebSocketMessage = (message: any) => {
     const { action, task, taskId } = message;
     switch (action) {
@@ -112,6 +120,7 @@ class TaskStore {
         sprintStore.allSprints = sprintStore.allSprints.map((s) =>
           s.id === task.sprintId ? { ...s, tasks: s.tasks.concat(task) } : s
         );
+        this.checkSendNotification(task);
         break;
       case "UPDATE":
         sprintStore.allSprints = sprintStore.allSprints.map((s) =>
@@ -119,6 +128,7 @@ class TaskStore {
             ? { ...s, tasks: s.tasks.map((t) => (t.id === task.id ? task : t)) }
             : s
         );
+        this.checkSendNotification(task);
         break;
       case "DELETE":
         sprintStore.allSprints = sprintStore.allSprints.map((s) =>
