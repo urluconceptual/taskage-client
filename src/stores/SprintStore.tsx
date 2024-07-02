@@ -4,6 +4,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { Sprint, SprintCreateRequest } from "../models/Sprint";
 import { SPRINTS_API_URL } from "../utils/consts";
 import { formatDate, handleAxiosError } from "../utils/ui";
+import { userStore } from "./UserStore";
 
 class SprintStore {
   allSprints: Sprint[] = [];
@@ -14,6 +15,7 @@ class SprintStore {
       create: action,
       sprintsAsDatasource: computed,
       sprintsAsDictionary: computed,
+      sprintDataForCurrentUser: computed,
     });
   }
 
@@ -60,6 +62,28 @@ class SprintStore {
       acc[sprint.id] = sprint;
       return acc;
     }, {});
+  }
+
+  get sprintDataForCurrentUser() {
+    return this.allSprints
+      .map((sprint) => {
+        return {
+          id: sprint.id,
+          sprintEndDate: formatDate(sprint.endDate),
+          sprintStartDate: formatDate(sprint.startDate),
+          effortPoints: sprint.tasks
+            .filter(
+              (task) => task.assigneeId === userStore.currentUser?.user.id
+            )
+            .map((task) => task.estimation)
+            .reduce((acc, curr) => acc + curr, 0),
+        };
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.sprintEndDate).getTime() -
+          new Date(a.sprintEndDate).getTime()
+      );
   }
 }
 

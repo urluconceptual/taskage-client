@@ -4,71 +4,36 @@ import React, { useEffect, useState } from "react";
 import { Sprint } from "../models/Sprint";
 import { sprintStore } from "../stores/SprintStore";
 import { userStore } from "../stores/UserStore";
-import { formatDate } from "../utils/ui";
 import Chart from "react-google-charts";
 import Title from "antd/es/typography/Title";
 
-const sprintData = [
-  {
-    sprintNumber: "Sprint 20/04/2024 - 30/04/2024",
-    effortPoints: 5,
-  },
-  {
-    sprintNumber: "Sprint 06/04/2024 - 20/04/2024",
-    effortPoints: 13,
-  },
-  {
-    sprintNumber: "Sprint 25/03/2024 - 05/04/2024",
-    effortPoints: 16,
-  },
-  {
-    sprintNumber: "Sprint 10/03/2024 - 24/03/2024",
-    effortPoints: 12,
-  },
-  {
-    sprintNumber: "Sprint 24/02/2024 - 09/03/2024",
-    effortPoints: 22,
-  },
-];
-
-const data = [
-  ["Sprint", "Effort Points"],
-  ...sprintData.map((sprint) => [sprint.sprintNumber, sprint.effortPoints]),
-];
-
-const options = {
-  title: "Effort Points per Sprint",
-  chartArea: { width: "50%" },
-  hAxis: {
-    title: "Effort Points",
-    minValue: 0,
-  },
-  vAxis: {
-    title: "Sprint",
-  },
-  bars: "horizontal",
-};
-
 export const MyDetails = observer(() => {
-  const [sprintDatasource, setSprintDatasource] = useState<Sprint[]>([]);
+  const data = [
+    ["Sprint", "Effort Points"],
+    ...sprintStore.sprintDataForCurrentUser.map((sprint) => [
+      `${sprint.sprintStartDate} - ${sprint.sprintEndDate}`,
+      sprint.effortPoints,
+    ]),
+  ];
+
+  const options = {
+    title: "Effort Points per Sprint",
+    chartArea: { width: "50%" },
+    hAxis: {
+      title: "Effort Points",
+      minValue: 0,
+    },
+    vAxis: {
+      title: "Sprint",
+    },
+    bars: "horizontal",
+  };
+
   const [userDatasource, setUserDatasource] = useState<
     { title: string; capacity: number }[]
   >([]);
   const [selectedSprintId, setSelectedSprintId] = useState<number>();
-  const selectedSprint: Sprint | null = selectedSprintId
-    ? sprintStore.sprintsAsDictionary[selectedSprintId]
-    : null;
   const [sprintCapacity, setSprintCapacity] = useState<number>(0);
-
-  const sprintDatasourceToDropdownContent = (datasource: Sprint[]) => {
-    return datasource.map((sprint) => {
-      return {
-        key: sprint.id,
-        label: `Sprint ${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`,
-        onClick: () => setSelectedSprintId(sprint.id),
-      };
-    });
-  };
 
   const calculateTotalSprintCapacity = (sprint: Sprint) => {
     const date1 = new Date(sprint.startDate).getTime();
@@ -76,19 +41,9 @@ export const MyDetails = observer(() => {
     return Math.round((date2 - date1) / (1000 * 60 * 60 * 24)) * 8;
   };
 
-  const sprintMenuItems: MenuProps["items"] =
-    sprintDatasource !== null
-      ? sprintDatasourceToDropdownContent(sprintDatasource)
-      : [];
-
-  const sprintMenuProps = {
-    items: sprintMenuItems,
-  };
-
   useEffect(() => {
     if (userStore.allUsers.length === 0 || sprintStore.allSprints.length === 0)
       return;
-    setSprintDatasource(sprintStore.allSprints.sort((a, b) => b.id - a.id));
     if (selectedSprintId === undefined && sprintStore.allSprints.length > 0)
       setSelectedSprintId(sprintStore.allSprints[0].id);
   }, [sprintStore.allSprints, userStore.allUsers]);
@@ -100,8 +55,12 @@ export const MyDetails = observer(() => {
         sprintStore.sprintsAsDictionary[selectedSprintId]
       )
     );
+
     const data = Object.entries(userStore.userDictionary)
-      .filter(([key, item]: any) => item.userData?.username == "bjohnson")
+      .filter(
+        ([key, item]: any) =>
+          item.userData?.username == userStore.currentUser?.user.username
+      )
       .map(([key, user]) => ({
         title: user?.userLabel,
         capacity: sprintStore.sprintsAsDictionary[selectedSprintId].tasks
@@ -144,26 +103,6 @@ export const MyDetails = observer(() => {
       }}
     >
       <Card title={renderTitle()} style={{ width: "100%" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "right",
-            marginBottom: 20,
-          }}
-        >
-          {/* <Space>
-            <Space.Compact>
-              <Dropdown menu={sprintMenuProps}>
-                <Button>
-                  {`Sprint ${formatDate(selectedSprint?.startDate)} - ${formatDate(selectedSprint?.endDate)}`}
-                </Button>
-              </Dropdown>
-              <AddSprintModal
-                lastSprintEndDate={sprintDatasource[0]?.endDate}
-              />
-            </Space.Compact>
-          </Space> */}
-        </div>
         <Title level={4}>Current Sprint</Title>
         <List
           itemLayout="horizontal"
