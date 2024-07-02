@@ -93,7 +93,7 @@ class TaskStore {
     delete axios.defaults.headers.common["Authorization"];
     return await axios
       .get(
-        `${ASSIGNMENT_API_URL}?priority_id=${priorityId}&effort_points=${effortPoints}&type=${taskType}`
+        `${ASSIGNMENT_API_URL}?priority_id=${priorityId}&effort_points=${effortPoints}&type=${taskType}&sprint_id=${sprintId}`
       )
       .then((res) => {
         axios.defaults.headers.common["Authorization"] =
