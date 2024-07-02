@@ -49,11 +49,16 @@ const getBaseURLString = (url: string | undefined) => {
   return parsedUrl.host + parsedUrl.pathname;
 }
 
+const getWSProtocol = (url: string | undefined) => {
+  if(!url) throw new Error("URL is not defined");
+  return url.startsWith("https") ? "wss" : "ws";
+}
+
 
 export const CORE_BASE_URL = process.env.REACT_APP_CORE_BASE_URL;
 export const HELPER_BASE_URL = process.env.REACT_APP_HELPER_BASE_URL;
 
-export const WEBSOCKET_URL = `ws://${getBaseURLString(CORE_BASE_URL)}/ws`;
+export const WEBSOCKET_URL = `${getWSProtocol(CORE_BASE_URL)}://${getBaseURLString(CORE_BASE_URL)}/ws`;
 export const USERS_API_URL = `${CORE_BASE_URL}/users`;
 export const TEAMS_API_URL = `${CORE_BASE_URL}/teams`;
 export const ADMIN_API_URL = `${CORE_BASE_URL}/admin`;
