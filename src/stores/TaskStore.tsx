@@ -125,10 +125,19 @@ class TaskStore {
       case "UPDATE":
         sprintStore.allSprints = sprintStore.allSprints.map((s) =>
           s.id === task.sprintId
-            ? { ...s, tasks: s.tasks.map((t) => (t.id === task.id ? task : t)) }
+            ? {
+                ...s,
+                tasks: s.tasks.map((t) => {
+                  if (t.id === task.id) {
+                    if (task.assigneeId !== t.assigneeId)
+                      this.checkSendNotification(task);
+                    return task;
+                  }
+                  return t;
+                }),
+              }
             : s
         );
-        this.checkSendNotification(task);
         break;
       case "DELETE":
         sprintStore.allSprints = sprintStore.allSprints.map((s) =>

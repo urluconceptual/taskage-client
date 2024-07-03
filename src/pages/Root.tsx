@@ -27,6 +27,9 @@ const RootLayout = observer(() => {
         break;
       case "ROLE_MANAGER":
         navigate(REDIRECT_AFTER_LOGIN["ROLE_MANAGER"]);
+        break;
+      case "ROLE_BASIC":
+        navigate(REDIRECT_AFTER_LOGIN["ROLE_BASIC"]);
     }
   };
 
